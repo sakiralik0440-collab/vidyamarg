@@ -1,0 +1,28 @@
+{
+  "appName": "VidyaMarg",
+  "selectLanguage": "Select Your Language",
+  "continue": "Continue",
+  "registration": {
+    "title": "Student Registration",
+    "name": "Full Name",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "dob": "Date of Birth",
+    "village": "Village",
+    "district": "District",
+    "state": "State",
+    "category": "Category",
+    "currentClass": "Current Class",
+    "stream": "Stream",
+    "interestedField": "Field of Interest",
+    "submit": "Register",
+    "familyContacts": "Family Contact Numbers",
+    "addContact": "Add Another Contact",
+    "relation": "Relation",
+    "contactName": "Contact Name",
+    "phoneNumber": "Phone Number",
+    "primaryContact": "Set as Primary Contact"
+  }
+}

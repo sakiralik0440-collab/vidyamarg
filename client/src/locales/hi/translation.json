@@ -1,0 +1,28 @@
+{
+  "appName": "विद्यामार्ग",
+  "selectLanguage": "अपनी भाषा चुनें",
+  "continue": "आगे बढ़ें",
+  "registration": {
+    "title": "छात्र पंजीकरण",
+    "name": "पूरा नाम",
+    "gender": "लिंग",
+    "male": "पुरुष",
+    "female": "महिला",
+    "other": "अन्य",
+    "dob": "जन्म तिथि",
+    "village": "गांव",
+    "district": "जिला",
+    "state": "राज्य",
+    "category": "श्रेणी",
+    "currentClass": "वर्तमान कक्षा",
+    "stream": "स्ट्रीम",
+    "interestedField": "रुचि का क्षेत्र",
+    "submit": "पंजीकरण करें",
+    "familyContacts": "परिवार के संपर्क नंबर",
+    "addContact": "एक और संपर्क जोड़ें",
+    "relation": "रिश्ता",
+    "contactName": "संपर्क का नाम",
+    "phoneNumber": "फ़ोन नंबर",
+    "primaryContact": "प्राथमिक संपर्क के रूप में सेट करें"
+  }
+}
