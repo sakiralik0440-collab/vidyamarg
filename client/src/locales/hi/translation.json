@@ -2,6 +2,7 @@
   "appName": "विद्यामार्ग",
   "selectLanguage": "अपनी भाषा चुनें",
   "continue": "आगे बढ़ें",
+
   "registration": {
     "title": "छात्र पंजीकरण",
     "name": "पूरा नाम",
@@ -22,9 +23,11 @@
     "notApplicable": "लागू नहीं",
     "interestedField": "रुचि का क्षेत्र",
     "submit": "पंजीकरण करें",
+
     "familyContacts": "परिवार के संपर्क नंबर",
     "addContact": "एक और संपर्क जोड़ें",
     "removeContact": "हटाएं",
+
     "relation": "रिश्ता",
     "father": "पिता",
     "mother": "माता",
@@ -34,13 +37,133 @@
     "teacher": "शिक्षक",
     "neighbour": "पड़ोसी",
     "other_relation": "अन्य",
+
     "contactName": "संपर्क का नाम",
     "phoneNumber": "फ़ोन नंबर",
     "primaryContact": "प्राथमिक संपर्क",
+
     "selectOption": "-- चुनें --",
+
     "required": "यह फ़ील्ड आवश्यक है",
     "minContacts": "कृपया कम से कम 1 पारिवारिक संपर्क जोड़ें",
     "invalidPhone": "10 अंकों का सही फ़ोन नंबर डालें",
+
     "successMessage": "पंजीकरण सफल!"
-  }
+  },
+
+  "profile": {
+    "title": "छात्र प्रोफ़ाइल",
+    "status": "स्थिति",
+
+    "active": "सक्रिय",
+    "atRisk": "जोखिम में",
+    "dropout": "पढ़ाई छोड़ दी",
+    "placed": "नियुक्त",
+    "graduated": "स्नातक",
+
+    "personalInfo": "व्यक्तिगत जानकारी",
+    "academicInfo": "शैक्षणिक जानकारी",
+
+    "contactsTitle": "पारिवारिक संपर्क",
+    "primary": "प्राथमिक",
+
+    "noContacts": "कोई संपर्क नहीं जोड़ा गया",
+
+    "loading": "प्रोफ़ाइल लोड हो रही है...",
+    "notFound": "छात्र नहीं मिला",
+
+    "activityScore": "गतिविधि स्कोर",
+    "registeredOn": "पंजीकरण तिथि",
+
+    "backToHome": "होम पर वापस जाएँ"
+  },
+
+  "progress": {
+    "title": "शैक्षणिक प्रगति",
+
+    "addRecord": "नया वर्ष रिकॉर्ड जोड़ें",
+
+    "academicYear": "शैक्षणिक वर्ष",
+    "className": "कक्षा",
+
+    "marksPercentage": "अंक (%)",
+
+    "result": "परिणाम",
+    "pass": "उत्तीर्ण",
+    "fail": "अनुत्तीर्ण",
+    "appearing": "परीक्षा दे रहे हैं",
+    "pending": "लंबित",
+
+    "attendance": "उपस्थिति (%)",
+
+    "remarks": "टिप्पणी",
+
+    "save": "रिकॉर्ड सहेजें",
+    "saving": "सहेजा जा रहा है...",
+
+    "noRecords": "अभी तक कोई प्रगति रिकॉर्ड नहीं",
+
+    "timeline": "प्रगति समयरेखा",
+    "year": "वर्ष",
+
+    "successMessage": "प्रगति रिकॉर्ड सफलतापूर्वक सहेजा गया!"
+  },
+  "auth": {
+  "login": "शिक्षक लॉगिन",
+  "email": "ईमेल पता",
+  "password": "पासवर्ड",
+  "loginButton": "लॉगिन",
+  "loggingIn": "लॉगिन हो रहे हैं...",
+  "logout": "लॉगआउट",
+  "invalidCredentials": "गलत ईमेल या पासवर्ड",
+  "noAccount": "एक्सेस के लिए एडमिन से संपर्क करें",
+  "welcomeBack": "वापस स्वागत है",
+  "teacherPortal": "शिक्षक पोर्टल"
+},
+"dashboard": {
+  "title": "शिक्षक डैशबोर्ड",
+  "welcome": "स्वागत है",
+  "totalStudents": "कुल छात्र",
+  "activeStudents": "सक्रिय",
+  "atRiskStudents": "जोखिम में",
+  "dropoutStudents": "ड्रॉपआउट",
+  "placedStudents": "नियुक्त",
+  "allStudents": "सभी छात्र",
+  "searchPlaceholder": "नाम, गांव, जिले से खोजें...",
+  "filterByStatus": "स्थिति से फ़िल्टर करें",
+  "filterByStream": "स्ट्रीम से फ़िल्टर करें",
+  "filterByCategory": "श्रेणी से फ़िल्टर करें",
+  "all": "सभी",
+  "noStudents": "कोई छात्र नहीं मिला",
+  "viewProfile": "प्रोफ़ाइल देखें",
+  "runDetection": "ड्रॉपआउट जांच चलाएं",
+  "detectionRunning": "चल रही है...",
+  "detectionDone": "जांच पूर्ण",
+  "logout": "लॉगआउट",
+  "loading": "डैशबोर्ड लोड हो रहा है...",
+  "lastUpdated": "अंतिम अपडेट",
+  "sendAlert": "अलर्ट भेजें"
+},
+"stateSelect": "राज्य चुनें",
+"mp": "मध्य प्रदेश",
+"up": "उत्तर प्रदेश",
+"rajasthan": "राजस्थान",
+"gujarat": "गुजरात",
+"maharashtra": "महाराष्ट्र",
+"bihar": "बिहार",
+"jharkhand": "झारखंड",
+"chhattisgarh": "छत्तीसगढ़",
+"uttarakhand": "उत्तराखंड",
+"himachal": "हिमाचल प्रदेश",
+"punjab": "पंजाब",
+"haryana": "हरियाणा",
+"delhi": "दिल्ली",
+"karnataka": "कर्नाटक",
+"tamilnadu": "तमिल नाडु",
+"kerala": "केरल",
+"andhra": "आंध्र प्रदेश",
+"telangana": "तेलंगाना",
+"odisha": "ओडिशा",
+"westbengal": "पश्चिम बंगाल",
+"assam": "असम"
 }

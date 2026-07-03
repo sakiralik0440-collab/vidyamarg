@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { registerStudentAPI } from "../api/studentApi";
+import { useNavigate } from "react-router-dom";
 
 function StudentRegistrationForm() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -10,7 +13,7 @@ function StudentRegistrationForm() {
     dateOfBirth: "",
     village: "",
     district: "",
-    state: "Madhya Pradesh",
+    state: "",  // ← changed from "Madhya Pradesh" to ""
     category: "",
     currentClass: "",
     stream: "Not Applicable",
@@ -23,6 +26,8 @@ function StudentRegistrationForm() {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +42,10 @@ function StudentRegistrationForm() {
 
   const addContact = () => {
     if (contacts.length < 6) {
-      setContacts([...contacts, { relation: "", name: "", phoneNumber: "", isPrimary: false }]);
+      setContacts([
+        ...contacts,
+        { relation: "", name: "", phoneNumber: "", isPrimary: false },
+      ]);
     }
   };
 
@@ -52,11 +60,16 @@ function StudentRegistrationForm() {
     if (!formData.name.trim()) newErrors.name = t("registration.required");
     if (!formData.village.trim()) newErrors.village = t("registration.required");
     if (!formData.district.trim()) newErrors.district = t("registration.required");
+    if (!formData.state) newErrors.state = t("registration.required"); // ← added
     if (!formData.category) newErrors.category = t("registration.required");
     if (!formData.currentClass.trim()) newErrors.currentClass = t("registration.required");
 
     contacts.forEach((contact, index) => {
-      if (!contact.name.trim() || !contact.phoneNumber.trim() || !contact.relation) {
+      if (
+        !contact.name.trim() ||
+        !contact.phoneNumber.trim() ||
+        !contact.relation
+      ) {
         newErrors[`contact-${index}`] = t("registration.required");
       } else if (!/^\d{10}$/.test(contact.phoneNumber)) {
         newErrors[`contact-${index}`] = t("registration.invalidPhone");
@@ -67,12 +80,21 @@ function StudentRegistrationForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form Data:", formData);
-      console.log("Contacts:", contacts);
-      setSubmitted(true);
+    setServerError("");
+
+    if (!validate()) return;
+
+    setLoading(true);
+
+    try {
+      const data = await registerStudentAPI({ ...formData, contacts });
+      navigate(`/profile/${data.student._id}`);
+    } catch (error) {
+      setServerError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,13 +110,19 @@ function StudentRegistrationForm() {
 
   return (
     <div className="min-h-screen bg-orange-50 py-8 px-4">
-      <form onSubmit={handleSubmit} className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow"
+      >
         <h1 className="text-2xl font-bold text-orange-700 mb-6">
           {t("registration.title")}
         </h1>
 
+        {/* Full Name */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.name")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.name")}
+          </label>
           <input
             type="text"
             name="name"
@@ -102,11 +130,16 @@ function StudentRegistrationForm() {
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           />
-          {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
+          {errors.name && (
+            <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+          )}
         </div>
 
+        {/* Gender */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.gender")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.gender")}
+          </label>
           <select
             name="gender"
             value={formData.gender}
@@ -120,8 +153,11 @@ function StudentRegistrationForm() {
           </select>
         </div>
 
+        {/* Date of Birth */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.dob")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.dob")}
+          </label>
           <input
             type="date"
             name="dateOfBirth"
@@ -131,8 +167,11 @@ function StudentRegistrationForm() {
           />
         </div>
 
+        {/* Village */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.village")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.village")}
+          </label>
           <input
             type="text"
             name="village"
@@ -140,11 +179,16 @@ function StudentRegistrationForm() {
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           />
-          {errors.village && <p className="text-red-600 text-sm mt-1">{errors.village}</p>}
+          {errors.village && (
+            <p className="text-red-600 text-sm mt-1">{errors.village}</p>
+          )}
         </div>
 
+        {/* District */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.district")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.district")}
+          </label>
           <input
             type="text"
             name="district"
@@ -152,11 +196,55 @@ function StudentRegistrationForm() {
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           />
-          {errors.district && <p className="text-red-600 text-sm mt-1">{errors.district}</p>}
+          {errors.district && (
+            <p className="text-red-600 text-sm mt-1">{errors.district}</p>
+          )}
         </div>
 
+        {/* State Dropdown ← NEW */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.category")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.state")}
+          </label>
+          <select
+            name="state"
+            value={formData.state}
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">{t("registration.stateSelect")}</option>
+            <option value="Madhya Pradesh">{t("registration.mp")}</option>
+            <option value="Uttar Pradesh">{t("registration.up")}</option>
+            <option value="Rajasthan">{t("registration.rajasthan")}</option>
+            <option value="Gujarat">{t("registration.gujarat")}</option>
+            <option value="Maharashtra">{t("registration.maharashtra")}</option>
+            <option value="Bihar">{t("registration.bihar")}</option>
+            <option value="Jharkhand">{t("registration.jharkhand")}</option>
+            <option value="Chhattisgarh">{t("registration.chhattisgarh")}</option>
+            <option value="Uttarakhand">{t("registration.uttarakhand")}</option>
+            <option value="Himachal Pradesh">{t("registration.himachal")}</option>
+            <option value="Punjab">{t("registration.punjab")}</option>
+            <option value="Haryana">{t("registration.haryana")}</option>
+            <option value="Delhi">{t("registration.delhi")}</option>
+            <option value="Karnataka">{t("registration.karnataka")}</option>
+            <option value="Tamil Nadu">{t("registration.tamilnadu")}</option>
+            <option value="Kerala">{t("registration.kerala")}</option>
+            <option value="Andhra Pradesh">{t("registration.andhra")}</option>
+            <option value="Telangana">{t("registration.telangana")}</option>
+            <option value="Odisha">{t("registration.odisha")}</option>
+            <option value="West Bengal">{t("registration.westbengal")}</option>
+            <option value="Assam">{t("registration.assam")}</option>
+          </select>
+          {errors.state && (
+            <p className="text-red-600 text-sm mt-1">{errors.state}</p>
+          )}
+        </div>
+
+        {/* Category */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.category")}
+          </label>
           <select
             name="category"
             value={formData.category}
@@ -170,11 +258,16 @@ function StudentRegistrationForm() {
             <option value="ST">ST</option>
             <option value="EWS">EWS</option>
           </select>
-          {errors.category && <p className="text-red-600 text-sm mt-1">{errors.category}</p>}
+          {errors.category && (
+            <p className="text-red-600 text-sm mt-1">{errors.category}</p>
+          )}
         </div>
 
+        {/* Current Class */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.currentClass")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.currentClass")}
+          </label>
           <input
             type="text"
             name="currentClass"
@@ -183,26 +276,36 @@ function StudentRegistrationForm() {
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           />
-          {errors.currentClass && <p className="text-red-600 text-sm mt-1">{errors.currentClass}</p>}
+          {errors.currentClass && (
+            <p className="text-red-600 text-sm mt-1">{errors.currentClass}</p>
+          )}
         </div>
 
+        {/* Stream */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">{t("registration.stream")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.stream")}
+          </label>
           <select
             name="stream"
             value={formData.stream}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           >
-            <option value="Not Applicable">{t("registration.notApplicable")}</option>
+            <option value="Not Applicable">
+              {t("registration.notApplicable")}
+            </option>
             <option value="Science">{t("registration.science")}</option>
             <option value="Commerce">{t("registration.commerce")}</option>
             <option value="Arts">{t("registration.arts")}</option>
           </select>
         </div>
 
+        {/* Interested Field */}
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-1">{t("registration.interestedField")}</label>
+          <label className="block text-sm font-medium mb-1">
+            {t("registration.interestedField")}
+          </label>
           <input
             type="text"
             name="interestedField"
@@ -214,15 +317,23 @@ function StudentRegistrationForm() {
 
         <hr className="my-6" />
 
-        <h2 className="text-lg font-semibold mb-4">{t("registration.familyContacts")}</h2>
+        {/* Family Contacts */}
+        <h2 className="text-lg font-semibold mb-4">
+          {t("registration.familyContacts")}
+        </h2>
 
         {contacts.map((contact, index) => (
           <div key={index} className="border rounded p-4 mb-4 bg-orange-50">
+            {/* Relation */}
             <div className="mb-3">
-              <label className="block text-sm font-medium mb-1">{t("registration.relation")}</label>
+              <label className="block text-sm font-medium mb-1">
+                {t("registration.relation")}
+              </label>
               <select
                 value={contact.relation}
-                onChange={(e) => handleContactChange(index, "relation", e.target.value)}
+                onChange={(e) =>
+                  handleContactChange(index, "relation", e.target.value)
+                }
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="">{t("registration.selectOption")}</option>
@@ -237,40 +348,57 @@ function StudentRegistrationForm() {
               </select>
             </div>
 
+            {/* Contact Name */}
             <div className="mb-3">
-              <label className="block text-sm font-medium mb-1">{t("registration.contactName")}</label>
+              <label className="block text-sm font-medium mb-1">
+                {t("registration.contactName")}
+              </label>
               <input
                 type="text"
                 value={contact.name}
-                onChange={(e) => handleContactChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleContactChange(index, "name", e.target.value)
+                }
                 className="w-full border rounded px-3 py-2"
               />
             </div>
 
+            {/* Phone Number */}
             <div className="mb-3">
-              <label className="block text-sm font-medium mb-1">{t("registration.phoneNumber")}</label>
+              <label className="block text-sm font-medium mb-1">
+                {t("registration.phoneNumber")}
+              </label>
               <input
                 type="tel"
                 value={contact.phoneNumber}
-                onChange={(e) => handleContactChange(index, "phoneNumber", e.target.value)}
+                onChange={(e) =>
+                  handleContactChange(index, "phoneNumber", e.target.value)
+                }
                 className="w-full border rounded px-3 py-2"
                 maxLength={10}
               />
             </div>
 
+            {/* Primary Contact Checkbox */}
             <label className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
                 checked={contact.isPrimary}
-                onChange={(e) => handleContactChange(index, "isPrimary", e.target.checked)}
+                onChange={(e) =>
+                  handleContactChange(index, "isPrimary", e.target.checked)
+                }
               />
               {t("registration.primaryContact")}
             </label>
 
+            {/* Contact Error */}
             {errors[`contact-${index}`] && (
-              <p className="text-red-600 text-sm mt-1">{errors[`contact-${index}`]}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors[`contact-${index}`]}
+              </p>
             )}
 
+            {/* Remove Contact Button */}
             {contacts.length > 1 && (
               <button
                 type="button"
@@ -283,6 +411,7 @@ function StudentRegistrationForm() {
           </div>
         ))}
 
+        {/* Add Contact Button */}
         {contacts.length < 6 && (
           <button
             type="button"
@@ -293,11 +422,18 @@ function StudentRegistrationForm() {
           </button>
         )}
 
+        {/* Server Error */}
+        {serverError && (
+          <p className="text-red-600 text-sm mb-4 text-center">{serverError}</p>
+        )}
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition"
+          disabled={loading}
+          className="w-full bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition disabled:opacity-50"
         >
-          {t("registration.submit")}
+          {loading ? "Saving..." : t("registration.submit")}
         </button>
       </form>
     </div>

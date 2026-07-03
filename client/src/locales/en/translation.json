@@ -2,6 +2,7 @@
   "appName": "VidyaMarg",
   "selectLanguage": "Select Your Language",
   "continue": "Continue",
+
   "registration": {
     "title": "Student Registration",
     "name": "Full Name",
@@ -22,9 +23,11 @@
     "notApplicable": "Not Applicable",
     "interestedField": "Field of Interest",
     "submit": "Register",
+
     "familyContacts": "Family Contact Numbers",
     "addContact": "Add Another Contact",
     "removeContact": "Remove",
+
     "relation": "Relation",
     "father": "Father",
     "mother": "Mother",
@@ -34,13 +37,133 @@
     "teacher": "Teacher",
     "neighbour": "Neighbour",
     "other_relation": "Other",
+
     "contactName": "Contact Name",
     "phoneNumber": "Phone Number",
     "primaryContact": "Primary Contact",
+
     "selectOption": "-- Select --",
+
     "required": "This field is required",
     "minContacts": "Please add at least 1 family contact",
     "invalidPhone": "Enter a valid 10-digit phone number",
+
     "successMessage": "Registration successful!"
-  }
+  },
+
+  "profile": {
+    "title": "Student Profile",
+    "status": "Status",
+
+    "active": "Active",
+    "atRisk": "At Risk",
+    "dropout": "Dropout",
+    "placed": "Placed",
+    "graduated": "Graduated",
+
+    "personalInfo": "Personal Information",
+    "academicInfo": "Academic Information",
+
+    "contactsTitle": "Family Contacts",
+    "primary": "Primary",
+
+    "noContacts": "No contacts added",
+
+    "loading": "Loading profile...",
+    "notFound": "Student not found",
+
+    "activityScore": "Activity Score",
+    "registeredOn": "Registered On",
+
+    "backToHome": "Back to Home"
+  },
+
+  "progress": {
+    "title": "Academic Progress",
+
+    "addRecord": "Add New Year Record",
+
+    "academicYear": "Academic Year",
+    "className": "Class",
+
+    "marksPercentage": "Marks (%)",
+
+    "result": "Result",
+    "pass": "Pass",
+    "fail": "Fail",
+    "appearing": "Appearing",
+    "pending": "Pending",
+
+    "attendance": "Attendance (%)",
+
+    "remarks": "Remarks",
+
+    "save": "Save Record",
+    "saving": "Saving...",
+
+    "noRecords": "No progress records yet",
+
+    "timeline": "Progress Timeline",
+    "year": "Year",
+
+    "successMessage": "Progress record saved!"
+  },
+  "auth": {
+  "login": "Teacher Login",
+  "email": "Email Address",
+  "password": "Password",
+  "loginButton": "Login",
+  "loggingIn": "Logging in...",
+  "logout": "Logout",
+  "invalidCredentials": "Invalid email or password",
+  "noAccount": "Contact admin to get access",
+  "welcomeBack": "Welcome back",
+  "teacherPortal": "Teacher Portal"
+},
+"dashboard": {
+  "title": "Teacher Dashboard",
+  "welcome": "Welcome",
+  "totalStudents": "Total Students",
+  "activeStudents": "Active",
+  "atRiskStudents": "At Risk",
+  "dropoutStudents": "Dropout",
+  "placedStudents": "Placed",
+  "allStudents": "All Students",
+  "searchPlaceholder": "Search by name, village, district...",
+  "filterByStatus": "Filter by Status",
+  "filterByStream": "Filter by Stream",
+  "filterByCategory": "Filter by Category",
+  "all": "All",
+  "noStudents": "No students found",
+  "viewProfile": "View Profile",
+  "runDetection": "Run Dropout Detection",
+  "detectionRunning": "Running...",
+  "detectionDone": "Detection complete",
+  "logout": "Logout",
+  "loading": "Loading dashboard...",
+  "lastUpdated": "Last Updated",
+  "sendAlert": "Send Alert"
+},
+"stateSelect": "Select State",
+"mp": "Madhya Pradesh",
+"up": "Uttar Pradesh",
+"rajasthan": "Rajasthan",
+"gujarat": "Gujarat",
+"maharashtra": "Maharashtra",
+"bihar": "Bihar",
+"jharkhand": "Jharkhand",
+"chhattisgarh": "Chhattisgarh",
+"uttarakhand": "Uttarakhand",
+"himachal": "Himachal Pradesh",
+"punjab": "Punjab",
+"haryana": "Haryana",
+"delhi": "Delhi",
+"karnataka": "Karnataka",
+"tamilnadu": "Tamil Nadu",
+"kerala": "Kerala",
+"andhra": "Andhra Pradesh",
+"telangana": "Telangana",
+"odisha": "Odisha",
+"westbengal": "West Bengal",
+"assam": "Assam"
 }
