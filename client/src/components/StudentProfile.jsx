@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getStudentByIdAPI } from "../api/studentApi";
+import { getStudentByIdAPI, sendAlertAPI } from "../api/studentApi";
+import { useAuth } from "../context/AuthContext";
 import ProgressTracker from "./ProgressTracker";
+import AlertCenter from "./AlertCenter";
 
 function StudentProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { token } = useAuth();
 
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [alertSending, setAlertSending] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -59,6 +64,30 @@ function StudentProfile() {
     });
   };
 
+  const handleSendAlert = async (alertType) => {
+    setAlertSending(true);
+    setAlertMessage("");
+    try {
+      await sendAlertAPI(
+        {
+          studentId: id,
+          alertType,
+          language: localStorage.getItem("appLanguage") || "en",
+          templateArgs: [student.name],
+          sendToAll: true,
+          useWhatsApp: false,
+        },
+        token
+      );
+      setAlertMessage("✅ Alert sent to all family contacts!");
+      setTimeout(() => setAlertMessage(""), 4000);
+    } catch (err) {
+      setAlertMessage("❌ Alert failed: " + err.message);
+    } finally {
+      setAlertSending(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-orange-50">
@@ -91,12 +120,16 @@ function StudentProfile() {
         <div className="bg-white rounded-lg shadow p-6 mb-4">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">{student.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-800">
+                {student.name}
+              </h1>
               <p className="text-gray-500 mt-1">
                 {student.village}, {student.district}, {student.state}
               </p>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(student.status)}`}>
+            <span
+              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(student.status)}`}
+            >
               {getStatusLabel(student.status)}
             </span>
           </div>
@@ -116,24 +149,24 @@ function StudentProfile() {
               </span>
             </div>
           </div>
+
           {/* Refresh Status Button */}
-<button
-  onClick={async () => {
-    try {
-      await fetch(`http://localhost:5000/api/dropout/run`, {
-        method: "POST",
-      });
-      // Re-fetch student to get updated status
-      const data = await getStudentByIdAPI(id);
-      setStudent(data.student);
-    } catch (err) {
-      console.error("Status refresh failed:", err);
-    }
-  }}
-  className="mt-3 text-xs text-orange-600 underline"
->
-  🔄 Refresh Status
-</button>
+          <button
+            onClick={async () => {
+              try {
+                await fetch(`http://localhost:5000/api/dropout/run`, {
+                  method: "POST",
+                });
+                const data = await getStudentByIdAPI(id);
+                setStudent(data.student);
+              } catch (err) {
+                console.error("Status refresh failed:", err);
+              }
+            }}
+            className="mt-3 text-xs text-orange-600 underline"
+          >
+            🔄 Refresh Status
+          </button>
 
           <p className="text-xs text-gray-400 mt-3">
             {t("profile.registeredOn")}: {formatDate(student.createdAt)}
@@ -146,10 +179,22 @@ function StudentProfile() {
             {t("profile.personalInfo")}
           </h2>
           <div className="grid grid-cols-2 gap-4">
-            <InfoRow label={t("registration.gender")} value={student.gender || "—"} />
-            <InfoRow label={t("registration.dob")} value={formatDate(student.dateOfBirth)} />
-            <InfoRow label={t("registration.category")} value={student.category} />
-            <InfoRow label={t("registration.state")} value={student.state} />
+            <InfoRow
+              label={t("registration.gender")}
+              value={student.gender || "—"}
+            />
+            <InfoRow
+              label={t("registration.dob")}
+              value={formatDate(student.dateOfBirth)}
+            />
+            <InfoRow
+              label={t("registration.category")}
+              value={student.category}
+            />
+            <InfoRow
+              label={t("registration.state")}
+              value={student.state}
+            />
           </div>
         </div>
 
@@ -159,9 +204,18 @@ function StudentProfile() {
             {t("profile.academicInfo")}
           </h2>
           <div className="grid grid-cols-2 gap-4">
-            <InfoRow label={t("registration.currentClass")} value={student.currentClass} />
-            <InfoRow label={t("registration.stream")} value={student.stream} />
-            <InfoRow label={t("registration.interestedField")} value={student.interestedField || "—"} />
+            <InfoRow
+              label={t("registration.currentClass")}
+              value={student.currentClass}
+            />
+            <InfoRow
+              label={t("registration.stream")}
+              value={student.stream}
+            />
+            <InfoRow
+              label={t("registration.interestedField")}
+              value={student.interestedField || "—"}
+            />
           </div>
         </div>
 
@@ -195,6 +249,15 @@ function StudentProfile() {
             <p className="text-gray-400">{t("profile.noContacts")}</p>
           )}
         </div>
+
+
+        {/* Alert Center — only visible to logged in teachers */}
+        {token && (
+          <AlertCenter
+            studentId={id}
+            studentName={student.name}
+          />
+        )}
 
         {/* Progress Tracker Section */}
         <ProgressTracker studentId={id} />

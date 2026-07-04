@@ -34,13 +34,13 @@ function App() {
           }
         />
         <Route
-  path="/at-risk"
-  element={
-    <ProtectedRoute>
-      <AtRiskStudents />
-    </ProtectedRoute>
-  }
-/>
+          path="/at-risk"
+          element={
+            <ProtectedRoute>
+              <AtRiskStudents />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

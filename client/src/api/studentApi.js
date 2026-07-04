@@ -163,3 +163,43 @@ export const runDetectionAPI = async (token) => {
   if (!response.ok) throw new Error(data.message || "Detection failed");
   return data;
 };
+
+// Send manual alert
+export const sendAlertAPI = async (alertData, token) => {
+  const response = await fetch(`${BASE_URL}/alerts/send`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(alertData),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Alert failed");
+  return data;
+};
+
+// Get alert history
+export const getAlertHistoryAPI = async (studentId, token) => {
+  const response = await fetch(`${BASE_URL}/alerts/${studentId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to fetch alerts");
+  return data;
+};
+
+// Send custom alert
+export const sendCustomAlertAPI = async (alertData, token) => {
+  const response = await fetch(`${BASE_URL}/alerts/custom`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(alertData),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Custom alert failed");
+  return data;
+};

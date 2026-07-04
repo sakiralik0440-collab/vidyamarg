@@ -1,9 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { sendAlertAPI } from "../api/studentApi";
 
 function StudentCard({ student, highlight = false }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { token } = useAuth();
+  const [alertSent, setAlertSent] = useState(false);
+
+  const handleQuickAlert = async (e) => {
+    e.stopPropagation();
+    try {
+      await sendAlertAPI(
+        {
+          studentId: student._id,
+          alertType: student.status === "Dropout" ? "dropoutConfirmed" : "dropoutRisk",
+          language: localStorage.getItem("appLanguage") || "en",
+          templateArgs: [student.name],
+          sendToAll: true,
+          useWhatsApp: false,
+        },
+        token
+      );
+      setAlertSent(true);
+      setTimeout(() => setAlertSent(false), 3000);
+    } catch (err) {
+      console.error("Quick alert failed:", err.message);
+    }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -46,7 +72,9 @@ function StudentCard({ student, highlight = false }) {
       </td>
       <td className="px-6 py-4 text-gray-500">
         <div>{student.village}</div>
-        <div className="text-xs text-gray-400">{student.district}, {student.state}</div>
+        <div className="text-xs text-gray-400">
+          {student.district}, {student.state}
+        </div>
       </td>
       <td className="px-6 py-4 text-gray-500">
         <div>{student.currentClass}</div>
@@ -56,7 +84,9 @@ function StudentCard({ student, highlight = false }) {
         {student.category}
       </td>
       <td className="px-6 py-4">
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(student.status)}`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(student.status)}`}
+        >
           {student.status}
         </span>
       </td>
@@ -74,13 +104,29 @@ function StudentCard({ student, highlight = false }) {
       <td className="px-6 py-4 text-gray-400 text-xs">
         {formatDate(student.createdAt)}
       </td>
+
+      {/* Action Column — updated with quick alert */}
       <td className="px-6 py-4">
-        <button
-          onClick={() => navigate(`/profile/${student._id}`)}
-          className="text-orange-600 text-xs hover:underline font-medium"
-        >
-          {t("dashboard.viewProfile")}
-        </button>
+        <div className="flex flex-col gap-1">
+          <button
+            onClick={() => navigate(`/profile/${student._id}`)}
+            className="text-orange-600 text-xs hover:underline font-medium"
+          >
+            {t("dashboard.viewProfile")}
+          </button>
+          {token && (student.status === "At Risk" || student.status === "Dropout") && (
+            <button
+              onClick={handleQuickAlert}
+              className={`text-xs ${
+                alertSent
+                  ? "text-green-600"
+                  : "text-yellow-600 hover:underline"
+              }`}
+            >
+              {alertSent ? "✅ Sent!" : "📱 Alert Family"}
+            </button>
+          )}
+        </div>
       </td>
     </tr>
   );
