@@ -7,6 +7,10 @@ const connectDB = require("./config/db");
 const app = express();
 
 // Middleware
+
+const helmet = require("helmet");
+app.use(helmet());
+
 app.use(
   cors({
     origin: [
