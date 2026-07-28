@@ -12,7 +12,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:4173",
-      "https://vidyamarg-git-main-sakiralik0440-collabs-projects.vercel.app"
+      "https://vidyamarg-git-main-sakiralik0440-collabs-projects.vercel.app",
+      process.env.FRONTEND_URL,
     ],
     credentials: true,
   })
