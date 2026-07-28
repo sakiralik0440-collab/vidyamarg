@@ -45,7 +45,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Cache API calls to our backend
-            urlPattern: /^http:\/\/localhost:5000\/api\/.*/i,
+            urlPattern: /^http:\/\/vidyamarg-production-50d6.up.railway.app\/api\/.*/i,
             handler: "NetworkFirst",
             options: {
               cacheName: "vidyamarg-api-cache",

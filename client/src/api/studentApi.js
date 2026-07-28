@@ -3,7 +3,7 @@ import { API_BASE_URL, COMPANY_API_URL } from "../utils/config";
 const BASE_URL = API_BASE_URL;
 const COMPANY_BASE_URL = COMPANY_API_URL;
 
-// const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "https://vidyamarg-production-50d6.up.railway.app";
 
 export const registerStudentAPI = async (studentData) => {
   const response = await fetch(`${BASE_URL}/students`, {
@@ -298,7 +298,7 @@ export const getScoreBreakdownAPI = async (studentId) => {
 };
 
 
-// const COMPANY_BASE_URL = "http://localhost:5000/api/company";
+// const COMPANY_BASE_URL = "https://vidyamarg-production-50d6.up.railway.app/api/company";
 
 // Register company
 export const registerCompanyAPI = async (companyData) => {

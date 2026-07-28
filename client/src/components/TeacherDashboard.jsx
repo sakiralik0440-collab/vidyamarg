@@ -48,7 +48,7 @@ function TeacherDashboard() {
       const [statsData, studentsData, interviewData] = await Promise.all([
         getStatsAPI(token),
         getFilteredStudentsAPI({}, token),
-        fetch(`http://localhost:5000/api/interviews/stats`, {
+        fetch(`https://vidyamarg-production-50d6.up.railway.app/api/interviews/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
       ]);
@@ -101,7 +101,7 @@ function TeacherDashboard() {
   const handleRecalculateScores = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/dropout/recalculate-scores",
+        "https://vidyamarg-production-50d6.up.railway.app/api/dropout/recalculate-scores",
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
