@@ -1,35 +1,62 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getStudentByIdAPI, sendAlertAPI } from "../api/studentApi";
 import { useAuth } from "../context/AuthContext";
-import ProgressTracker from "./ProgressTracker";
-import AlertCenter from "./AlertCenter";
+import { useOfflineDetection } from "../hooks/useOfflineDetection";
+import { getStudentByIdAPI } from "../api/studentApi";
+import { saveToCache, getFromCache } from "../utils/localCache";
+
+
+// Each feature: id, label, icon, and which component renders it
+const FEATURES = [
+  { id: "alerts", label: "Family Alerts", icon: "📱", color: "bg-red-100 text-red-700", teacherOnly: true },
+  { id: "progress", label: "Progress", icon: "📊", color: "bg-orange-100 text-orange-700" },
+  { id: "score", label: "Activity Score", icon: "⚡", color: "bg-purple-100 text-purple-700" },
+  { id: "college", label: "Colleges", icon: "🎓", color: "bg-blue-100 text-blue-700" },
+  { id: "scholarship", label: "Scholarships", icon: "💰", color: "bg-green-100 text-green-700" },
+  { id: "schemes", label: "Govt Schemes", icon: "🏛️", color: "bg-red-100 text-red-700" },
+  { id: "skills", label: "Skill Courses", icon: "🔧", color: "bg-indigo-100 text-indigo-700" },
+  { id: "mentor", label: "Find Mentor", icon: "🤝", color: "bg-teal-100 text-teal-700" },
+  { id: "jobs", label: "Job Opportunities", icon: "💼", color: "bg-blue-100 text-blue-700" },
+  { id: "interviews", label: "Interviews", icon: "📞", color: "bg-cyan-100 text-cyan-700" },
+  { id: "certificates", label: "Certificates", icon: "🏅", color: "bg-yellow-100 text-yellow-700" },
+  { id: "fees", label: "Fee Tracker", icon: "💵", color: "bg-emerald-100 text-emerald-700" },
+  { id: "achievements", label: "Achievements", icon: "🏆", color: "bg-amber-100 text-amber-700" },
+  { id: "exams", label: "Exam Dates", icon: "📅", color: "bg-violet-100 text-violet-700" },
+  { id: "helpline", label: "Need Help?", icon: "🔒", color: "bg-pink-100 text-pink-700" },
+];
 
 function StudentProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { token } = useAuth();
+  const { isOnline } = useOfflineDetection();
 
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [alertSending, setAlertSending] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+
 
   useEffect(() => {
     const fetchStudent = async () => {
+      const cachedStudent = getFromCache(`student_${id}`);
+      if (cachedStudent && !navigator.onLine) {
+        setStudent(cachedStudent);
+        setLoading(false);
+        return;
+      }
       try {
         const data = await getStudentByIdAPI(id);
         setStudent(data.student);
+        saveToCache(`student_${id}`, data.student);
       } catch (err) {
-        setError(err.message);
+        if (cachedStudent) setStudent(cachedStudent);
+        else setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchStudent();
   }, [id]);
 
@@ -55,43 +82,17 @@ function StudentProfile() {
     }
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "—";
-    return new Date(dateString).toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  };
-
-  const handleSendAlert = async (alertType) => {
-    setAlertSending(true);
-    setAlertMessage("");
-    try {
-      await sendAlertAPI(
-        {
-          studentId: id,
-          alertType,
-          language: localStorage.getItem("appLanguage") || "en",
-          templateArgs: [student.name],
-          sendToAll: true,
-          useWhatsApp: false,
-        },
-        token
-      );
-      setAlertMessage("✅ Alert sent to all family contacts!");
-      setTimeout(() => setAlertMessage(""), 4000);
-    } catch (err) {
-      setAlertMessage("❌ Alert failed: " + err.message);
-    } finally {
-      setAlertSending(false);
-    }
-  };
-
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
-        <p className="text-gray-500 text-lg">{t("profile.loading")}</p>
+      <div className="min-h-screen bg-orange-50 py-8 px-4">
+        <div className="max-w-2xl mx-auto space-y-4">
+          {[1, 2].map((i) => (
+            <div key={i} className="bg-white rounded-2xl shadow p-6 animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-1/3 mb-3" />
+              <div className="h-4 bg-gray-100 rounded w-2/3" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -104,170 +105,135 @@ function StudentProfile() {
     );
   }
 
+
+
   return (
-    <div className="min-h-screen bg-orange-50 py-8 px-4">
+    <div className="min-h-screen bg-orange-50 py-6 px-4">
       <div className="max-w-2xl mx-auto">
 
-        {/* Back Button */}
-        <button
-          onClick={() => navigate("/register")}
-          className="text-orange-700 text-sm mb-4 underline"
-        >
-          ← {t("profile.backToHome")}
-        </button>
-
-        {/* Header Card */}
-        <div className="bg-white rounded-lg shadow p-6 mb-4">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">
-                {student.name}
-              </h1>
-              <p className="text-gray-500 mt-1">
-                {student.village}, {student.district}, {student.state}
-              </p>
-            </div>
-            <span
-              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(student.status)}`}
+        {/* Nav Row */}
+        <div className="flex justify-between items-center mb-4">
+          <button
+            onClick={() => navigate("/")}
+            className="text-orange-700 text-sm underline"
+          >
+            ← {t("profile.backToHome")}
+          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate(`/parent/${id}`)}
+              className="text-xs bg-orange-100 text-orange-700 px-3 py-1.5 rounded-lg hover:bg-orange-200 transition"
             >
-              {getStatusLabel(student.status)}
-            </span>
+              👨‍👩‍👦 Parent View
+            </button>
+            <button
+              onClick={() => {
+                localStorage.removeItem("studentId");
+                navigate("/register");
+              }}
+              className="text-xs text-gray-400 hover:text-gray-600 underline"
+            >
+              Switch Student
+            </button>
           </div>
+        </div>
 
-          {/* Activity Score */}
-          <div className="mt-4 p-3 bg-orange-50 rounded-lg">
-            <p className="text-sm text-gray-500">{t("profile.activityScore")}</p>
-            <div className="flex items-center gap-3 mt-1">
-              <div className="flex-1 bg-gray-200 rounded-full h-3">
-                <div
-                  className="bg-orange-500 h-3 rounded-full transition-all"
-                  style={{ width: `${student.activityScore}%` }}
-                />
+        {!isOnline && (
+          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2 mb-4 text-sm text-red-600">
+            📵 Offline — showing cached data
+          </div>
+        )}
+
+        {/* Student Header Card */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4">
+          <div className="bg-gradient-to-r from-orange-600 to-orange-500 px-6 py-5">
+            <div className="flex justify-between items-start">
+              <div>
+                <h1 className="text-white text-xl font-bold">{student.name}</h1>
+                <p className="text-orange-100 text-sm mt-0.5">
+                  {student.village}, {student.district} · {student.currentClass}
+                </p>
               </div>
-              <span className="text-orange-700 font-bold text-lg">
-                {student.activityScore}/100
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(student.status)}`}>
+                {getStatusLabel(student.status)}
               </span>
             </div>
           </div>
 
-          {/* Refresh Status Button */}
-          <button
-            onClick={async () => {
-              try {
-                await fetch(`http://localhost:5000/api/dropout/run`, {
-                  method: "POST",
-                });
-                const data = await getStudentByIdAPI(id);
-                setStudent(data.student);
-              } catch (err) {
-                console.error("Status refresh failed:", err);
-              }
-            }}
-            className="mt-3 text-xs text-orange-600 underline"
-          >
-            🔄 Refresh Status
-          </button>
-
-          <p className="text-xs text-gray-400 mt-3">
-            {t("profile.registeredOn")}: {formatDate(student.createdAt)}
-          </p>
-        </div>
-
-        {/* Personal Info Card */}
-        <div className="bg-white rounded-lg shadow p-6 mb-4">
-          <h2 className="text-lg font-semibold text-orange-700 mb-4">
-            {t("profile.personalInfo")}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <InfoRow
-              label={t("registration.gender")}
-              value={student.gender || "—"}
-            />
-            <InfoRow
-              label={t("registration.dob")}
-              value={formatDate(student.dateOfBirth)}
-            />
-            <InfoRow
-              label={t("registration.category")}
-              value={student.category}
-            />
-            <InfoRow
-              label={t("registration.state")}
-              value={student.state}
-            />
-          </div>
-        </div>
-
-        {/* Academic Info Card */}
-        <div className="bg-white rounded-lg shadow p-6 mb-4">
-          <h2 className="text-lg font-semibold text-orange-700 mb-4">
-            {t("profile.academicInfo")}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <InfoRow
-              label={t("registration.currentClass")}
-              value={student.currentClass}
-            />
-            <InfoRow
-              label={t("registration.stream")}
-              value={student.stream}
-            />
-            <InfoRow
-              label={t("registration.interestedField")}
-              value={student.interestedField || "—"}
-            />
-          </div>
-        </div>
-
-        {/* Family Contacts Card */}
-        <div className="bg-white rounded-lg shadow p-6 mb-4">
-          <h2 className="text-lg font-semibold text-orange-700 mb-4">
-            {t("profile.contactsTitle")}
-          </h2>
-          {student.familyContacts && student.familyContacts.length > 0 ? (
-            <div className="space-y-3">
-              {student.familyContacts.map((contact, index) => (
+          {/* Score bar */}
+          <div className="px-6 py-4">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 bg-gray-100 rounded-full h-2.5">
                 <div
-                  key={index}
-                  className="flex justify-between items-center border rounded p-3"
-                >
-                  <div>
-                    <p className="font-medium text-gray-800">{contact.name}</p>
-                    <p className="text-sm text-gray-500">
-                      {contact.relation} · {contact.phoneNumber}
-                    </p>
-                  </div>
-                  {contact.isPrimary && (
-                    <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full font-medium">
-                      {t("profile.primary")}
-                    </span>
-                  )}
-                </div>
-              ))}
+                  className="bg-orange-500 h-2.5 rounded-full transition-all"
+                  style={{ width: `${student.activityScore}%` }}
+                />
+              </div>
+              <span className="text-orange-700 font-bold text-sm">
+                {student.activityScore}/100
+              </span>
             </div>
-          ) : (
-            <p className="text-gray-400">{t("profile.noContacts")}</p>
+          </div>
+        </div>
+
+        {/* Basic Info — always visible */}
+        <div className="bg-white rounded-2xl shadow-lg p-5">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <InfoRow label="Category" value={student.category} />
+            <InfoRow label="Stream" value={student.stream} />
+            <InfoRow label="Gender" value={student.gender || "—"} />
+            <InfoRow label="Interested In" value={student.interestedField || "—"} />
+          </div>
+
+          {student.familyContacts?.length > 0 && (
+            <div className="mt-4 pt-4 border-t">
+              <p className="text-xs text-gray-400 uppercase mb-2">Family Contacts</p>
+              <div className="space-y-2">
+                {student.familyContacts.map((c, i) => (
+                  <div key={i} className="flex justify-between text-sm">
+                    <span className="text-gray-600">
+                      {c.name} ({c.relation})
+                    </span>
+                    <span className="text-gray-800">{c.phoneNumber}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
-
-        {/* Alert Center — only visible to logged in teachers */}
-        {token && (
-          <AlertCenter
-            studentId={id}
-            studentName={student.name}
-          />
-        )}
-
-        {/* Progress Tracker Section */}
-        <ProgressTracker studentId={id} />
-
+        {/* Feature Grid — the main navigation */}
+        <div className="bg-white rounded-2xl shadow-lg p-5 mb-4">
+          <p className="text-xs font-semibold text-gray-400 uppercase mb-3">
+            What do you need?
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {FEATURES
+              .filter((feature) => !feature.teacherOnly || token)
+              .map((feature) => (
+                <button
+                  key={feature.id}
+                  onClick={() => navigate(`/profile/${id}/${feature.id}`)}
+                  className={`relative flex flex-col items-center justify-center gap-1.5 py-4 rounded-xl transition ${feature.color} hover:opacity-80 hover:scale-[1.03] active:scale-95`}
+                >
+                  {feature.teacherOnly && (
+                    <span className="absolute top-1.5 right-1.5 text-[9px] bg-gray-800 text-white px-1.5 py-0.5 rounded-full">
+                      Teacher
+                    </span>
+                  )}
+                  <span className="text-2xl">{feature.icon}</span>
+                  <span className="text-xs font-medium text-center leading-tight px-1">
+                    {feature.label}
+                  </span>
+                </button>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-// Small reusable component for label-value pairs
 function InfoRow({ label, value }) {
   return (
     <div>

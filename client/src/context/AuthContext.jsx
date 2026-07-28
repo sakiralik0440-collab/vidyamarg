@@ -40,5 +40,9 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    return { teacher: null, token: null, loading: false, login: () => { }, logout: () => { } };
+  }
+  return context;
 }

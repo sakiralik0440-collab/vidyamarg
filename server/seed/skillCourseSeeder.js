@@ -1,0 +1,328 @@
+require("dotenv").config({ path: "../.env" });
+const mongoose = require("mongoose");
+const SkillCourse = require("../models/SkillCourse");
+
+const skillCourses = [
+  {
+    name: "Government ITI Bhopal — Electrician Trade",
+    provider: "Government ITI Bhopal",
+    type: "ITI",
+    trade: "Electrician",
+    duration: "2 years",
+    fees: 3000,
+    feesDescription: "₹1,500 per semester",
+    eligibility: {
+      minEducation: "8th Pass",
+      minAge: 14,
+      maxAge: 40,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Electrician",
+      "Wiring Technician",
+      "Maintenance Engineer",
+      "Solar Panel Installer",
+    ],
+    avgSalary: "₹12,000 - ₹25,000/month",
+    district: "Bhopal",
+    state: "Madhya Pradesh",
+    address: "Govindpura, Bhopal, MP 462023",
+    contactNumber: "0755-2600001",
+    description:
+      "Learn electrical wiring, motor winding, and industrial electrical work. High demand skill with government job opportunities.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "PMKVY — Mobile Repair Technician",
+    provider: "Pradhan Mantri Kaushal Vikas Yojana",
+    type: "PMKVY",
+    trade: "Mobile Repair",
+    duration: "3 months",
+    fees: 0,
+    feesDescription: "Completely FREE — government funded",
+    eligibility: {
+      minEducation: "5th Pass",
+      minAge: 15,
+      maxAge: 45,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Mobile Repair Technician",
+      "Electronics Repair Shop Owner",
+      "Service Center Technician",
+    ],
+    avgSalary: "₹8,000 - ₹20,000/month",
+    district: "Hoshangabad",
+    state: "Madhya Pradesh",
+    address: "PMKVY Center, Hoshangabad, MP",
+    contactNumber: "07574-255100",
+    applicationLink: "https://www.pmkvyofficial.org",
+    description:
+      "Free 3-month course to become a certified mobile phone repair technician. Get certificate recognized by NSDC.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "Government ITI Indore — Fitter Trade",
+    provider: "Government ITI Indore",
+    type: "ITI",
+    trade: "Fitter",
+    duration: "2 years",
+    fees: 4000,
+    feesDescription: "₹2,000 per semester",
+    eligibility: {
+      minEducation: "10th Pass",
+      minAge: 14,
+      maxAge: 40,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Fitter",
+      "Machine Operator",
+      "Production Technician",
+      "Maintenance Fitter",
+    ],
+    avgSalary: "₹15,000 - ₹30,000/month",
+    district: "Indore",
+    state: "Madhya Pradesh",
+    address: "AB Road, Indore, MP 452001",
+    contactNumber: "0731-2600002",
+    description:
+      "Learn fitting, machining, and manufacturing skills. Very high demand in industrial areas.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "PMKVY — Sewing Machine Operator",
+    provider: "Pradhan Mantri Kaushal Vikas Yojana",
+    type: "PMKVY",
+    trade: "Tailoring",
+    duration: "2 months",
+    fees: 0,
+    feesDescription: "FREE — with stipend of ₹500/month during training",
+    eligibility: {
+      minEducation: "5th Pass",
+      minAge: 14,
+      maxAge: 45,
+      gender: "Female",
+    },
+    jobRoles: [
+      "Tailor",
+      "Garment Factory Worker",
+      "Fashion Designer (Basic)",
+      "Self-employed Tailor",
+    ],
+    avgSalary: "₹6,000 - ₹15,000/month",
+    district: "Bhopal",
+    state: "Madhya Pradesh",
+    address: "PMKVY Center, Bhopal",
+    contactNumber: "0755-2600002",
+    applicationLink: "https://www.pmkvyofficial.org",
+    description:
+      "Free tailoring course for women. Learn to operate sewing machines, cut patterns, and stitch garments.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "Government ITI Jabalpur — Welder Trade",
+    provider: "Government ITI Jabalpur",
+    type: "ITI",
+    trade: "Welding",
+    duration: "1 year",
+    fees: 2500,
+    feesDescription: "₹1,250 per semester",
+    eligibility: {
+      minEducation: "8th Pass",
+      minAge: 14,
+      maxAge: 40,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Welder",
+      "Fabrication Technician",
+      "Pipeline Welder",
+      "Construction Welder",
+    ],
+    avgSalary: "₹12,000 - ₹28,000/month",
+    district: "Jabalpur",
+    state: "Madhya Pradesh",
+    address: "Jabalpur, MP 482001",
+    contactNumber: "0761-2600001",
+    description:
+      "Learn arc welding, gas welding, and fabrication. High demand in construction and manufacturing.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "PMKVY — Computer Hardware & Networking",
+    provider: "Pradhan Mantri Kaushal Vikas Yojana",
+    type: "PMKVY",
+    trade: "Computer Hardware",
+    duration: "3 months",
+    fees: 0,
+    feesDescription: "FREE with NSDC certification",
+    eligibility: {
+      minEducation: "10th Pass",
+      minAge: 15,
+      maxAge: 35,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Computer Technician",
+      "Network Engineer (Entry)",
+      "IT Support Executive",
+      "Hardware Repair Shop Owner",
+    ],
+    avgSalary: "₹10,000 - ₹22,000/month",
+    district: "Indore",
+    state: "Madhya Pradesh",
+    address: "PMKVY Center, Indore",
+    contactNumber: "0731-2600003",
+    applicationLink: "https://www.pmkvyofficial.org",
+    description:
+      "Learn to repair computers, install networks, and troubleshoot hardware. Growing demand in rural and urban areas.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "Government ITI Bhopal — COPA Trade",
+    provider: "Government ITI Bhopal",
+    type: "ITI",
+    trade: "Computer Operator",
+    duration: "1 year",
+    fees: 3500,
+    feesDescription: "₹1,750 per semester",
+    eligibility: {
+      minEducation: "10th Pass",
+      minAge: 14,
+      maxAge: 40,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Computer Operator",
+      "Data Entry Operator",
+      "Office Assistant",
+      "Tally Operator",
+    ],
+    avgSalary: "₹8,000 - ₹18,000/month",
+    district: "Bhopal",
+    state: "Madhya Pradesh",
+    address: "Govindpura, Bhopal, MP 462023",
+    contactNumber: "0755-2600003",
+    description:
+      "Learn computer operations, MS Office, Tally, and basic accounting. Good for government and private office jobs.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "PMKVY — Beauty & Wellness",
+    provider: "Pradhan Mantri Kaushal Vikas Yojana",
+    type: "PMKVY",
+    trade: "Beauty Parlour",
+    duration: "2 months",
+    fees: 0,
+    feesDescription: "FREE — with certificate from NSDC",
+    eligibility: {
+      minEducation: "8th Pass",
+      minAge: 18,
+      maxAge: 35,
+      gender: "Female",
+    },
+    jobRoles: [
+      "Beauty Therapist",
+      "Salon Owner",
+      "Makeup Artist",
+      "Hair Dresser",
+    ],
+    avgSalary: "₹8,000 - ₹25,000/month",
+    district: "Ujjain",
+    state: "Madhya Pradesh",
+    address: "PMKVY Center, Ujjain",
+    contactNumber: "0734-2600001",
+    applicationLink: "https://www.pmkvyofficial.org",
+    description:
+      "Free beauty and wellness course for women. Learn hair care, skin care, makeup, and salon management.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "Government ITI Sehore — Plumber Trade",
+    provider: "Government ITI Sehore",
+    type: "ITI",
+    trade: "Plumbing",
+    duration: "1 year",
+    fees: 2000,
+    feesDescription: "₹1,000 per semester",
+    eligibility: {
+      minEducation: "8th Pass",
+      minAge: 14,
+      maxAge: 40,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Plumber",
+      "Pipe Fitter",
+      "Sanitation Worker",
+      "Construction Plumber",
+    ],
+    avgSalary: "₹10,000 - ₹22,000/month",
+    district: "Sehore",
+    state: "Madhya Pradesh",
+    address: "Sehore, MP 466001",
+    contactNumber: "07562-222001",
+    description:
+      "Learn plumbing, pipe fitting, and sanitation installation. Very high demand especially in rural construction.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+  {
+    name: "PMKVY — Agriculture Technician",
+    provider: "Pradhan Mantri Kaushal Vikas Yojana",
+    type: "PMKVY",
+    trade: "Agriculture",
+    duration: "3 months",
+    fees: 0,
+    feesDescription: "FREE — government sponsored",
+    eligibility: {
+      minEducation: "5th Pass",
+      minAge: 18,
+      maxAge: 45,
+      gender: "Any",
+    },
+    jobRoles: [
+      "Agriculture Technician",
+      "Organic Farmer",
+      "Agricultural Equipment Operator",
+      "Nursery Manager",
+    ],
+    avgSalary: "₹8,000 - ₹15,000/month + own farming income",
+    district: "Hoshangabad",
+    state: "Madhya Pradesh",
+    address: "Krishi Vigyan Kendra, Hoshangabad, MP",
+    contactNumber: "07574-255200",
+    applicationLink: "https://www.pmkvyofficial.org",
+    description:
+      "Learn modern farming techniques, crop management, and agricultural equipment operation. Perfect for rural students.",
+    isGovernmentFunded: true,
+    isActive: true,
+  },
+];
+
+const seedSkillCourses = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected");
+    await SkillCourse.deleteMany({});
+    console.log("🗑️ Existing skill courses cleared");
+    const inserted = await SkillCourse.insertMany(skillCourses);
+    console.log(`✅ ${inserted.length} skill courses seeded successfully`);
+    mongoose.connection.close();
+    console.log("🔌 Connection closed");
+  } catch (error) {
+    console.error("❌ Seeding failed:", error.message);
+    process.exit(1);
+  }
+};
+
+seedSkillCourses();

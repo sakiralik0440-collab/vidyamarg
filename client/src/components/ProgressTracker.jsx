@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { addProgressAPI, getProgressAPI } from "../api/studentApi";
+import VoiceInputButton from "./VoiceInputButton";
 
 function ProgressTracker({ studentId }) {
   const { t } = useTranslation();
@@ -203,8 +204,15 @@ function ProgressTracker({ studentId }) {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1 text-gray-600">
+              <label className="block text-xs font-medium mb-1 text-gray-600 flex items-center">
                 {t("progress.remarks")}
+                <VoiceInputButton
+                  language="hi-IN"
+                  placeholder="Say any remarks about this year..."
+                  onResult={(text) =>
+                    setFormData((prev) => ({ ...prev, remarks: text }))
+                  }
+                />
               </label>
               <input
                 type="text"
