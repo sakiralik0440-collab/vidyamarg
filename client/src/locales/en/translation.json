@@ -476,6 +476,7 @@
     "lastUpdated": "Last Updated",
     "sendAlert": "Send Alert"
   },
+  "state" : {
   "stateSelect": "Select State",
   "mp": "Madhya Pradesh",
   "up": "Uttar Pradesh",
@@ -498,4 +499,5 @@
   "odisha": "Odisha",
   "westbengal": "West Bengal",
   "assam": "Assam"
+  }
 }
