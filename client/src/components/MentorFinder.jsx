@@ -6,7 +6,7 @@ const STATUS_COLORS = {
   Working: "bg-green-100 text-green-700",
   "College Student": "bg-blue-100 text-blue-700",
   Graduated: "bg-purple-100 text-purple-700",
-  "Self-Employed": "bg-orange-100 text-orange-700",
+  "Self-Employed": "bg-green-100 text-green-800",
 };
 
 function MentorFinder({ student }) {

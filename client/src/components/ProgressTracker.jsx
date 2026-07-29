@@ -93,12 +93,12 @@ function ProgressTracker({ studentId }) {
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-orange-700">
+        <h2 className="text-lg font-semibold text-green-800">
           {t("progress.title")}
         </h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="text-sm bg-orange-600 text-white px-3 py-1.5 rounded hover:bg-orange-700 transition"
+          className="text-sm bg-green-700 text-white px-3 py-1.5 rounded hover:bg-green-800 transition"
         >
           + {t("progress.addRecord")}
         </button>
@@ -122,7 +122,7 @@ function ProgressTracker({ studentId }) {
       {showForm && (
         <form
           onSubmit={handleSave}
-          className="border rounded-lg p-4 mb-6 bg-orange-50"
+          className="border rounded-lg p-4 mb-6 bg-green-50"
         >
           <div className="grid grid-cols-2 gap-4 mb-3">
             <div>
@@ -228,7 +228,7 @@ function ProgressTracker({ studentId }) {
             <button
               type="submit"
               disabled={saving}
-              className="bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700 transition disabled:opacity-50"
+              className="bg-green-700 text-white px-4 py-2 rounded text-sm hover:bg-green-800 transition disabled:opacity-50"
             >
               {saving ? t("progress.saving") : t("progress.save")}
             </button>
@@ -256,14 +256,14 @@ function ProgressTracker({ studentId }) {
         ) : (
           <div className="relative">
             {/* Vertical timeline line */}
-            <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-orange-200" />
+            <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-green-200" />
 
             {records.map((record, index) => (
               <div key={record._id || index} className="relative pl-10 pb-6">
                 {/* Timeline dot */}
-                <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-orange-500 border-2 border-white shadow" />
+                <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-green-600 border-2 border-white shadow" />
 
-                <div className="bg-orange-50 rounded-lg p-4 border border-orange-100">
+                <div className="bg-green-50 rounded-lg p-4 border border-green-100">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <p className="font-semibold text-gray-800">

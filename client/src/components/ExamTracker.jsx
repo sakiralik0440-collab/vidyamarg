@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 const TYPE_COLORS = {
   "Board Exam": "bg-red-100 text-red-700",
   "Entrance Exam": "bg-blue-100 text-blue-700",
-  "Admission Deadline": "bg-orange-100 text-orange-700",
+  "Admission Deadline": "bg-green-100 text-green-800",
   "Scholarship Deadline": "bg-green-100 text-green-700",
   "Government Exam": "bg-purple-100 text-purple-700",
   Other: "bg-gray-100 text-gray-700",
@@ -77,7 +77,7 @@ function ExamTracker({ studentId, student }) {
   const getDaysDisplay = (daysLeft) => {
     if (daysLeft === 0) return { text: t("exams.today"), color: "text-red-600 font-bold" };
     if (daysLeft === 1) return { text: t("exams.tomorrow"), color: "text-red-500 font-bold" };
-    if (daysLeft <= 7) return { text: `⚠️ ${daysLeft} ${t("exams.daysLeft")}`, color: "text-orange-600 font-semibold" };
+    if (daysLeft <= 7) return { text: `⚠️ ${daysLeft} ${t("exams.daysLeft")}`, color: "text-green-700 font-semibold" };
     if (daysLeft <= 30) return { text: `${daysLeft} ${t("exams.daysLeft")}`, color: "text-yellow-600" };
     return { text: `${daysLeft} ${t("exams.daysLeft")}`, color: "text-green-600" };
   };
@@ -174,7 +174,7 @@ function ExamTracker({ studentId, student }) {
 
                     {/* Registration deadline warning */}
                     {exam.isRegistrationUrgent && exam.regDaysLeft !== null && (
-                      <div className="mt-2 bg-orange-100 rounded px-3 py-1.5 text-xs text-orange-700 font-medium">
+                      <div className="mt-2 bg-green-100 rounded px-3 py-1.5 text-xs text-green-800 font-medium">
                         ⚠️ Registration closes in {exam.regDaysLeft} day(s)!
                       </div>
                     )}
@@ -204,7 +204,7 @@ function ExamTracker({ studentId, student }) {
                             <p
                               className={`font-medium ${
                                 exam.isRegistrationUrgent
-                                  ? "text-orange-600"
+                                  ? "text-green-700"
                                   : "text-gray-800"
                               }`}
                             >

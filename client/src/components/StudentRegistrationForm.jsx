@@ -111,7 +111,7 @@ function StudentRegistrationForm() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <p className="text-2xl text-green-700 font-semibold">
           ✅ {t("registration.successMessage")}
         </p>
@@ -120,14 +120,14 @@ function StudentRegistrationForm() {
   }
 
   return (
-    <div className="min-h-screen bg-orange-50 py-8 px-4">
+    <div className="min-h-screen bg-green-50 py-8 px-4">
       <div className="max-w-xl mx-auto">
 
         {/* Teacher Login Link */}
         <div className="flex justify-between mb-4">
           <button
             onClick={() => navigate("/teacher/login")}
-            className="text-xs text-gray-400 hover:text-orange-600 transition"
+            className="text-xs text-gray-400 hover:text-green-700 transition"
           >
             👨‍🏫 Teacher Login
           </button>
@@ -142,7 +142,7 @@ function StudentRegistrationForm() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
           {/* Step Progress Header */}
-          <div className="bg-gradient-to-r from-orange-600 to-orange-500 px-6 py-5">
+          <div className="bg-gradient-to-r from-green-700 to-green-600 px-6 py-5">
             <h1 className="text-white font-bold text-lg mb-3">
               {t("registration.title")}
             </h1>
@@ -152,10 +152,10 @@ function StudentRegistrationForm() {
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition ${
                       index < step
-                        ? "bg-white text-orange-600"
+                        ? "bg-white text-green-700"
                         : index === step
-                        ? "bg-white text-orange-600 ring-4 ring-orange-300"
-                        : "bg-orange-400 text-white"
+                        ? "bg-white text-green-700 ring-4 ring-green-300"
+                        : "bg-green-400 text-white"
                     }`}
                   >
                     {index < step ? "✓" : index + 1}
@@ -163,14 +163,14 @@ function StudentRegistrationForm() {
                   {index < STEPS.length - 1 && (
                     <div
                       className={`flex-1 h-1 mx-1 rounded ${
-                        index < step ? "bg-white" : "bg-orange-400"
+                        index < step ? "bg-white" : "bg-green-400"
                       }`}
                     />
                   )}
                 </div>
               ))}
             </div>
-            <p className="text-orange-100 text-xs mt-2">
+            <p className="text-green-100 text-xs mt-2">
               Step {step + 1} of {STEPS.length}: {STEPS[step]}
             </p>
           </div>
@@ -283,7 +283,7 @@ function StudentRegistrationForm() {
                 </p>
 
                 {contacts.map((contact, index) => (
-                  <div key={index} className="border rounded-xl p-4 bg-orange-50">
+                  <div key={index} className="border rounded-xl p-4 bg-green-50">
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <select
                         value={contact.relation}
@@ -344,7 +344,7 @@ function StudentRegistrationForm() {
                   <button
                     type="button"
                     onClick={addContact}
-                    className="w-full text-orange-700 font-medium py-2 border-2 border-dashed border-orange-300 rounded-lg text-sm hover:bg-orange-50"
+                    className="w-full text-green-800 font-medium py-2 border-2 border-dashed border-green-300 rounded-lg text-sm hover:bg-green-50"
                   >
                     + {t("registration.addContact")}
                   </button>
@@ -404,7 +404,7 @@ function StudentRegistrationForm() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="flex-1 bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition"
+                  className="flex-1 bg-green-700 text-white py-3 rounded-lg font-medium hover:bg-green-800 transition"
                 >
                   Next →
                 </button>

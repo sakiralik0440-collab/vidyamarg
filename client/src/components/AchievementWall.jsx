@@ -23,7 +23,7 @@ const LEVEL_COLORS = {
   School: "bg-gray-100 text-gray-700",
   District: "bg-blue-100 text-blue-700",
   State: "bg-green-100 text-green-700",
-  National: "bg-orange-100 text-orange-700",
+  National: "bg-green-100 text-green-800",
   International: "bg-purple-100 text-purple-700",
 };
 

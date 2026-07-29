@@ -161,7 +161,7 @@ function AlertCenter({ studentId, studentName }) {
 
       {/* Header */}
       <div className="px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold text-orange-700">
+        <h2 className="text-lg font-semibold text-green-800">
           📱 Family Alert Center
         </h2>
         <p className="text-sm text-gray-400 mt-0.5">
@@ -177,7 +177,7 @@ function AlertCenter({ studentId, studentName }) {
             onClick={() => setActiveTab(tab)}
             className={`px-5 py-3 text-sm font-medium capitalize transition ${
               activeTab === tab
-                ? "border-b-2 border-orange-600 text-orange-600"
+                ? "border-b-2 border-green-700 text-green-700"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
@@ -281,7 +281,7 @@ function AlertCenter({ studentId, studentName }) {
                 placeholder="Type your message here... It will be sent as: [VidyaMarg] Message about {student name}: {your message}"
                 rows={4}
                 required
-                className="w-full border rounded px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full border rounded px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-400"
               />
               <p className="text-xs text-gray-400 mt-1">
                 {customForm.customMessage.length}/500 characters
@@ -334,7 +334,7 @@ function AlertCenter({ studentId, studentName }) {
             <button
               type="submit"
               disabled={sending || !customForm.customMessage.trim()}
-              className="w-full bg-orange-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition disabled:opacity-50"
+              className="w-full bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-green-800 transition disabled:opacity-50"
             >
               {sending ? "Sending..." : "Send Custom Message"}
             </button>

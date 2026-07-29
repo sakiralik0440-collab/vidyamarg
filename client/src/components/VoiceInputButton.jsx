@@ -55,7 +55,7 @@ function VoiceInputButton({ onResult, language = "hi-IN", placeholder = "Speak n
         className={`ml-2 p-1.5 rounded-full transition ${
           isListening
             ? "bg-red-100 text-red-600 animate-pulse"
-            : "bg-orange-100 text-orange-600 hover:bg-orange-200"
+            : "bg-green-100 text-green-700 hover:bg-green-200"
         }`}
         title="Click to use voice input"
       >
@@ -64,7 +64,7 @@ function VoiceInputButton({ onResult, language = "hi-IN", placeholder = "Speak n
 
       {/* Voice Input Panel */}
       {showPanel && (
-        <div className="absolute left-0 top-10 z-50 bg-white border border-orange-200 rounded-lg shadow-lg p-4 w-72">
+        <div className="absolute left-0 top-10 z-50 bg-white border border-green-200 rounded-lg shadow-lg p-4 w-72">
 
           {/* Status */}
           <div className="flex items-center justify-between mb-3">
@@ -110,7 +110,7 @@ function VoiceInputButton({ onResult, language = "hi-IN", placeholder = "Speak n
               <button
                 type="button"
                 onClick={startListening}
-                className="flex-1 bg-orange-600 text-white py-2 rounded text-sm hover:bg-orange-700 transition"
+                className="flex-1 bg-green-700 text-white py-2 rounded text-sm hover:bg-green-800 transition"
               >
                 🎙️ Speak Again
               </button>

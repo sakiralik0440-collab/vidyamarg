@@ -52,7 +52,7 @@ function CollegeGuidance({ student }) {
 
     if (daysLeft < 0) return { label: t("college.deadlinePassed"), color: "text-red-600", urgent: true };
     if (daysLeft === 0) return { label: t("college.today"), color: "text-red-600", urgent: true };
-    if (daysLeft <= 7) return { label: `⚠️ ${daysLeft} ${t("college.daysLeft")}`, color: "text-orange-600", urgent: true };
+    if (daysLeft <= 7) return { label: `⚠️ ${daysLeft} ${t("college.daysLeft")}`, color: "text-green-700", urgent: true };
     return { label: `${daysLeft} ${t("college.daysLeft")}`, color: "text-green-600", urgent: false };
   };
 
@@ -72,7 +72,7 @@ function CollegeGuidance({ student }) {
 
       {/* Header */}
       <div className="px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold text-orange-700">
+        <h2 className="text-lg font-semibold text-green-800">
           🎓 {t("college.title")}
         </h2>
         <p className="text-sm text-gray-400 mt-0.5">
@@ -83,7 +83,7 @@ function CollegeGuidance({ student }) {
       <div className="p-6">
 
         {/* Search Form */}
-        <form onSubmit={handleSearch} className="bg-orange-50 rounded-lg p-4 mb-6">
+        <form onSubmit={handleSearch} className="bg-green-50 rounded-lg p-4 mb-6">
           <h3 className="text-sm font-semibold text-gray-700 mb-3">
             {t("college.findColleges")}
           </h3>
@@ -166,7 +166,7 @@ function CollegeGuidance({ student }) {
           <button
             type="submit"
             disabled={searching}
-            className="w-full bg-orange-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition disabled:opacity-50"
+            className="w-full bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-green-800 transition disabled:opacity-50"
           >
             {searching ? t("college.searching") : t("college.search")}
           </button>
@@ -185,7 +185,7 @@ function CollegeGuidance({ student }) {
             ) : (
               <div>
                 <p className="text-sm text-gray-500 mb-4">
-                  Found <span className="font-semibold text-orange-700">{colleges.length}</span> matching colleges
+                  Found <span className="font-semibold text-green-800">{colleges.length}</span> matching colleges
                 </p>
 
                 <div className="space-y-4">
@@ -198,12 +198,12 @@ function CollegeGuidance({ student }) {
                       <div
                         key={college._id}
                         className={`border rounded-lg overflow-hidden transition ${
-                          isSelected ? "border-orange-400 shadow-md" : "border-gray-200"
+                          isSelected ? "border-green-400 shadow-md" : "border-gray-200"
                         }`}
                       >
                         {/* College Header */}
                         <div
-                          className="p-4 cursor-pointer hover:bg-orange-50 transition"
+                          className="p-4 cursor-pointer hover:bg-green-50 transition"
                           onClick={() =>
                             setSelectedCollege(isSelected ? null : college)
                           }
@@ -247,7 +247,7 @@ function CollegeGuidance({ student }) {
                             {college.streamsOffered.map((stream) => (
                               <span
                                 key={stream}
-                                className="text-xs bg-orange-50 text-orange-700 px-2 py-0.5 rounded"
+                                className="text-xs bg-green-50 text-green-800 px-2 py-0.5 rounded"
                               >
                                 {stream}
                               </span>
@@ -305,7 +305,7 @@ function CollegeGuidance({ student }) {
                               </div>
                               <div className="bg-gray-200 rounded-full h-2">
                                 <div
-                                  className="bg-orange-500 h-2 rounded-full"
+                                  className="bg-green-600 h-2 rounded-full"
                                   style={{ width: `${college.matchScore}%` }}
                                 />
                               </div>
@@ -316,7 +316,7 @@ function CollegeGuidance({ student }) {
                               {college.contactNumber && (
                                 <a
                                   href={`tel:${college.contactNumber}`}
-                                  className="flex-1 text-center bg-orange-600 text-white py-2 rounded text-sm font-medium hover:bg-orange-700 transition"
+                                  className="flex-1 text-center bg-green-700 text-white py-2 rounded text-sm font-medium hover:bg-green-800 transition"
                                 >
                                   📞 Call College
                                 </a>

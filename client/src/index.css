@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+:root {
+  --brand-50: #EAF3DE;
+  --brand-100: #C0DD97;
+  --brand-200: #97C459;
+  --brand-400: #639922;
+  --brand-600: #3B6D11;
+  --brand-800: #27500A;
+  --brand-900: #173404;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,9 +20,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fix invisible cursor in input fields */
 input, textarea, select {
-  caret-color: #ea580c;
+  caret-color: var(--brand-600);
   color: #1f2937;
 }
 
@@ -20,33 +29,30 @@ input::placeholder, textarea::placeholder {
   color: #9ca3af;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Fix tap highlight on mobile */
 button, a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Prevent horizontal scroll on mobile */
 body, #root {
   max-width: 100vw;
   overflow-x: hidden;
 }
 
-/* Better focus rings */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #ea580c;
+  outline: 2px solid var(--brand-600);
   outline-offset: 2px;
 }
 
 @layer components {
   .input-field {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition;
+    @apply w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition;
+    --tw-ring-color: var(--brand-400);
   }
 }

@@ -61,13 +61,13 @@ function DistrictView() {
 
   const getRateColor = (rate) => {
     if (rate >= 30) return "text-red-600";
-    if (rate >= 15) return "text-orange-600";
+    if (rate >= 15) return "text-green-700";
     return "text-green-600";
   };
 
   const getBarColor = (rate) => {
     if (rate >= 30) return "bg-red-500";
-    if (rate >= 15) return "bg-orange-500";
+    if (rate >= 15) return "bg-green-600";
     return "bg-green-500";
   };
 

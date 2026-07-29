@@ -74,7 +74,7 @@ function ParentDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <div className="text-center">
           <p className="text-6xl mb-4">⏳</p>
           <p className="text-gray-500 text-lg">Loading...</p>
@@ -85,7 +85,7 @@ function ParentDashboard() {
 
   if (error || !dashboard) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <div className="text-center">
           <p className="text-6xl mb-4">❌</p>
           <p className="text-red-600">{error || "Student not found"}</p>
@@ -98,10 +98,10 @@ function ParentDashboard() {
     dashboard;
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-green-50">
 
       {/* Header */}
-      <div className="bg-orange-600 text-white px-6 py-5 text-center">
+      <div className="bg-green-700 text-white px-6 py-5 text-center">
         <p className="text-sm opacity-80 mb-1">🎓 VidyaMarg</p>
         <h1 className="text-2xl font-bold">{t("parent.myChild")}</h1>
         <p className="text-xl mt-1">{student.name}</p>
@@ -221,8 +221,8 @@ function ParentDashboard() {
               </div>
 
               {/* Attendance */}
-              <div className="bg-orange-50 rounded-xl p-3">
-                <p className="text-3xl font-bold text-orange-700">
+              <div className="bg-green-50 rounded-xl p-3">
+                <p className="text-3xl font-bold text-green-800">
                   {latestProgress.attendancePercentage || "—"}
                   {latestProgress.attendancePercentage ? "%" : ""}
                 </p>
@@ -243,7 +243,7 @@ function ParentDashboard() {
         <div className="grid grid-cols-3 gap-3">
           {/* Years Studied */}
           <div className="bg-white rounded-2xl p-4 text-center shadow">
-            <p className="text-4xl font-bold text-orange-600">
+            <p className="text-4xl font-bold text-green-700">
               {stats.yearsStudied}
             </p>
             <p className="text-xs text-gray-500 mt-1 leading-tight">
@@ -286,14 +286,14 @@ function ParentDashboard() {
                  <a 
                     key={i}
                     href={`tel:${contact.phone}`}
-                    className="flex items-center gap-3 bg-orange-50 rounded-xl p-3 hover:bg-orange-100 transition"
+                    className="flex items-center gap-3 bg-green-50 rounded-xl p-3 hover:bg-green-100 transition"
                   >
                     <span className="text-2xl">👨‍🏫</span>
                     <div>
                       <p className="font-medium text-gray-800">{contact.name}</p>
-                      <p className="text-sm text-orange-600">{contact.phone}</p>
+                      <p className="text-sm text-green-700">{contact.phone}</p>
                     </div>
-                    <span className="ml-auto text-orange-600">📞</span>
+                    <span className="ml-auto text-green-700">📞</span>
                   </a>
                 ))}
             </div>
@@ -304,7 +304,7 @@ function ParentDashboard() {
         <div className="text-center pb-6">
           <button
             onClick={() => navigate(`/profile/${id}`)}
-            className="text-sm text-orange-600 underline"
+            className="text-sm text-green-700 underline"
           >
             {t("parent.switchToFull")} →
           </button>

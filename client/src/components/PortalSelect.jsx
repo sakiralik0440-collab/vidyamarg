@@ -13,14 +13,14 @@ function PortalSelect() {
           label: "Student Registration",
           desc: "New student? Create your profile",
           icon: "📝",
-          color: "from-orange-500 to-orange-600",
+          color: "from-green-600 to-green-700",
           action: () => navigate("/register"),
         },
         {
           label: "Student Login",
           desc: "Already registered? View your profile",
           icon: "👤",
-          color: "from-orange-400 to-amber-500",
+          color: "from-green-400 to-amber-500",
           action: () => navigate("/student/login"),
         },
       ],
@@ -66,7 +66,7 @@ function PortalSelect() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white px-4 py-10">
       <div className="max-w-md mx-auto">
 
         {/* Header */}

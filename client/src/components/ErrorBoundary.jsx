@@ -17,7 +17,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-orange-50 p-8">
+        <div className="min-h-screen flex items-center justify-center bg-green-50 p-8">
           <div className="text-center max-w-md">
             <p className="text-6xl mb-4">😔</p>
             <h2 className="text-xl font-bold text-gray-800 mb-2">
@@ -31,7 +31,7 @@ class ErrorBoundary extends Component {
                 this.setState({ hasError: false, error: null });
                 window.location.href = "/";
               }}
-              className="bg-orange-600 text-white px-6 py-2.5 rounded-lg hover:bg-orange-700 transition"
+              className="bg-green-700 text-white px-6 py-2.5 rounded-lg hover:bg-green-800 transition"
             >
               Go Home
             </button>

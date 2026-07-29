@@ -63,13 +63,13 @@ function TeacherLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-green-50 flex items-center justify-center px-4 py-8">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
 
         {/* Header */}
         <div className="text-center mb-6">
           <div className="text-4xl mb-3">🎓</div>
-          <h1 className="text-2xl font-bold text-orange-700">
+          <h1 className="text-2xl font-bold text-green-800">
             {t("auth.teacherPortal")}
           </h1>
           <p className="text-gray-400 text-sm mt-1">
@@ -83,7 +83,7 @@ function TeacherLogin() {
             onClick={() => { setMode("login"); setError(""); }}
             className={`flex-1 py-2.5 text-sm font-medium transition ${
               mode === "login"
-                ? "bg-orange-600 text-white"
+                ? "bg-green-700 text-white"
                 : "text-gray-500 hover:bg-gray-50"
             }`}
           >
@@ -93,7 +93,7 @@ function TeacherLogin() {
             onClick={() => { setMode("register"); setError(""); }}
             className={`flex-1 py-2.5 text-sm font-medium transition ${
               mode === "register"
-                ? "bg-orange-600 text-white"
+                ? "bg-green-700 text-white"
                 : "text-gray-500 hover:bg-gray-50"
             }`}
           >
@@ -123,7 +123,7 @@ function TeacherLogin() {
                 }
                 required
                 placeholder="teacher@example.com"
-                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
@@ -139,14 +139,14 @@ function TeacherLogin() {
                 }
                 required
                 placeholder="••••••••"
-                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition disabled:opacity-50"
+              className="w-full bg-green-700 text-white py-3 rounded-lg font-medium hover:bg-green-800 transition disabled:opacity-50"
             >
               {loading ? t("auth.loggingIn") : t("auth.loginButton")}
             </button>
@@ -247,7 +247,7 @@ function TeacherLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition disabled:opacity-50"
+              className="w-full bg-green-700 text-white py-3 rounded-lg font-medium hover:bg-green-800 transition disabled:opacity-50"
             >
               {loading ? "Registering..." : "Create Account"}
             </button>
@@ -258,7 +258,7 @@ function TeacherLogin() {
         <p className="text-center text-xs text-gray-400 mt-6">
           <button
             onClick={() => navigate("/")}
-            className="hover:text-orange-600 underline"
+            className="hover:text-green-700 underline"
           >
             ← Back to Portal
           </button>

@@ -190,12 +190,12 @@ function FeeTracker({ studentId }) {
               className={`rounded-lg p-4 text-center border ${
                 summary.netBalance >= 0
                   ? "bg-blue-50 border-blue-100"
-                  : "bg-orange-50 border-orange-100"
+                  : "bg-green-50 border-green-100"
               }`}
             >
               <p
                 className={`text-xs uppercase mb-1 ${
-                  summary.netBalance >= 0 ? "text-blue-500" : "text-orange-500"
+                  summary.netBalance >= 0 ? "text-blue-500" : "text-green-600"
                 }`}
               >
                 {summary.netBalance >= 0
@@ -204,7 +204,7 @@ function FeeTracker({ studentId }) {
               </p>
               <p
                 className={`text-xl font-bold ${
-                  summary.netBalance >= 0 ? "text-blue-700" : "text-orange-700"
+                  summary.netBalance >= 0 ? "text-blue-700" : "text-green-800"
                 }`}
               >
                 {formatAmount(Math.abs(summary.netBalance))}

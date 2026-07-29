@@ -6,7 +6,7 @@ const TYPE_COLORS = {
   "Central Government": "bg-blue-100 text-blue-700",
   "State Government": "bg-green-100 text-green-700",
   Private: "bg-purple-100 text-purple-700",
-  NGO: "bg-orange-100 text-orange-700",
+  NGO: "bg-green-100 text-green-800",
 };
 
 function ScholarshipFinder({ student }) {
@@ -64,7 +64,7 @@ function ScholarshipFinder({ student }) {
     if (daysLeft <= 30)
       return {
         label: `⚠️ ${daysLeft} ${t("scholarship.daysLeft")}`,
-        color: "text-orange-600",
+        color: "text-green-700",
         urgent: true,
       };
     return {

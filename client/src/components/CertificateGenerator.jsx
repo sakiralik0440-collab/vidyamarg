@@ -254,7 +254,7 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
       {/* Header */}
       <div className="px-6 py-4 border-b flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-orange-700">
+          <h2 className="text-lg font-semibold text-green-800">
             🏅 Certificates
           </h2>
           <p className="text-sm text-gray-400 mt-0.5">
@@ -264,7 +264,7 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
         {token && (
           <button
             onClick={() => setShowIssueForm(!showIssueForm)}
-            className="text-sm bg-orange-600 text-white px-3 py-2 rounded hover:bg-orange-700 transition"
+            className="text-sm bg-green-700 text-white px-3 py-2 rounded hover:bg-green-800 transition"
           >
             + Issue Certificate
           </button>
@@ -284,7 +284,7 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
         {showIssueForm && token && (
           <form
             onSubmit={handleIssueCertificate}
-            className="bg-orange-50 rounded-lg p-4 mb-6 border border-orange-200"
+            className="bg-green-50 rounded-lg p-4 mb-6 border border-green-200"
           >
             <h3 className="font-medium text-gray-700 mb-3">
               Issue New Certificate
@@ -367,7 +367,7 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
               <button
                 type="submit"
                 disabled={issuing}
-                className="bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700 transition disabled:opacity-50"
+                className="bg-green-700 text-white px-4 py-2 rounded text-sm hover:bg-green-800 transition disabled:opacity-50"
               >
                 {issuing ? "Issuing..." : "Issue Certificate"}
               </button>
@@ -407,8 +407,8 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
                     onClick={() => setSelectedCert(cert)}
                     className={`text-sm px-3 py-2 rounded-lg transition border ${
                       selectedCert?._id === cert._id
-                        ? "border-orange-500 bg-orange-50 text-orange-700"
-                        : "border-gray-200 text-gray-600 hover:border-orange-300"
+                        ? "border-green-600 bg-green-50 text-green-800"
+                        : "border-gray-200 text-gray-600 hover:border-green-300"
                     }`}
                   >
                     {certInfo.label}
@@ -433,7 +433,7 @@ function CertificateGenerator({ studentId, studentName, studentVillage, studentD
                 <div className="flex gap-3 mt-4">
                   <button
                     onClick={downloadCertificate}
-                    className="flex-1 bg-orange-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition"
+                    className="flex-1 bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-green-800 transition"
                   >
                     ⬇️ Download Certificate
                   </button>
@@ -477,7 +477,7 @@ function CertificatePreview({
       </div>
 
       {/* Certificate Body */}
-      <div className="px-8 py-6 bg-orange-50 text-center">
+      <div className="px-8 py-6 bg-green-50 text-center">
         <p
           className="text-sm font-semibold uppercase tracking-widest mb-4"
           style={{ color: certInfo.color }}

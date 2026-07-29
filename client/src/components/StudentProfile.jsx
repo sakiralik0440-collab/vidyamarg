@@ -10,7 +10,7 @@ import { saveToCache, getFromCache } from "../utils/localCache";
 // Each feature: id, label, icon, and which component renders it
 const FEATURES = [
   { id: "alerts", label: "Family Alerts", icon: "📱", color: "bg-red-100 text-red-700", teacherOnly: true },
-  { id: "progress", label: "Progress", icon: "📊", color: "bg-orange-100 text-orange-700" },
+  { id: "progress", label: "Progress", icon: "📊", color: "bg-green-100 text-green-800" },
   { id: "score", label: "Activity Score", icon: "⚡", color: "bg-purple-100 text-purple-700" },
   { id: "college", label: "Colleges", icon: "🎓", color: "bg-blue-100 text-blue-700" },
   { id: "scholarship", label: "Scholarships", icon: "💰", color: "bg-green-100 text-green-700" },
@@ -84,7 +84,7 @@ function StudentProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-orange-50 py-8 px-4">
+      <div className="min-h-screen bg-green-50 py-8 px-4">
         <div className="max-w-2xl mx-auto space-y-4">
           {[1, 2].map((i) => (
             <div key={i} className="bg-white rounded-2xl shadow p-6 animate-pulse">
@@ -99,7 +99,7 @@ function StudentProfile() {
 
   if (error || !student) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <p className="text-red-600 text-lg">{error || t("profile.notFound")}</p>
       </div>
     );
@@ -108,21 +108,21 @@ function StudentProfile() {
 
 
   return (
-    <div className="min-h-screen bg-orange-50 py-6 px-4">
+    <div className="min-h-screen bg-green-50 py-6 px-4">
       <div className="max-w-2xl mx-auto">
 
         {/* Nav Row */}
         <div className="flex justify-between items-center mb-4">
           <button
             onClick={() => navigate("/")}
-            className="text-orange-700 text-sm underline"
+            className="text-green-800 text-sm underline"
           >
             ← {t("profile.backToHome")}
           </button>
           <div className="flex gap-3">
             <button
               onClick={() => navigate(`/parent/${id}`)}
-              className="text-xs bg-orange-100 text-orange-700 px-3 py-1.5 rounded-lg hover:bg-orange-200 transition"
+              className="text-xs bg-green-100 text-green-800 px-3 py-1.5 rounded-lg hover:bg-green-200 transition"
             >
               👨‍👩‍👦 Parent View
             </button>
@@ -146,11 +146,11 @@ function StudentProfile() {
 
         {/* Student Header Card */}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4">
-          <div className="bg-gradient-to-r from-orange-600 to-orange-500 px-6 py-5">
+          <div className="bg-gradient-to-r from-green-700 to-green-600 px-6 py-5">
             <div className="flex justify-between items-start">
               <div>
                 <h1 className="text-white text-xl font-bold">{student.name}</h1>
-                <p className="text-orange-100 text-sm mt-0.5">
+                <p className="text-green-100 text-sm mt-0.5">
                   {student.village}, {student.district} · {student.currentClass}
                 </p>
               </div>
@@ -165,11 +165,11 @@ function StudentProfile() {
             <div className="flex items-center gap-3">
               <div className="flex-1 bg-gray-100 rounded-full h-2.5">
                 <div
-                  className="bg-orange-500 h-2.5 rounded-full transition-all"
+                  className="bg-green-600 h-2.5 rounded-full transition-all"
                   style={{ width: `${student.activityScore}%` }}
                 />
               </div>
-              <span className="text-orange-700 font-bold text-sm">
+              <span className="text-green-800 font-bold text-sm">
                 {student.activityScore}/100
               </span>
             </div>

@@ -76,20 +76,20 @@ function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <p className="text-gray-500">Loading leaderboard...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-green-50">
 
       {/* Header */}
       <div className="bg-white shadow-sm px-6 py-4">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-orange-700">
+            <h1 className="text-2xl font-bold text-green-800">
               🏆 {t("leaderboard.title")}
             </h1>
             <p className="text-sm text-gray-400 mt-0.5">
@@ -101,8 +101,8 @@ function Leaderboard() {
               onClick={() => setActiveView("leaderboard")}
               className={`text-sm px-3 py-2 rounded transition ${
                 activeView === "leaderboard"
-                  ? "bg-orange-600 text-white"
-                  : "bg-orange-100 text-orange-700"
+                  ? "bg-green-700 text-white"
+                  : "bg-green-100 text-green-800"
               }`}
             >
               🏆 Leaderboard
@@ -111,8 +111,8 @@ function Leaderboard() {
               onClick={() => setActiveView("district")}
               className={`text-sm px-3 py-2 rounded transition ${
                 activeView === "district"
-                  ? "bg-orange-600 text-white"
-                  : "bg-orange-100 text-orange-700"
+                  ? "bg-green-700 text-white"
+                  : "bg-green-100 text-green-800"
               }`}
             >
               🗺️ {t("leaderboard.districtComparison")}
@@ -128,7 +128,7 @@ function Leaderboard() {
             {/* Stats Overview */}
             {stats && (
               <div className="grid grid-cols-4 gap-4 mb-6">
-                <StatCard label={t("leaderboard.totalStudents")} value={stats.totalStudents} color="bg-orange-500" />
+                <StatCard label={t("leaderboard.totalStudents")} value={stats.totalStudents} color="bg-green-600" />
                 <StatCard label="Active" value={stats.activeStudents} color="bg-green-500" />
                 <StatCard label="Graduated/Placed" value={stats.graduatedStudents} color="bg-blue-500" />
                 <StatCard label="Avg Activity Score" value={stats.avgActivityScore} color="bg-purple-500" />
@@ -163,7 +163,7 @@ function Leaderboard() {
               />
               <button
                 type="submit"
-                className="bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700 transition"
+                className="bg-green-700 text-white px-4 py-2 rounded text-sm hover:bg-green-800 transition"
               >
                 {t("leaderboard.search")}
               </button>
@@ -190,7 +190,7 @@ function Leaderboard() {
                     onClick={() => setActiveTab(tab.key)}
                     className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition ${
                       activeTab === tab.key
-                        ? "border-b-2 border-orange-600 text-orange-600"
+                        ? "border-b-2 border-green-700 text-green-700"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                   >
@@ -211,7 +211,7 @@ function Leaderboard() {
                         {leaderboard.classToppers.map((topper, index) => (
                           <div
                             key={index}
-                            className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-100"
+                            className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-100"
                           >
                             <div className="flex items-center gap-4">
                               <span className="text-2xl">🏆</span>
@@ -226,7 +226,7 @@ function Leaderboard() {
                             </div>
                             <div className="flex items-center gap-3">
                               <div className="text-right">
-                                <p className="text-xl font-bold text-orange-700">
+                                <p className="text-xl font-bold text-green-800">
                                   {topper.marks}%
                                 </p>
                                 <p className="text-xs text-gray-400">
@@ -235,7 +235,7 @@ function Leaderboard() {
                               </div>
                               <button
                                 onClick={() => navigate(`/profile/${topper.student._id}`)}
-                                className="text-xs text-orange-600 hover:underline"
+                                className="text-xs text-green-700 hover:underline"
                               >
                                 {t("leaderboard.viewProfile")}
                               </button>
@@ -281,7 +281,7 @@ function Leaderboard() {
                               </div>
                               <button
                                 onClick={() => navigate(`/profile/${item.student._id}`)}
-                                className="text-xs text-orange-600 hover:underline"
+                                className="text-xs text-green-700 hover:underline"
                               >
                                 {t("leaderboard.viewProfile")}
                               </button>
@@ -327,7 +327,7 @@ function Leaderboard() {
                               </div>
                               <button
                                 onClick={() => navigate(`/profile/${item.student._id}`)}
-                                className="text-xs text-orange-600 hover:underline"
+                                className="text-xs text-green-700 hover:underline"
                               >
                                 {t("leaderboard.viewProfile")}
                               </button>
@@ -381,7 +381,7 @@ function Leaderboard() {
                               </div>
                               <button
                                 onClick={() => navigate(`/profile/${item.student._id}`)}
-                                className="text-xs text-orange-600 hover:underline"
+                                className="text-xs text-green-700 hover:underline"
                               >
                                 {t("leaderboard.viewProfile")}
                               </button>
@@ -428,7 +428,7 @@ function Leaderboard() {
                               </span>
                               <button
                                 onClick={() => navigate(`/profile/${item.student._id}`)}
-                                className="text-xs text-orange-600 hover:underline"
+                                className="text-xs text-green-700 hover:underline"
                               >
                                 {t("leaderboard.viewProfile")}
                               </button>
@@ -463,7 +463,7 @@ function Leaderboard() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="bg-orange-50 text-gray-500 uppercase text-xs">
+                  <thead className="bg-green-50 text-gray-500 uppercase text-xs">
                     <tr>
                       <th className="px-6 py-3 text-left">{t("leaderboard.rank")}</th>
                       <th className="px-6 py-3 text-left">District</th>
@@ -474,7 +474,7 @@ function Leaderboard() {
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {districts.map((district, index) => (
-                      <tr key={district.district} className="hover:bg-orange-50">
+                      <tr key={district.district} className="hover:bg-green-50">
                         <td className="px-6 py-4 text-lg">
                           {MEDAL_COLORS[index] || `#${index + 1}`}
                         </td>
@@ -488,11 +488,11 @@ function Leaderboard() {
                           <div className="flex items-center gap-2">
                             <div className="w-20 bg-gray-200 rounded-full h-2">
                               <div
-                                className="bg-orange-500 h-2 rounded-full"
+                                className="bg-green-600 h-2 rounded-full"
                                 style={{ width: `${district.avgActivityScore}%` }}
                               />
                             </div>
-                            <span className="text-orange-700 font-medium">
+                            <span className="text-green-800 font-medium">
                               {district.avgActivityScore}
                             </span>
                           </div>
@@ -502,7 +502,7 @@ function Leaderboard() {
                             district.graduationRate >= 50
                               ? "text-green-600"
                               : district.graduationRate >= 25
-                              ? "text-orange-600"
+                              ? "text-green-700"
                               : "text-red-500"
                           }`}>
                             {district.graduationRate}%

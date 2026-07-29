@@ -38,25 +38,25 @@ function AtRiskStudents() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <p className="text-gray-500">{t("dashboard.loading")}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-green-50">
 
       {/* Header */}
       <div className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
         <div>
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-orange-600 text-sm underline mb-1 block"
+            className="text-green-700 text-sm underline mb-1 block"
           >
             ← Back to Dashboard
           </button>
-          <h1 className="text-xl font-bold text-orange-700">
+          <h1 className="text-xl font-bold text-green-800">
             ⚠️ Students Needing Attention
           </h1>
         </div>
@@ -88,8 +88,8 @@ function AtRiskStudents() {
               onClick={() => setFilter(tab)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                 filter === tab
-                  ? "bg-orange-600 text-white"
-                  : "bg-white text-gray-600 hover:bg-orange-50"
+                  ? "bg-green-700 text-white"
+                  : "bg-white text-gray-600 hover:bg-green-50"
               }`}
             >
               {tab === "all" ? "All" : tab}
@@ -116,7 +116,7 @@ function AtRiskStudents() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-orange-50 text-gray-500 uppercase text-xs">
+                <thead className="bg-green-50 text-gray-500 uppercase text-xs">
                   <tr>
                     <th className="px-6 py-3 text-left">Name</th>
                     <th className="px-6 py-3 text-left">Village / District</th>

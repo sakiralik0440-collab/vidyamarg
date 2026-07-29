@@ -62,7 +62,7 @@ function StudentCard({ student, highlight = false }) {
 
   return (
     <tr
-      className={`hover:bg-orange-50 transition ${getBorderColor(student.status)}`}
+      className={`hover:bg-green-50 transition ${getBorderColor(student.status)}`}
     >
       <td className="px-6 py-4">
         <div className="font-medium text-gray-800">{student.name}</div>
@@ -94,7 +94,7 @@ function StudentCard({ student, highlight = false }) {
         <div className="flex items-center gap-2">
           <div className="w-16 bg-gray-200 rounded-full h-2">
             <div
-              className="bg-orange-500 h-2 rounded-full"
+              className="bg-green-600 h-2 rounded-full"
               style={{ width: `${student.activityScore}%` }}
             />
           </div>
@@ -110,7 +110,7 @@ function StudentCard({ student, highlight = false }) {
         <div className="flex flex-col gap-1">
           <button
             onClick={() => navigate(`/profile/${student._id}`)}
-            className="text-orange-600 text-xs hover:underline font-medium"
+            className="text-green-700 text-xs hover:underline font-medium"
           >
             {t("dashboard.viewProfile")}
           </button>

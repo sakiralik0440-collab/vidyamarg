@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getScoreBreakdownAPI } from "../api/studentApi";
 
 const SCORE_COMPONENTS = [
-  { key: "streak", label: "Study Streak", icon: "🔥", color: "bg-orange-500" },
+  { key: "streak", label: "Study Streak", icon: "🔥", color: "bg-green-600" },
   { key: "passRate", label: "Pass Rate", icon: "✅", color: "bg-green-500" },
   { key: "marks", label: "Average Marks", icon: "📊", color: "bg-blue-500" },
   { key: "attendance", label: "Attendance", icon: "📅", color: "bg-purple-500" },
@@ -31,7 +31,7 @@ function ActivityScoreCard({ studentId }) {
 
   const getScoreColor = (score) => {
     if (score >= 80) return "text-green-600";
-    if (score >= 60) return "text-orange-600";
+    if (score >= 60) return "text-green-700";
     if (score >= 40) return "text-yellow-600";
     return "text-red-500";
   };
@@ -60,7 +60,7 @@ function ActivityScoreCard({ studentId }) {
 
       {/* Header */}
       <div className="px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold text-orange-700">
+        <h2 className="text-lg font-semibold text-green-800">
           ⚡ Activity Score
         </h2>
       </div>
@@ -111,7 +111,7 @@ function ActivityScoreCard({ studentId }) {
             <div
               className={`h-3 rounded-full transition-all ${
                 score >= 80 ? "bg-green-500" :
-                score >= 60 ? "bg-orange-500" :
+                score >= 60 ? "bg-green-600" :
                 score >= 40 ? "bg-yellow-500" : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
@@ -122,7 +122,7 @@ function ActivityScoreCard({ studentId }) {
         {/* Toggle breakdown */}
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-sm text-orange-600 underline mb-4"
+          className="text-sm text-green-700 underline mb-4"
         >
           {expanded ? "Hide breakdown ▲" : "See how this is calculated ▼"}
         </button>
@@ -163,8 +163,8 @@ function ActivityScoreCard({ studentId }) {
             })}
 
             {/* How to improve */}
-            <div className="mt-4 p-3 bg-orange-50 rounded-lg">
-              <p className="text-xs font-semibold text-orange-700 mb-2">
+            <div className="mt-4 p-3 bg-green-50 rounded-lg">
+              <p className="text-xs font-semibold text-green-800 mb-2">
                 💡 How to improve your score:
               </p>
               <ul className="text-xs text-gray-600 space-y-1">

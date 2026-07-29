@@ -30,11 +30,11 @@ function StudentLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-green-50 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
         <button
           onClick={() => navigate("/")}
-          className="text-xs text-gray-400 hover:text-orange-600 mb-4"
+          className="text-xs text-gray-400 hover:text-green-700 mb-4"
         >
           ← Back
         </button>
@@ -55,7 +55,7 @@ function StudentLogin() {
             required
             maxLength={10}
             placeholder="10-digit phone number"
-            className="w-full border rounded-lg px-3 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full border rounded-lg px-3 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           {error && (
@@ -65,7 +65,7 @@ function StudentLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition disabled:opacity-50"
+            className="w-full bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-green-800 transition disabled:opacity-50"
           >
             {loading ? "Searching..." : "Find My Profile"}
           </button>
@@ -75,7 +75,7 @@ function StudentLogin() {
           New student?{" "}
           <button
             onClick={() => navigate("/register")}
-            className="text-orange-600 underline"
+            className="text-green-700 underline"
           >
             Register here
           </button>

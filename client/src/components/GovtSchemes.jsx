@@ -6,7 +6,7 @@ const TYPE_COLORS = {
   Scholarship: "bg-green-100 text-green-700",
   "Skill Development": "bg-blue-100 text-blue-700",
   Employment: "bg-purple-100 text-purple-700",
-  "Education Loan": "bg-orange-100 text-orange-700",
+  "Education Loan": "bg-green-100 text-green-800",
   Other: "bg-gray-100 text-gray-600",
 };
 
@@ -131,7 +131,7 @@ function GovtSchemes({ student }) {
                               daysLeft <= 7
                                 ? "text-red-600"
                                 : daysLeft <= 30
-                                ? "text-orange-600"
+                                ? "text-green-700"
                                 : "text-green-600"
                             }`}
                           >

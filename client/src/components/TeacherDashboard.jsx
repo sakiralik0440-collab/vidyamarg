@@ -134,14 +134,14 @@ function TeacherDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-green-50">
         <p className="text-gray-500">{t("dashboard.loading")}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-orange-50">
+    <div className="min-h-screen bg-green-50">
 
       {/* Top Navigation Bar */}
       <div className="bg-white shadow-sm px-4 py-4">
@@ -150,7 +150,7 @@ function TeacherDashboard() {
           {/* Title + Logout Row */}
           <div className="flex justify-between items-center mb-3">
             <div>
-              <h1 className="text-xl font-bold text-orange-700">
+              <h1 className="text-xl font-bold text-green-800">
                 🎓 {t("dashboard.title")}
               </h1>
               <p className="text-sm text-gray-500">
@@ -177,7 +177,7 @@ function TeacherDashboard() {
             <button
               onClick={handleRunDetection}
               disabled={detectionRunning}
-              className="text-xs bg-orange-100 text-orange-700 px-3 py-2 rounded hover:bg-orange-200 transition disabled:opacity-50 whitespace-nowrap flex-shrink-0"
+              className="text-xs bg-green-100 text-green-800 px-3 py-2 rounded hover:bg-green-200 transition disabled:opacity-50 whitespace-nowrap flex-shrink-0"
             >
               {detectionRunning
                 ? t("dashboard.detectionRunning")
@@ -257,7 +257,7 @@ function TeacherDashboard() {
             <StatCard
               label={t("dashboard.totalStudents")}
               value={stats.total}
-              color="bg-orange-500"
+              color="bg-green-600"
             />
             <StatCard
               label={t("dashboard.activeStudents")}
@@ -385,7 +385,7 @@ function TeacherDashboard() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-orange-50 text-gray-500 uppercase text-xs">
+                <thead className="bg-green-50 text-gray-500 uppercase text-xs">
                   <tr>
                     <th className="px-6 py-3 text-left">Name</th>
                     <th className="px-6 py-3 text-left">Village / District</th>

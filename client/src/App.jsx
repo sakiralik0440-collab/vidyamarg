@@ -29,9 +29,9 @@ const DistrictView = lazy(() => import("./components/DistrictView"));
 // Loading fallback
 function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-orange-50">
+    <div className="min-h-screen flex items-center justify-center bg-green-50">
       <div className="text-center">
-        <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin mx-auto mb-4" />
+        <div className="w-12 h-12 border-4 border-green-200 border-t-green-700 rounded-full animate-spin mx-auto mb-4" />
         <p className="text-gray-400 text-sm">Loading...</p>
       </div>
     </div>
@@ -89,8 +89,8 @@ function App() {
             path="/colleges"
             element={
               <ProtectedRoute>
-                <div className="min-h-screen bg-orange-50 p-8">
-                  <h1 className="text-2xl font-bold text-orange-700 mb-6">College Management</h1>
+                <div className="min-h-screen bg-green-50 p-8">
+                  <h1 className="text-2xl font-bold text-green-800 mb-6">College Management</h1>
                   <CollegeGuidance />
                 </div>
               </ProtectedRoute>

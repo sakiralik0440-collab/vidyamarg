@@ -40,7 +40,7 @@ function InstallPrompt() {
   if (!showPrompt) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 bg-white border border-orange-200 rounded-lg shadow-lg p-4">
+    <div className="fixed bottom-4 left-4 right-4 z-50 bg-white border border-green-200 rounded-lg shadow-lg p-4">
       <div className="flex items-start gap-3">
         <div className="text-3xl">📱</div>
         <div className="flex-1">
@@ -53,7 +53,7 @@ function InstallPrompt() {
           <div className="flex gap-2 mt-3">
             <button
               onClick={handleInstall}
-              className="bg-orange-600 text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-orange-700 transition"
+              className="bg-green-700 text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-green-800 transition"
             >
               Install
             </button>
