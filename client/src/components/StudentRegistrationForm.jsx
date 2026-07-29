@@ -150,21 +150,19 @@ function StudentRegistrationForm() {
               {STEPS.map((label, index) => (
                 <div key={label} className="flex items-center flex-1">
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition ${
-                      index < step
-                        ? "bg-white text-green-700"
-                        : index === step
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition ${index < step
+                      ? "bg-white text-green-700"
+                      : index === step
                         ? "bg-white text-green-700 ring-4 ring-green-300"
                         : "bg-green-400 text-white"
-                    }`}
+                      }`}
                   >
                     {index < step ? "✓" : index + 1}
                   </div>
                   {index < STEPS.length - 1 && (
                     <div
-                      className={`flex-1 h-1 mx-1 rounded ${
-                        index < step ? "bg-white" : "bg-green-400"
-                      }`}
+                      className={`flex-1 h-1 mx-1 rounded ${index < step ? "bg-white" : "bg-green-400"
+                        }`}
                     />
                   )}
                 </div>
@@ -214,16 +212,34 @@ function StudentRegistrationForm() {
                 </FormField>
 
                 <FormField label={t("registration.state")} error={errors.state}>
-                  <select name="state" value={formData.state} onChange={handleChange} className="input-field">
-                    <option value="">{t("registration.stateSelect")}</option>
-                    <option value="Madhya Pradesh">{t("registration.mp")}</option>
-                    <option value="Uttar Pradesh">{t("registration.up")}</option>
-                    <option value="Rajasthan">{t("registration.rajasthan")}</option>
-                    <option value="Gujarat">{t("registration.gujarat")}</option>
-                    <option value="Maharashtra">{t("registration.maharashtra")}</option>
-                    <option value="Bihar">{t("registration.bihar")}</option>
-                    <option value="Chhattisgarh">{t("registration.chhattisgarh")}</option>
-                    <option value="Delhi">{t("registration.delhi")}</option>
+                  <select
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    className="input-field"
+                  >
+                    <option value="">{t("State")}</option>
+                    <option value="Madhya Pradesh">{t("Mp")}</option>
+                    <option value="Uttar Pradesh">{t("Up")}</option>
+                    <option value="Rajasthan">{t("Rajasthan")}</option>
+                    <option value="Gujarat">{t("Gujarat")}</option>
+                    <option value="Maharashtra">{t("Maharashtra")}</option>
+                    <option value="Bihar">{t("Bihar")}</option>
+                    <option value="Jharkhand">{t("Jharkhand")}</option>
+                    <option value="Chhattisgarh">{t("Chhattisgarh")}</option>
+                    <option value="Uttarakhand">{t("Uttarakhand")}</option>
+                    <option value="Himachal Pradesh">{t("Himachal")}</option>
+                    <option value="Punjab">{t("Punjab")}</option>
+                    <option value="Haryana">{t("Haryana")}</option>
+                    <option value="Delhi">{t("Delhi")}</option>
+                    <option value="Karnataka">{t("Karnataka")}</option>
+                    <option value="Tamil Nadu">{t("Tamilnadu")}</option>
+                    <option value="Kerala">{t("Kerala")}</option>
+                    <option value="Andhra Pradesh">{t("Andhra")}</option>
+                    <option value="Telangana">{t("Telangana")}</option>
+                    <option value="Odisha">{t("Odisha")}</option>
+                    <option value="West Bengal">{t("Westbengal")}</option>
+                    <option value="Assam">{t("Assam")}</option>
                   </select>
                 </FormField>
               </div>
