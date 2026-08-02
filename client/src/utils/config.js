@@ -1,6 +1,6 @@
 const API_URL =
   import.meta.env.VITE_API_URL ||
-  "https://vidyamarg-production-50d6.up.railway.app";
+  "https://vidyamarg-backend.onrender.com.app";
 
 export const API_BASE_URL = `${API_URL}/api`;
 

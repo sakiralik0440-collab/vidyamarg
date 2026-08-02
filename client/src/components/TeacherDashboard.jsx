@@ -48,7 +48,7 @@ function TeacherDashboard() {
       const [statsData, studentsData, interviewData] = await Promise.all([
         getStatsAPI(token),
         getFilteredStudentsAPI({}, token),
-        fetch(`https://vidyamarg-production-50d6.up.railway.app/api/interviews/stats`, {
+        fetch(`https://vidyamarg-backend.onrender.com//api/interviews/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
       ]);
