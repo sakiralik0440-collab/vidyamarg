@@ -101,7 +101,7 @@ function TeacherDashboard() {
   const handleRecalculateScores = async () => {
     try {
       const response = await fetch(
-        "https://vidyamarg-production-50d6.up.railway.app/api/dropout/recalculate-scores",
+       "https://vidyamarg-backend.onrender.com/api/dropout/recalculate-scores",
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },

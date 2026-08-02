@@ -13,7 +13,7 @@ function StudentLogin() {
     setError("");
     try {
       const response = await fetch(
-        `http://localhost:5000/api/students/find-by-phone/${phone}`
+        `https://vidyamarg-backend.onrender.com/api/students/find-by-phone/${phone}`
       );
       const data = await response.json();
       if (!response.ok || !data.student) {
