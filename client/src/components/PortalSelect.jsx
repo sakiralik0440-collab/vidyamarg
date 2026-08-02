@@ -1,9 +1,27 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 function PortalSelect() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+
+  const messages = [
+    "Welcome to NextStep — please login or register here",
+    "Gaon se College Tak — your journey starts here",
+    "Track progress, find scholarships, get hired — all in one place",
+    "आपकी पढ़ाई, आपका भविष्य — यहां से शुरू करें",
+  ];
+
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % messages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const options = [
     {
@@ -69,12 +87,14 @@ function PortalSelect() {
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white px-4 py-10">
       <div className="max-w-md mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-3">🎓</div>
-          <h1 className="text-2xl font-bold text-gray-800">VidyaMarg</h1>
-          <p className="text-sm text-gray-400 mt-1">
-            Gaon se College Tak — choose how you want to continue
+        <div className="text-5xl mb-3">🎓</div>
+        <h1 className="text-2xl font-bold text-gray-800">NextStep</h1>
+        <div className="h-10 flex items-center justify-center mt-2 px-4">
+          <p
+            key={messageIndex}
+            className="text-sm text-gray-500 animate-fadeIn text-center"
+          >
+            {messages[messageIndex]}
           </p>
         </div>
 

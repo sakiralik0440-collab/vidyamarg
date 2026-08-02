@@ -45,7 +45,7 @@ function TeacherLogin() {
     setError("");
     setLoading(true);
     try {
-      const response = await fetch("https://vidyamarg-production-50d6.up.railway.app/api/auth/register", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerForm),
@@ -63,206 +63,215 @@ function TeacherLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-green-50 flex items-center justify-center px-4 py-8">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
 
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="text-4xl mb-3">🎓</div>
-          <h1 className="text-2xl font-bold text-green-800">
-            {t("auth.teacherPortal")}
-          </h1>
-          <p className="text-gray-400 text-sm mt-1">
-            {mode === "login" ? t("auth.login") : "Create your teacher account"}
-          </p>
+          {/* Gradient Header */}
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-8 pt-10 pb-8 text-center relative overflow-hidden">
+            <div className="absolute -top-6 -right-10 w-32 h-32 bg-white/10 rounded-full" />
+            <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
+            <div className="relative">
+              <div className="text-5xl mb-3">👨‍🏫</div>
+              <h1 className="text-white text-xl font-bold">
+                {t("auth.teacherPortal")}
+              </h1>
+              <p className="text-blue-100 text-xs mt-1">
+                {mode === "login" ? "Access your dashboard" : "Create your teacher account"}
+              </p>
+            </div>
+          </div>
+
+          <div className="px-8 py-7">
+
+            {/* Tab Toggle */}
+            <div className="flex mb-6 bg-gray-100 rounded-xl p-1">
+              <button
+                onClick={() => { setMode("login"); setError(""); }}
+                className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition ${
+                  mode === "login"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-400 hover:text-gray-600"
+                }`}
+              >
+                {t("auth.login")}
+              </button>
+              <button
+                onClick={() => { setMode("register"); setError(""); }}
+                className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition ${
+                  mode === "register"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-400 hover:text-gray-600"
+                }`}
+              >
+                Register
+              </button>
+            </div>
+
+            {/* Error */}
+            {error && (
+              <p className="text-red-600 text-sm mb-4 text-center bg-red-50 px-3 py-2 rounded">
+                {error}
+              </p>
+            )}
+
+            {/* Login Form */}
+            {mode === "login" && (
+              <form onSubmit={handleLogin}>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-1 text-gray-700">
+                    {t("auth.email")}
+                  </label>
+                  <input
+                    type="email"
+                    value={loginForm.email}
+                    onChange={(e) =>
+                      setLoginForm((prev) => ({ ...prev, email: e.target.value }))
+                    }
+                    required
+                    placeholder="teacher@example.com"
+                    className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-1 text-gray-700">
+                    {t("auth.password")}
+                  </label>
+                  <input
+                    type="password"
+                    value={loginForm.password}
+                    onChange={(e) =>
+                      setLoginForm((prev) => ({ ...prev, password: e.target.value }))
+                    }
+                    required
+                    placeholder="••••••••"
+                    className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
+                >
+                  {loading ? t("auth.loggingIn") : t("auth.loginButton")}
+                </button>
+              </form>
+            )}
+
+            {/* Register Form */}
+            {mode === "register" && (
+              <form onSubmit={handleRegister}>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div className="col-span-2">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={registerForm.name}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, name: e.target.value }))
+                      }
+                      required
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      value={registerForm.email}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, email: e.target.value }))
+                      }
+                      required
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Password *
+                    </label>
+                    <input
+                      type="password"
+                      value={registerForm.password}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, password: e.target.value }))
+                      }
+                      required
+                      minLength={6}
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Village *
+                    </label>
+                    <input
+                      type="text"
+                      value={registerForm.village}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, village: e.target.value }))
+                      }
+                      required
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      District *
+                    </label>
+                    <input
+                      type="text"
+                      value={registerForm.district}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, district: e.target.value }))
+                      }
+                      required
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      value={registerForm.phone}
+                      onChange={(e) =>
+                        setRegisterForm((prev) => ({ ...prev, phone: e.target.value }))
+                      }
+                      maxLength={10}
+                      className="w-full border rounded-lg px-3 py-2 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
+                >
+                  {loading ? "Registering..." : "Create Account"}
+                </button>
+              </form>
+            )}
+
+            {/* Back to portal */}
+            <p className="text-center text-xs text-gray-400 mt-6">
+              <button
+                onClick={() => navigate("/")}
+                className="hover:text-blue-600 underline"
+              >
+                ← Back to Portal
+              </button>
+            </p>
+          </div>
         </div>
-
-        {/* Tab Toggle */}
-        <div className="flex mb-6 border rounded-xl overflow-hidden">
-          <button
-            onClick={() => { setMode("login"); setError(""); }}
-            className={`flex-1 py-2.5 text-sm font-medium transition ${
-              mode === "login"
-                ? "bg-green-700 text-white"
-                : "text-gray-500 hover:bg-gray-50"
-            }`}
-          >
-            {t("auth.login")}
-          </button>
-          <button
-            onClick={() => { setMode("register"); setError(""); }}
-            className={`flex-1 py-2.5 text-sm font-medium transition ${
-              mode === "register"
-                ? "bg-green-700 text-white"
-                : "text-gray-500 hover:bg-gray-50"
-            }`}
-          >
-            Register
-          </button>
-        </div>
-
-        {/* Error */}
-        {error && (
-          <p className="text-red-600 text-sm mb-4 text-center bg-red-50 px-3 py-2 rounded">
-            {error}
-          </p>
-        )}
-
-        {/* Login Form */}
-        {mode === "login" && (
-          <form onSubmit={handleLogin}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                {t("auth.email")}
-              </label>
-              <input
-                type="email"
-                value={loginForm.email}
-                onChange={(e) =>
-                  setLoginForm((prev) => ({ ...prev, email: e.target.value }))
-                }
-                required
-                placeholder="teacher@example.com"
-                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                {t("auth.password")}
-              </label>
-              <input
-                type="password"
-                value={loginForm.password}
-                onChange={(e) =>
-                  setLoginForm((prev) => ({ ...prev, password: e.target.value }))
-                }
-                required
-                placeholder="••••••••"
-                className="w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-green-700 text-white py-3 rounded-lg font-medium hover:bg-green-800 transition disabled:opacity-50"
-            >
-              {loading ? t("auth.loggingIn") : t("auth.loginButton")}
-            </button>
-          </form>
-        )}
-
-        {/* Register Form */}
-        {mode === "register" && (
-          <form onSubmit={handleRegister}>
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  value={registerForm.name}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                  required
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  value={registerForm.email}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, email: e.target.value }))
-                  }
-                  required
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Password *
-                </label>
-                <input
-                  type="password"
-                  value={registerForm.password}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, password: e.target.value }))
-                  }
-                  required
-                  minLength={6}
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Village *
-                </label>
-                <input
-                  type="text"
-                  value={registerForm.village}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, village: e.target.value }))
-                  }
-                  required
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  District *
-                </label>
-                <input
-                  type="text"
-                  value={registerForm.district}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, district: e.target.value }))
-                  }
-                  required
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  value={registerForm.phone}
-                  onChange={(e) =>
-                    setRegisterForm((prev) => ({ ...prev, phone: e.target.value }))
-                  }
-                  maxLength={10}
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-green-700 text-white py-3 rounded-lg font-medium hover:bg-green-800 transition disabled:opacity-50"
-            >
-              {loading ? "Registering..." : "Create Account"}
-            </button>
-          </form>
-        )}
-
-        {/* Back to portal */}
-        <p className="text-center text-xs text-gray-400 mt-6">
-          <button
-            onClick={() => navigate("/")}
-            className="hover:text-green-700 underline"
-          >
-            ← Back to Portal
-          </button>
-        </p>
       </div>
     </div>
   );
