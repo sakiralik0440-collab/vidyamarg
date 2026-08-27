@@ -3,18 +3,30 @@ const bcrypt = require("bcryptjs");
 
 const companySchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     companyName: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true, minlength: 6 },
     location: { type: String, required: true },
     district: { type: String },
     state: { type: String, default: "Madhya Pradesh" },
-    industryType: { type: String },
+    industryType: { type: String, default: "Technology / IT" },
     phone: { type: String },
     website: { type: String },
     description: { type: String },
+    logo: { type: String },
+    cinNumber: { type: String },
+    techStack: [{ type: String }],
     isVerified: { type: Boolean, default: false },
     minActivityScore: { type: Number, default: 0 },
+    hrContact: {
+      name: String,
+      email: String,
+      phone: String,
+    },
     jobsPosted: [
       {
         title: String,

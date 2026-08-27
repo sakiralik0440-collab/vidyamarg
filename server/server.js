@@ -74,8 +74,15 @@ app.use("/api/skills", (req, res, next) => {
   next();
 });
 
-// API Routes
+// API Routes - Unified Role Portals
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/student", require("./routes/studentPortalRoutes"));
+app.use("/api/parent", require("./routes/parentPortalRoutes"));
+app.use("/api/college", require("./routes/collegePortalRoutes"));
+app.use("/api/company-portal", require("./routes/companyPortalRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
+
+// Legacy & Supporting Resource Routes
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/progress", require("./routes/progressRoutes"));
 app.use("/api/dropout", require("./routes/dropoutRoutes"));

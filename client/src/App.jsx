@@ -12,7 +12,14 @@ import FeatureView from "./components/FeatureView";
 import PortalSelect from "./components/PortalSelect";
 import "./App.css";
 
-// Lazy load heavy pages
+// Lazy load the 5 Unified Role Portals
+const StudentPortal = lazy(() => import("./portals/student/StudentPortal"));
+const ParentPortal = lazy(() => import("./portals/parent/ParentPortal"));
+const CollegePortal = lazy(() => import("./portals/college/CollegePortal"));
+const CompanyPortal = lazy(() => import("./portals/company/CompanyPortal"));
+const AdminPortal = lazy(() => import("./portals/admin/AdminPortal"));
+
+// Lazy load supporting views
 const TeacherDashboard = lazy(() => import("./components/TeacherDashboard"));
 const AtRiskStudents = lazy(() => import("./components/AtRiskStudents"));
 const Leaderboard = lazy(() => import("./components/Leaderboard"));
@@ -29,10 +36,10 @@ const DistrictView = lazy(() => import("./components/DistrictView"));
 // Loading fallback
 function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50">
+    <div className="min-h-screen flex items-center justify-center bg-slate-950">
       <div className="text-center">
-        <div className="w-12 h-12 border-4 border-green-200 border-t-green-700 rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-400 text-sm">Loading...</p>
+        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-slate-400 text-xs font-semibold">Loading VidyaMarg...</p>
       </div>
     </div>
   );
@@ -42,7 +49,6 @@ function App() {
   const [languageChosen, setLanguageChosen] = useState(
     !!localStorage.getItem("appLanguage")
   );
-  const existingStudentId = localStorage.getItem("studentId");
 
   if (!languageChosen) {
     return <LanguageSelect onLanguageSelected={() => setLanguageChosen(true)} />;
@@ -54,21 +60,47 @@ function App() {
       <InstallPrompt />
       <Suspense fallback={<PageLoader />}>
         <Routes>
+          {/* Master Landing & Unified Portal Selector */}
           <Route path="/" element={<PortalSelect />} />
+
+          {/* 1. STUDENT PORTAL (Blue) */}
+          <Route path="/student" element={<StudentPortal />} />
+          <Route path="/student/dashboard" element={<StudentPortal />} />
+          <Route path="/student/*" element={<StudentPortal />} />
+
+          {/* 2. PARENT PORTAL (Purple) */}
+          <Route path="/parent" element={<ParentPortal />} />
+          <Route path="/parent/dashboard" element={<ParentPortal />} />
+          <Route path="/parent/:id" element={<ParentDashboard />} />
+          <Route path="/parent/*" element={<ParentPortal />} />
+
+          {/* 3. COLLEGE PORTAL (Green) */}
+          <Route path="/college" element={<CollegePortal />} />
+          <Route path="/college/dashboard" element={<CollegePortal />} />
+          <Route path="/college/*" element={<CollegePortal />} />
+
+          {/* 4. COMPANY PORTAL (Orange) */}
+          <Route path="/company" element={<CompanyPortal />} />
+          <Route path="/company/dashboard" element={<CompanyPortal />} />
+          <Route path="/company/login" element={<CompanyLogin />} />
+          <Route path="/company/interview" element={<InterviewRequest />} />
+          <Route path="/company/*" element={<CompanyPortal />} />
+
+          {/* 5. ADMIN PANEL (Red) */}
+          <Route path="/admin" element={<AdminPortal />} />
+          <Route path="/admin/dashboard" element={<AdminPortal />} />
+          <Route path="/admin/*" element={<AdminPortal />} />
+
+          {/* Supporting & Legacy Routes */}
           <Route path="/register" element={<StudentRegistrationForm />} />
           <Route path="/profile/:id" element={<StudentProfile />} />
-          <Route path="/profile/:id" element={<StudentProfile />} />
           <Route path="/profile/:id/:featureId" element={<FeatureView />} />
-          <Route path="/parent/:id" element={<ParentDashboard />} />
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/achievements" element={<AchievementWallPage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/student/login" element={<StudentLogin />} />
           <Route path="/teacher/login" element={<TeacherLogin />} />
           <Route path="/teacher/register" element={<TeacherLogin defaultMode="register" />} />
-          <Route path="/teacher/register" element={<Navigate to="/teacher/login" />} />
-          <Route path="/teacher/login" element={<TeacherLogin />} />
-          <Route path="/teacher/register" element={<TeacherLogin />} />
           <Route
             path="/dashboard"
             element={<ProtectedRoute><TeacherDashboard /></ProtectedRoute>}
@@ -89,16 +121,16 @@ function App() {
             path="/colleges"
             element={
               <ProtectedRoute>
-                <div className="min-h-screen bg-green-50 p-8">
-                  <h1 className="text-2xl font-bold text-green-800 mb-6">College Management</h1>
+                <div className="min-h-screen bg-slate-900 p-8">
+                  <h1 className="text-2xl font-bold text-white mb-6">College Management</h1>
                   <CollegeGuidance />
                 </div>
               </ProtectedRoute>
             }
           />
-          <Route path="/company/login" element={<CompanyLogin />} />
-          <Route path="/company/dashboard" element={<CompanyDashboard />} />
-          <Route path="/company/interview" element={<InterviewRequest />} />
+
+          {/* Catch-all fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </Router>
