@@ -12,12 +12,6 @@ function LandingPage() {
           VidyaMarg
         </div>
 
-        <div className="vm-nav-links">
-          <a href="#features">Features</a>
-          <a href="#portals">Portals</a>
-          <a href="#about">About</a>
-        </div>
-
         <div className="vm-nav-actions">
           <button
             className="vm-btn vm-btn-light"
@@ -144,53 +138,22 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="vm-stats">
-        <div className="vm-container vm-stats-grid">
-          <div className="vm-stat">
-            <strong>3</strong>
-            <span>Connected Portals</span>
-          </div>
-
-          <div className="vm-stat">
-            <strong>24/7</strong>
-            <span>Access</span>
-          </div>
-
-          <div className="vm-stat">
-            <strong>100%</strong>
-            <span>Student Focus</span>
-          </div>
-
-          <div className="vm-stat">
-            <strong>∞</strong>
-            <span>Opportunities</span>
-          </div>
-        </div>
-      </section>
-
       <section id="portals" className="vm-portals">
         <div className="vm-container">
-
           <div className="vm-section-title">
             <span>One ecosystem</span>
             <h2>Everything starts here.</h2>
-            <p>
-              Choose the portal that matches your journey.
-            </p>
+            <p>Choose the portal that matches your journey.</p>
           </div>
 
           <div className="vm-portal-grid">
-
             <div
               className="vm-portal-card vm-student-card"
               onClick={() => navigate("/student")}
             >
               <div className="vm-portal-icon">🎓</div>
               <h3>Student</h3>
-              <p>
-                Register, track your education, discover
-                scholarships, skills and career opportunities.
-              </p>
+              <p>Register, track your progress and discover opportunities.</p>
               <div className="vm-portal-arrow">→</div>
             </div>
 
@@ -200,10 +163,7 @@ function LandingPage() {
             >
               <div className="vm-portal-icon">🏫</div>
               <h3>College</h3>
-              <p>
-                Manage students, monitor progress, identify
-                at-risk students and build better outcomes.
-              </p>
+              <p>Manage students and improve learning outcomes.</p>
               <div className="vm-portal-arrow">→</div>
             </div>
 
@@ -213,103 +173,12 @@ function LandingPage() {
             >
               <div className="vm-portal-icon">🏢</div>
               <h3>Company</h3>
-              <p>
-                Discover skilled students, publish jobs and
-                connect with future talent.
-              </p>
+              <p>Discover talent and connect with future professionals.</p>
               <div className="vm-portal-arrow">→</div>
             </div>
-
           </div>
         </div>
       </section>
-
-      <section id="features" className="vm-features">
-
-        <div className="vm-container">
-
-          <div className="vm-section-title">
-            <span>Why VidyaMarg?</span>
-            <h2>More than a portal.</h2>
-            <p>
-              A complete digital ecosystem designed around
-              education, growth and opportunities.
-            </p>
-          </div>
-
-          <div className="vm-feature-grid">
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">📊</div>
-              <h3>Progress Tracking</h3>
-              <p>
-                Understand academic progress and build a
-                stronger learning journey.
-              </p>
-            </div>
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">🎯</div>
-              <h3>Career Matching</h3>
-              <p>
-                Connect students with opportunities that
-                match their skills and interests.
-              </p>
-            </div>
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">🏆</div>
-              <h3>Achievements</h3>
-              <p>
-                Build a profile around real achievements,
-                skills and activities.
-              </p>
-            </div>
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">🚨</div>
-              <h3>Early Alerts</h3>
-              <p>
-                Help colleges identify students who need
-                support before problems become bigger.
-              </p>
-            </div>
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">💼</div>
-              <h3>Job Opportunities</h3>
-              <p>
-                Give companies a direct way to discover
-                emerging student talent.
-              </p>
-            </div>
-
-            <div className="vm-feature-card">
-              <div className="vm-feature-icon">🔒</div>
-              <h3>Secure Platform</h3>
-              <p>
-                Keep student, college and company data
-                protected through role-based access.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <footer className="vm-footer">
-        <div className="vm-container vm-footer-inner">
-          <div>
-            <div className="vm-logo">
-              <div className="vm-logo-icon">🎓</div>
-              VidyaMarg
-            </div>
-            <p>Your journey. Your future.</p>
-          </div>
-
-          <p>© 2026 VidyaMarg. All rights reserved.</p>
-        </div>
-      </footer>
 
     </div>
   );
