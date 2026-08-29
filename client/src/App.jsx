@@ -80,13 +80,13 @@ function App() {
           />
 
           <Route path="/student" element={<StudentPortal />} />
-          <Route path="/student/*" element={<StudentPortal />} />
           <Route path="/student/login" element={<StudentLogin />} />
           <Route path="/student/register" element={<StudentRegistrationForm />} />
           <Route path="/student/profile/:id" element={<StudentProfile />} />
           <Route path="/student/jobs" element={<JobsPage />} />
           <Route path="/student/achievements" element={<AchievementWallPage />} />
           <Route path="/student/leaderboard" element={<Leaderboard />} />
+          <Route path="/student/*" element={<StudentPortal />} />
 
           <Route path="/register" element={<Navigate to="/student/register" replace />} />
           <Route path="/profile/:id" element={<StudentProfile />} />
@@ -96,27 +96,20 @@ function App() {
           <Route path="/leaderboard" element={<Navigate to="/student/leaderboard" replace />} />
 
           <Route path="/parent" element={<ParentPortal />} />
-          <Route path="/parent/*" element={<ParentPortal />} />
           <Route path="/parent/login" element={<ParentLogin initialMode="login" />} />
           <Route path="/parent/register" element={<ParentLogin initialMode="register" />} />
+          <Route path="/parent/*" element={<ParentPortal />} />
 
           <Route path="/college" element={<CollegePortal />} />
-          <Route path="/college/*" element={<CollegePortal />} />
           <Route path="/college/login" element={<TeacherLogin initialMode="login" />} />
           <Route path="/college/register" element={<TeacherLogin initialMode="register" />} />
+          <Route path="/college/*" element={<CollegePortal />} />
 
           <Route path="/company" element={<CompanyPortal />} />
-          <Route path="/company/*" element={<CompanyPortal />} />
           <Route path="/company/login" element={<CompanyLogin initialMode="login" />} />
           <Route path="/company/register" element={<CompanyLogin initialMode="register" />} />
-          <Route
-            path="/company/interview"
-            element={
-              <ProtectedRoute>
-                <InterviewRequest />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/company/interview" element={<ProtectedRoute><InterviewRequest /></ProtectedRoute>} />
+          <Route path="/company/*" element={<CompanyPortal />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
