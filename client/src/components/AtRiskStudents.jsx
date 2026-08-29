@@ -48,17 +48,25 @@ function AtRiskStudents() {
     <div className="min-h-screen bg-green-50">
 
       {/* Header */}
-      <div className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+      <div className="bg-white shadow-sm px-6 py-4 flex flex-wrap justify-between items-center gap-3">
         <div>
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="text-green-700 text-sm underline mb-1 block"
-          >
-            ← Back to Dashboard
-          </button>
           <h1 className="text-xl font-bold text-green-800">
-            ⚠️ Students Needing Attention
+            ⚠️ Students Needing Attention (At-Risk Monitor)
           </h1>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => navigate("/college/dashboard")}
+            className="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 rounded-lg transition-all"
+          >
+            🏫 Open College Portal
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-3 py-1.5 rounded-lg transition-all"
+          >
+            🏠 Portals Hub
+          </button>
         </div>
       </div>
 

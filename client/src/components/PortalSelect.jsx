@@ -7,6 +7,8 @@ const PORTAL_CARDS = [
   {
     id: "student",
     title: "1. STUDENT PORTAL",
+    shortName: "Student",
+    buttonLabel: "Open Student Portal",
     subtitle: "For Enrolled Students & Learners",
     icon: "🎓",
     theme: "blue",
@@ -25,6 +27,8 @@ const PORTAL_CARDS = [
   {
     id: "parent",
     title: "2. PARENT PORTAL",
+    shortName: "Parent",
+    buttonLabel: "Open Parent Portal",
     subtitle: "For Guardians & Families",
     icon: "👨‍👩‍👦",
     theme: "purple",
@@ -43,6 +47,8 @@ const PORTAL_CARDS = [
   {
     id: "college",
     title: "3. COLLEGE PORTAL",
+    shortName: "College",
+    buttonLabel: "Open College Portal",
     subtitle: "For University, Faculty & TPO Cells",
     icon: "🏫",
     theme: "emerald",
@@ -61,6 +67,8 @@ const PORTAL_CARDS = [
   {
     id: "company",
     title: "4. COMPANY PORTAL",
+    shortName: "Company",
+    buttonLabel: "Open Company Portal",
     subtitle: "For Corporate Recruiters & HR",
     icon: "🏢",
     theme: "orange",
@@ -79,6 +87,8 @@ const PORTAL_CARDS = [
   {
     id: "admin",
     title: "5. ADMIN PANEL",
+    shortName: "Admin",
+    buttonLabel: "Open Admin Portal",
     subtitle: "System Administrators & Regulators",
     icon: "⚙️",
     theme: "rose",
@@ -111,13 +121,13 @@ function PortalSelect() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [selectedAuthRole, setSelectedAuthRole] = useState("student");
 
-  const handlePortalLaunch = (portal) => {
-    if (user) {
-      navigate(portal.route);
-    } else {
-      setSelectedAuthRole(portal.id);
-      setAuthModalOpen(true);
-    }
+  const handleOpenPortal = (route) => {
+    navigate(route);
+  };
+
+  const handleSignInRole = (roleId) => {
+    setSelectedAuthRole(roleId);
+    setAuthModalOpen(true);
   };
 
   return (
@@ -126,8 +136,8 @@ function PortalSelect() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))] pointer-events-none" />
 
       {/* Top Bar */}
-      <header className="relative z-10 border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <header className="relative z-10 border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md px-4 sm:px-6 py-3.5">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-xl shadow-lg shadow-indigo-600/20">
               🎓
@@ -140,26 +150,39 @@ function PortalSelect() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Quick Header Portal Buttons */}
+          <div className="hidden xl:flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 p-1 rounded-2xl">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2">Open Portals:</span>
+            {PORTAL_CARDS.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => handleOpenPortal(p.route)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all"
+              >
+                <span>{p.icon}</span>
+                <span>{p.shortName}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2.5">
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <span className="text-xs text-slate-300 hidden sm:inline">
                   Signed in as <strong className="text-white font-semibold">{user.name}</strong> ({user.role})
                 </span>
                 <button
-                  onClick={() => navigate(`/${user.role}/dashboard`)}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md shadow-indigo-600/20"
+                  onClick={() => handleOpenPortal(`/${user.role}/dashboard`)}
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-2 rounded-xl transition-all shadow-md shadow-indigo-600/20 flex items-center gap-1.5"
                 >
-                  Open My Portal →
+                  <span>Open {user.role.charAt(0).toUpperCase() + user.role.slice(1)} Portal</span>
+                  <span>→</span>
                 </button>
               </div>
             ) : (
               <button
-                onClick={() => {
-                  setSelectedAuthRole("student");
-                  setAuthModalOpen(true);
-                }}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md shadow-indigo-600/20"
+                onClick={() => handleSignInRole("student")}
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md shadow-indigo-600/20"
               >
                 Sign In / Register
               </button>
@@ -169,8 +192,8 @@ function PortalSelect() {
       </header>
 
       {/* Hero Section */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-4">
             <span>✨</span> Next-Gen Educational & Placement Infrastructure
           </div>
@@ -178,8 +201,26 @@ function PortalSelect() {
             VIDYAMARG
           </h1>
           <p className="text-base sm:text-lg text-slate-400 mt-3 font-medium">
-            A Unified Platform For <span className="text-blue-400 font-bold">Students</span>, <span className="text-purple-400 font-bold">Parents</span>, <span className="text-emerald-400 font-bold">Colleges</span> & <span className="text-orange-400 font-bold">Companies</span>
+            Select and open the dedicated portal for <span className="text-blue-400 font-bold">Students</span>, <span className="text-purple-400 font-bold">Parents</span>, <span className="text-emerald-400 font-bold">Colleges</span>, <span className="text-orange-400 font-bold">Companies</span> & <span className="text-rose-400 font-bold">Administrators</span>
           </p>
+
+          {/* Quick Particular Portals Launch Bar */}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1 hidden sm:inline">
+              Quick Portal Launcher:
+            </span>
+            {PORTAL_CARDS.map((portal) => (
+              <button
+                key={portal.id}
+                onClick={() => handleOpenPortal(portal.route)}
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900 border ${portal.border} hover:scale-105 active:scale-95 text-xs font-bold text-white transition-all shadow-lg hover:shadow-indigo-500/10`}
+              >
+                <span className="text-sm">{portal.icon}</span>
+                <span>{portal.buttonLabel}</span>
+                <span className="text-slate-400">→</span>
+              </button>
+            ))}
+          </div>
 
           {/* Core Principles Badges */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
@@ -221,14 +262,23 @@ function PortalSelect() {
                 </ul>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={() => handlePortalLaunch(portal)}
-                className={`mt-6 w-full py-2.5 rounded-xl bg-gradient-to-r ${portal.gradient} hover:opacity-95 text-white font-bold text-xs transition-all shadow-md shadow-slate-950 flex items-center justify-center gap-1.5`}
-              >
-                <span>Launch Portal</span>
-                <span>→</span>
-              </button>
+              {/* Action Buttons: Open Portal + Sign In */}
+              <div className="mt-6 space-y-2">
+                <button
+                  onClick={() => handleOpenPortal(portal.route)}
+                  className={`w-full py-2.5 rounded-xl bg-gradient-to-r ${portal.gradient} hover:opacity-95 text-white font-bold text-xs transition-all shadow-md shadow-slate-950 flex items-center justify-center gap-1.5`}
+                >
+                  <span>{portal.buttonLabel}</span>
+                  <span>→</span>
+                </button>
+                <button
+                  onClick={() => handleSignInRole(portal.id)}
+                  className="w-full py-1.5 rounded-lg bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800 text-slate-300 hover:text-white font-medium text-[11px] transition-all flex items-center justify-center gap-1"
+                >
+                  <span>🔐</span>
+                  <span>Sign In as {portal.shortName}</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -280,4 +330,4 @@ function PortalSelect() {
   );
 }
 
-export default PortalSelect;
+export default PortalSelect;

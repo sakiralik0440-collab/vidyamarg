@@ -112,17 +112,23 @@ function StudentProfile() {
       <div className="max-w-2xl mx-auto">
 
         {/* Nav Row */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
           <button
             onClick={() => navigate("/")}
-            className="text-green-800 text-sm underline"
+            className="text-green-800 text-xs font-semibold hover:underline flex items-center gap-1"
           >
             ← {t("profile.backToHome")}
           </button>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => navigate("/student/dashboard")}
+              className="text-xs bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-1.5 rounded-lg shadow-sm transition"
+            >
+              🎓 Open Student Portal
+            </button>
             <button
               onClick={() => navigate(`/parent/${id}`)}
-              className="text-xs bg-green-100 text-green-800 px-3 py-1.5 rounded-lg hover:bg-green-200 transition"
+              className="text-xs bg-purple-100 text-purple-800 hover:bg-purple-200 font-semibold px-3 py-1.5 rounded-lg transition"
             >
               👨‍👩‍👦 Parent View
             </button>
@@ -131,7 +137,7 @@ function StudentProfile() {
                 localStorage.removeItem("studentId");
                 navigate("/register");
               }}
-              className="text-xs text-gray-400 hover:text-gray-600 underline"
+              className="text-xs text-gray-500 hover:text-gray-700 underline px-1"
             >
               Switch Student
             </button>

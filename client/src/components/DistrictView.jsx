@@ -91,12 +91,20 @@ function DistrictView() {
             </h1>
             <p className="text-sm text-gray-400">{t("district.subtitle")}</p>
           </div>
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="text-sm text-gray-400 hover:text-gray-600 underline"
-          >
-            ← Back to Dashboard
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate("/college/dashboard")}
+              className="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 rounded-lg transition-all"
+            >
+              🏫 Open College Portal
+            </button>
+            <button
+              onClick={() => navigate("/")}
+              className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-3 py-1.5 rounded-lg transition-all"
+            >
+              🏠 All Portals Hub
+            </button>
+          </div>
         </div>
       </div>
 

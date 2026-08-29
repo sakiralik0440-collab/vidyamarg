@@ -168,6 +168,13 @@ function TeacherDashboard() {
           {/* Action Buttons — horizontally scrollable on mobile */}
           <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
             <button
+              onClick={() => navigate("/college/dashboard")}
+              className="text-xs bg-emerald-600 text-white font-bold px-3 py-2 rounded hover:bg-emerald-500 transition whitespace-nowrap flex-shrink-0 shadow-sm"
+            >
+              🏫 Open College Portal
+            </button>
+
+            <button
               onClick={() => navigate("/at-risk")}
               className="text-xs bg-yellow-100 text-yellow-700 px-3 py-2 rounded hover:bg-yellow-200 transition whitespace-nowrap flex-shrink-0"
             >

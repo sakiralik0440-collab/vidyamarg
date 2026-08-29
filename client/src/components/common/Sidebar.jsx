@@ -177,11 +177,53 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
           })}
         </nav>
 
+        {/* Portal Switcher in Sidebar */}
+        <div className="p-3 border-t border-slate-800 bg-slate-950/60">
+          <div className="flex items-center justify-between mb-2 px-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Open Other Portals
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+            {Object.entries({
+              student: { name: "Student", icon: "🎓", route: "/student/dashboard", color: "hover:bg-blue-600/20 hover:text-blue-400" },
+              parent: { name: "Parent", icon: "👨‍👩‍👦", route: "/parent/dashboard", color: "hover:bg-purple-600/20 hover:text-purple-400" },
+              college: { name: "College", icon: "🏫", route: "/college/dashboard", color: "hover:bg-emerald-600/20 hover:text-emerald-400" },
+              company: { name: "Company", icon: "🏢", route: "/company/dashboard", color: "hover:bg-orange-600/20 hover:text-orange-400" },
+            })
+              .filter(([key]) => key !== currentPortal)
+              .map(([key, p]) => (
+                <Link
+                  key={key}
+                  to={p.route}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 transition-all ${p.color}`}
+                >
+                  <span>{p.icon}</span>
+                  <span className="truncate">{p.name}</span>
+                </Link>
+              ))}
+            {currentPortal !== "admin" && (
+              <Link
+                to="/admin/dashboard"
+                className="col-span-2 flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-rose-600/20 hover:text-rose-400 transition-all"
+              >
+                <span>⚙️</span>
+                <span>Open Admin Portal</span>
+              </Link>
+            )}
+          </div>
+        </div>
+
         {/* Sidebar Footer */}
         <div className="p-3 border-t border-slate-800 bg-slate-950/40">
-          <div className="flex items-center gap-2 text-[11px] text-slate-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>VidyaMarg v2.0 • Online</span>
+          <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>VidyaMarg v2.0</span>
+            </div>
+            <Link to="/" className="text-indigo-400 hover:underline text-[10px]">
+              Portals Hub ➔
+            </Link>
           </div>
         </div>
       </aside>
