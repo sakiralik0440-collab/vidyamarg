@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "./common/AuthModal";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
+import ThemeToggle from "./common/ThemeToggle";
 
 const PORTAL_CARDS = [
   {
@@ -118,6 +120,7 @@ const CORE_PRINCIPLES = [
 function PortalSelect() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [selectedAuthRole, setSelectedAuthRole] = useState("student");
 
@@ -131,22 +134,28 @@ function PortalSelect() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
+    <div className={`min-h-screen selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+      isDark ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"
+    }`}>
       {/* Background Decorative Mesh */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))] pointer-events-none" />
 
       {/* Top Bar */}
-      <header className="relative z-10 border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md px-4 sm:px-6 py-3.5">
+      <header className={`relative z-10 border-b backdrop-blur-md px-4 sm:px-6 py-3.5 transition-colors duration-300 ${
+        isDark ? "border-slate-800/80 bg-slate-950/60" : "border-slate-200 bg-white/80 shadow-sm"
+      }`}>
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-xl shadow-lg shadow-indigo-600/20">
               🎓
             </div>
             <div>
-              <span className="text-lg font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
+              <span className={`text-lg font-black tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${
+                isDark ? "from-white via-slate-200 to-indigo-300" : "from-slate-900 via-slate-700 to-indigo-700"
+              }`}>
                 VIDYAMARG
               </span>
-              <p className="text-[10px] text-slate-400 font-medium">Unified Education & Career Ecosystem</p>
+              <p className={`text-[10px] font-medium ${ isDark ? "text-slate-400" : "text-slate-500" }`}>Unified Education & Career Ecosystem</p>
             </div>
           </div>
 
@@ -166,10 +175,11 @@ function PortalSelect() {
           </div>
 
           <div className="flex items-center gap-2.5">
+            <ThemeToggle />
             {user ? (
               <div className="flex items-center gap-2.5">
-                <span className="text-xs text-slate-300 hidden sm:inline">
-                  Signed in as <strong className="text-white font-semibold">{user.name}</strong> ({user.role})
+                <span className={`text-xs hidden sm:inline ${ isDark ? "text-slate-300" : "text-slate-600" }`}>
+                  Signed in as <strong className={`font-semibold ${ isDark ? "text-white" : "text-slate-900" }`}>{user.name}</strong> ({user.role})
                 </span>
                 <button
                   onClick={() => handleOpenPortal(`/${user.role}/dashboard`)}

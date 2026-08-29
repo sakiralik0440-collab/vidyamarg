@@ -14,10 +14,46 @@
   box-sizing: border-box;
 }
 
+/* Smooth color transitions for theme switching */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Override for elements where transition would look bad */
+.no-theme-transition, .no-theme-transition * {
+  transition: none !important;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', 'Noto Sans Devanagari', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Light mode scrollbar */
+html.light ::-webkit-scrollbar {
+  width: 8px;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
 }
 
 input, textarea, select {
@@ -64,4 +100,4 @@ textarea:focus-visible {
 
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-in-out;
-}
+}

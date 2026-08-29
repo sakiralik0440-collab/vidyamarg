@@ -1,12 +1,16 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { useTheme } from "../../context/ThemeContext";
 
 function PortalLayout({ currentPortal = "student", activeSection, onSelectSection, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { isDark } = useTheme();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+      isDark ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"
+    }`}>
       {/* Top Navigation */}
       <Navbar
         currentPortal={currentPortal}
@@ -36,3 +40,4 @@ function PortalLayout({ currentPortal = "student", activeSection, onSelectSectio
 }
 
 export default PortalLayout;
+

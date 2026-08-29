@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+import ThemeToggle from "./ThemeToggle";
 
 const SIDEBAR_MENUS = {
   student: {
@@ -121,6 +123,7 @@ const SIDEBAR_MENUS = {
 
 function Sidebar({ currentPortal = "student", activeSection, onSelectSection, isOpen, onClose }) {
   const menuConfig = SIDEBAR_MENUS[currentPortal] || SIDEBAR_MENUS.student;
+  const { isDark } = useTheme();
 
   return (
     <>
@@ -134,14 +137,18 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 w-72 bg-slate-900 border-r border-slate-800 z-40 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-16 bottom-0 left-0 w-72 border-r z-40 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
+        } ${
+          isDark
+            ? "bg-slate-900 border-slate-800"
+            : "bg-white border-slate-200 shadow-xl"
         }`}
       >
         {/* Portal Header */}
-        <div className="p-4 border-b border-slate-800">
+        <div className={`p-4 border-b ${ isDark ? "border-slate-800" : "border-slate-200" }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className={`text-xs font-bold uppercase tracking-wider ${ isDark ? "text-slate-400" : "text-slate-500" }`}>
               Navigation Menu
             </span>
             <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${menuConfig.badgeColor}`}>
@@ -164,7 +171,9 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
                 className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left text-xs transition-all ${
                   isActive
                     ? menuConfig.activeClass
-                    : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                    : isDark
+                      ? "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                 }`}
               >
                 <span className="text-base">{item.icon}</span>
@@ -178,9 +187,9 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
         </nav>
 
         {/* Portal Switcher in Sidebar */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/60">
+        <div className={`p-3 border-t ${ isDark ? "border-slate-800 bg-slate-950/60" : "border-slate-200 bg-slate-50" }`}>
           <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${ isDark ? "text-slate-400" : "text-slate-500" }`}>
               Open Other Portals
             </span>
           </div>
@@ -196,7 +205,11 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
                 <Link
                   key={key}
                   to={p.route}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 transition-all ${p.color}`}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border transition-all ${p.color} ${
+                    isDark
+                      ? "bg-slate-900 border-slate-800 text-slate-300"
+                      : "bg-white border-slate-200 text-slate-600"
+                  }`}
                 >
                   <span>{p.icon}</span>
                   <span className="truncate">{p.name}</span>
@@ -205,7 +218,11 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
             {currentPortal !== "admin" && (
               <Link
                 to="/admin/dashboard"
-                className="col-span-2 flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-rose-600/20 hover:text-rose-400 transition-all"
+                className={`col-span-2 flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border hover:bg-rose-600/20 hover:text-rose-400 transition-all ${
+                  isDark
+                    ? "bg-slate-900 border-slate-800 text-slate-300"
+                    : "bg-white border-slate-200 text-slate-600"
+                }`}
               >
                 <span>⚙️</span>
                 <span>Open Admin Portal</span>
@@ -215,15 +232,18 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/40">
-          <div className="flex items-center justify-between text-[11px] text-slate-400">
+        <div className={`p-3 border-t ${ isDark ? "border-slate-800 bg-slate-950/40" : "border-slate-200 bg-slate-50" }`}>
+          <div className={`flex items-center justify-between text-[11px] ${ isDark ? "text-slate-400" : "text-slate-500" }`}>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>VidyaMarg v2.0</span>
             </div>
-            <Link to="/" className="text-indigo-400 hover:underline text-[10px]">
-              Portals Hub ➔
-            </Link>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Link to="/" className="text-indigo-400 hover:underline text-[10px]">
+                Hub ➔
+              </Link>
+            </div>
           </div>
         </div>
       </aside>
