@@ -6,8 +6,8 @@ const ROLES = [
   { id: "parent", label: "Parent", icon: "👨‍👩‍👦", color: "purple", border: "border-purple-500", bg: "bg-purple-600" },
   { id: "college", label: "College", icon: "🏫", color: "emerald", border: "border-emerald-500", bg: "bg-emerald-600" },
   { id: "company", label: "Company", icon: "🏢", color: "orange", border: "border-orange-500", bg: "bg-orange-600" },
-  { id: "admin", label: "Admin", icon: "⚙️", color: "rose", border: "border-rose-500", bg: "bg-rose-600" },
 ];
+
 
 function AuthModal({ isOpen, onClose, initialRole = "student", onSuccess }) {
   const { login } = useAuth();

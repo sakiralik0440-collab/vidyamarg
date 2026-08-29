@@ -12,12 +12,11 @@ import FeatureView from "./components/FeatureView";
 import PortalSelect from "./components/PortalSelect";
 import "./App.css";
 
-// Lazy load the 5 Unified Role Portals
+// Lazy load the 4 Unified Role Portals
 const StudentPortal = lazy(() => import("./portals/student/StudentPortal"));
 const ParentPortal = lazy(() => import("./portals/parent/ParentPortal"));
 const CollegePortal = lazy(() => import("./portals/college/CollegePortal"));
 const CompanyPortal = lazy(() => import("./portals/company/CompanyPortal"));
-const AdminPortal = lazy(() => import("./portals/admin/AdminPortal"));
 
 // Lazy load supporting views
 const TeacherDashboard = lazy(() => import("./components/TeacherDashboard"));
@@ -86,10 +85,6 @@ function App() {
           <Route path="/company/interview" element={<InterviewRequest />} />
           <Route path="/company/*" element={<CompanyPortal />} />
 
-          {/* 5. ADMIN PANEL (Red) */}
-          <Route path="/admin" element={<AdminPortal />} />
-          <Route path="/admin/dashboard" element={<AdminPortal />} />
-          <Route path="/admin/*" element={<AdminPortal />} />
 
           {/* Supporting & Legacy Routes */}
           <Route path="/register" element={<StudentRegistrationForm />} />

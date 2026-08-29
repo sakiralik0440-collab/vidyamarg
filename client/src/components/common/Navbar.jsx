@@ -9,7 +9,6 @@ const PORTAL_CONFIG = {
   parent: { title: "Parent Portal", icon: "👨‍👩‍👦", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", activeBg: "bg-purple-600 shadow-purple-500/20" },
   college: { title: "College Portal", icon: "🏫", color: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10", activeBg: "bg-emerald-600 shadow-emerald-500/20" },
   company: { title: "Company Portal", icon: "🏢", color: "text-orange-400", border: "border-orange-500/30", bg: "bg-orange-500/10", activeBg: "bg-orange-600 shadow-orange-500/20" },
-  admin: { title: "Admin Panel", icon: "⚙️", color: "text-rose-400", border: "border-rose-500/30", bg: "bg-rose-500/10", activeBg: "bg-rose-600 shadow-rose-500/20" },
 };
 
 const ALL_PORTALS = [
@@ -17,7 +16,6 @@ const ALL_PORTALS = [
   { id: "parent", label: "Parent", icon: "👨‍👩‍👦", route: "/parent/dashboard", color: "hover:bg-purple-600/30 hover:text-purple-300" },
   { id: "college", label: "College", icon: "🏫", route: "/college/dashboard", color: "hover:bg-emerald-600/30 hover:text-emerald-300" },
   { id: "company", label: "Company", icon: "🏢", route: "/company/dashboard", color: "hover:bg-orange-600/30 hover:text-orange-300" },
-  { id: "admin", label: "Admin", icon: "⚙️", route: "/admin/dashboard", color: "hover:bg-rose-600/30 hover:text-rose-300" },
 ];
 
 function Navbar({ currentPortal = "student", onToggleSidebar }) {

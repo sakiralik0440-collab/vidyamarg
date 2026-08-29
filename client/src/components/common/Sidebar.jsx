@@ -99,27 +99,8 @@ const SIDEBAR_MENUS = {
       { id: "notices", label: "Notices", icon: "📢" },
     ],
   },
-  admin: {
-    themeColor: "from-rose-600 to-red-700",
-    activeClass: "bg-rose-600/20 text-rose-400 border-l-4 border-rose-500 font-semibold",
-    badgeColor: "bg-rose-500/20 text-rose-300 border-rose-500/30",
-    portalName: "Admin Panel",
-    baseRoute: "/admin",
-    items: [
-      { id: "dashboard", label: "Dashboard", icon: "🛡️" },
-      { id: "users", label: "User Management", icon: "👥" },
-      { id: "roles", label: "Role Management (RBAC)", icon: "🔐" },
-      { id: "colleges", label: "College Verification", icon: "🏫" },
-      { id: "companies", label: "Company Verification", icon: "🏢" },
-      { id: "schemes", label: "Manage Schemes", icon: "🏛️" },
-      { id: "scholarships", label: "Manage Scholarships", icon: "💰" },
-      { id: "logs", label: "System Logs & Audit", icon: "📋" },
-      { id: "reports", label: "Reports & Analytics", icon: "📊" },
-      { id: "security", label: "Backup & Security", icon: "🔒" },
-      { id: "support", label: "Support & Help", icon: "🆘" },
-    ],
-  },
 };
+
 
 function Sidebar({ currentPortal = "student", activeSection, onSelectSection, isOpen, onClose }) {
   const menuConfig = SIDEBAR_MENUS[currentPortal] || SIDEBAR_MENUS.student;
@@ -215,19 +196,6 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
                   <span className="truncate">{p.name}</span>
                 </Link>
               ))}
-            {currentPortal !== "admin" && (
-              <Link
-                to="/admin/dashboard"
-                className={`col-span-2 flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border hover:bg-rose-600/20 hover:text-rose-400 transition-all ${
-                  isDark
-                    ? "bg-slate-900 border-slate-800 text-slate-300"
-                    : "bg-white border-slate-200 text-slate-600"
-                }`}
-              >
-                <span>⚙️</span>
-                <span>Open Admin Portal</span>
-              </Link>
-            )}
           </div>
         </div>
 

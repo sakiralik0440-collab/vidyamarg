@@ -86,26 +86,6 @@ const PORTAL_CARDS = [
       "Instant Offer Letter Management",
     ],
   },
-  {
-    id: "admin",
-    title: "5. ADMIN PANEL",
-    shortName: "Admin",
-    buttonLabel: "Open Admin Portal",
-    subtitle: "System Administrators & Regulators",
-    icon: "⚙️",
-    theme: "rose",
-    gradient: "from-rose-600 to-red-700",
-    border: "border-rose-500/30",
-    glow: "shadow-rose-500/10",
-    route: "/admin/dashboard",
-    highlights: [
-      "Global User Directory & RBAC Matrix",
-      "College Accreditation Verification",
-      "Corporate Recruiter CIN Checks",
-      "Manage Govt Schemes & Scholarships",
-      "Cryptographic Security Logs & Audit",
-    ],
-  },
 ];
 
 const CORE_PRINCIPLES = [
