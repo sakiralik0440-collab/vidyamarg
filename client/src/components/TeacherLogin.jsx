@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { loginTeacherAPI } from "../api/studentApi";
 import { useAuth } from "../context/AuthContext";
 
-function TeacherLogin() {
+function TeacherLogin({ initialMode = "login" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState(initialMode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
 
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 

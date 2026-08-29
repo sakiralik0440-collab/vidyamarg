@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { loginCompanyAPI, registerCompanyAPI } from "../api/studentApi";
 
-function CompanyLogin() {
+function CompanyLogin({ initialMode = "login" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState(initialMode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
 
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
