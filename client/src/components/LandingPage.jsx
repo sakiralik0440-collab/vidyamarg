@@ -39,9 +39,9 @@ function LandingPage() {
             </h1>
 
             <p className="vm-hero-description">
-              VidyaMarg connects students, colleges and companies
-              in one intelligent education ecosystem. Discover
-              opportunities, track progress and build your future.
+              VidyaMarg brings together four key portals for students,
+              colleges, companies and parents — all in one connected ecosystem.
+              Explore the platform, sign in, and move into your role-based dashboard.
             </p>
 
             <div className="vm-hero-buttons">
@@ -56,14 +56,15 @@ function LandingPage() {
                 className="vm-btn vm-btn-light"
                 onClick={() => navigate("/portal")}
               >
-                Explore Portals
+                View Portals
               </button>
             </div>
 
             <div className="vm-trust">
-              <span>✓ Student focused</span>
-              <span>✓ College connected</span>
-              <span>✓ Career ready</span>
+              <span>✓ Student portal</span>
+              <span>✓ College portal</span>
+              <span>✓ Company portal</span>
+              <span>✓ Parent portal</span>
             </div>
           </div>
 
@@ -149,7 +150,7 @@ function LandingPage() {
           <div className="vm-portal-grid">
             <div
               className="vm-portal-card vm-student-card"
-              onClick={() => navigate("/student")}
+              onClick={() => navigate("/portal")}
             >
               <div className="vm-portal-icon">🎓</div>
               <h3>Student</h3>
@@ -159,7 +160,7 @@ function LandingPage() {
 
             <div
               className="vm-portal-card vm-college-card"
-              onClick={() => navigate("/college")}
+              onClick={() => navigate("/portal")}
             >
               <div className="vm-portal-icon">🏫</div>
               <h3>College</h3>
@@ -169,7 +170,7 @@ function LandingPage() {
 
             <div
               className="vm-portal-card vm-company-card"
-              onClick={() => navigate("/company")}
+              onClick={() => navigate("/portal")}
             >
               <div className="vm-portal-icon">🏢</div>
               <h3>Company</h3>

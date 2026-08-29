@@ -7,6 +7,8 @@ const portalData = [
     title: "Student Portal",
     icon: "🎓",
     route: "/student",
+    loginRoute: "/student/login",
+    registerRoute: "/student/register",
     className: "vm-student-card",
     features: ["CGPA", "Jobs", "Skills", "Certificates"],
     intro: "Track learning, discover opportunities, and build your future.",
@@ -16,6 +18,8 @@ const portalData = [
     title: "College Portal",
     icon: "🏫",
     route: "/college",
+    loginRoute: "/college",
+    registerRoute: "/college",
     className: "vm-college-card",
     features: ["Students", "Attendance", "Reports", "Alerts"],
     intro: "Manage students, monitor progress, and improve outcomes.",
@@ -25,6 +29,8 @@ const portalData = [
     title: "Company Portal",
     icon: "🏢",
     route: "/company",
+    loginRoute: "/company",
+    registerRoute: "/company",
     className: "vm-company-card",
     features: ["Hiring", "Talent", "Jobs", "Interviews"],
     intro: "Find talent, post jobs, and connect with future professionals.",
@@ -34,6 +40,8 @@ const portalData = [
     title: "Parent Portal",
     icon: "👨‍👩‍👧",
     route: "/parent",
+    loginRoute: "/parent",
+    registerRoute: "/parent",
     className: "vm-parent-card",
     features: ["Progress", "Alerts", "Fees", "Support"],
     intro: "Stay informed about your child’s growth and academic progress.",
@@ -119,11 +127,14 @@ function PortalSelect() {
                 </div>
 
                 <div className="vm-card-actions">
-                  <button className="vm-btn vm-btn-light vm-card-btn" onClick={() => navigate(portal.route)}>
-                    Open Portal
-                  </button>
-                  <button className="vm-btn vm-btn-primary vm-card-btn" onClick={() => navigate("/student/login")}>
+                  <button className="vm-btn vm-btn-light vm-card-btn" onClick={() => navigate(portal.loginRoute)}>
                     Login
+                  </button>
+                  <button className="vm-btn vm-btn-primary vm-card-btn" onClick={() => navigate(portal.registerRoute)}>
+                    Register
+                  </button>
+                  <button className="vm-btn vm-btn-light vm-card-btn vm-open-btn" onClick={() => navigate(portal.route)}>
+                    Open Portal
                   </button>
                 </div>
 
