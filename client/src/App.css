@@ -269,8 +269,8 @@ a {
 
 .vm-portal-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 18px;
   align-items: stretch;
 }
 
@@ -278,7 +278,7 @@ a {
   position: relative;
   min-height: 340px;
   border-radius: 26px;
-  padding: 28px;
+  padding: 22px 18px;
   color: white;
   box-shadow: var(--vm-shadow);
   transition: transform 0.2s ease;
