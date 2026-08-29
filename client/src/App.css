@@ -51,7 +51,7 @@ a {
 }
 
 .vm-container {
-  width: min(1440px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 24px));
   margin: 0 auto;
 }
 
@@ -269,8 +269,8 @@ a {
 
 .vm-portal-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(4, minmax(210px, 1fr));
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -279,9 +279,9 @@ a {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 320px;
-  border-radius: 26px;
-  padding: 18px 16px 20px;
+  min-height: 286px;
+  border-radius: 22px;
+  padding: 16px 14px 18px;
   color: white;
   box-shadow: var(--vm-shadow);
   transition: transform 0.2s ease;
@@ -320,53 +320,56 @@ a {
 
 .vm-portal-card h3 {
   margin: 0 0 8px;
-  font-size: 1.8rem;
+  font-size: 1.35rem;
 }
 
 .vm-portal-card p {
   margin: 0;
   color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  min-height: 54px;
+  line-height: 1.5;
+  min-height: 44px;
+  font-size: 0.88rem;
 }
 
 .vm-feature-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 18px 0 18px;
-  min-height: 42px;
+  gap: 6px;
+  margin: 14px 0 16px;
+  min-height: 38px;
 }
 
 .vm-feature-btn {
-  padding: 7px 10px;
+  padding: 6px 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
 }
 
 .vm-card-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  flex-wrap: wrap;
   position: relative;
   z-index: 1;
   margin-top: auto;
 }
 
 .vm-card-btn {
-  padding: 8px 10px;
-  font-size: 0.7rem;
+  padding: 8px 6px;
+  font-size: 0.68rem;
   border-radius: 10px;
   min-width: 0;
+  width: 100%;
 }
 
 .vm-open-btn {
+  grid-column: 1 / -1;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .vm-portal-arrow {
