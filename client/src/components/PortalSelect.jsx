@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "./common/AuthModal";
@@ -320,4 +321,132 @@ function PortalSelect() {
   );
 }
 
-export default PortalSelect;
+export default PortalSelect;
+=======
+import { useNavigate } from "react-router-dom";
+
+function PortalSelect() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="vm-page">
+
+      <nav className="vm-navbar">
+        <div className="vm-logo">
+          <div className="vm-logo-icon">🎓</div>
+          VidyaMarg
+        </div>
+
+        <button
+          className="vm-btn vm-btn-light"
+          onClick={() => navigate("/")}
+        >
+          ← Home
+        </button>
+      </nav>
+
+      <section
+        style={{
+          padding: "150px 0 100px",
+          minHeight: "100vh",
+        }}
+      >
+        <div className="vm-container">
+
+          <div className="vm-section-title">
+            <div className="vm-badge" style={{ marginBottom: 15 }}>
+              🚀 Let's get started
+            </div>
+
+            <h2>
+              Choose your
+              <br />
+              <span className="vm-gradient-text">
+                journey
+              </span>
+            </h2>
+
+            <p>
+              Select your portal and enter the VidyaMarg
+              ecosystem.
+            </p>
+          </div>
+
+          <div className="vm-portal-grid">
+
+            <div
+              className="vm-portal-card vm-student-card"
+              onClick={() => navigate("/student")}
+            >
+              <div className="vm-portal-icon">🎓</div>
+
+              <h3>Student Portal</h3>
+
+              <p>
+                Register, track your progress, discover
+                opportunities and build your career.
+              </p>
+
+              <div className="vm-portal-arrow">
+                →
+              </div>
+            </div>
+
+            <div
+              className="vm-portal-card vm-college-card"
+              onClick={() => navigate("/college")}
+            >
+              <div className="vm-portal-icon">🏫</div>
+
+              <h3>College Portal</h3>
+
+              <p>
+                Manage students, monitor analytics,
+                send alerts and improve outcomes.
+              </p>
+
+              <div className="vm-portal-arrow">
+                →
+              </div>
+            </div>
+
+            <div
+              className="vm-portal-card vm-company-card"
+              onClick={() => navigate("/company")}
+            >
+              <div className="vm-portal-icon">🏢</div>
+
+              <h3>Company Portal</h3>
+
+              <p>
+                Search students, post jobs and discover
+                the next generation of talent.
+              </p>
+
+              <div className="vm-portal-arrow">
+                →
+              </div>
+            </div>
+
+          </div>
+
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 35,
+              color: "#94a3b8",
+              fontSize: 13,
+            }}
+          >
+            🔐 Your information stays protected
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+export default PortalSelect;
+>>>>>>> 08818e3 (Remove admin portal and update theme)

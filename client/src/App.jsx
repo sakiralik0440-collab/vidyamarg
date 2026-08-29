@@ -18,27 +18,88 @@ const ParentPortal = lazy(() => import("./portals/parent/ParentPortal"));
 const CollegePortal = lazy(() => import("./portals/college/CollegePortal"));
 const CompanyPortal = lazy(() => import("./portals/company/CompanyPortal"));
 
-// Lazy load supporting views
-const TeacherDashboard = lazy(() => import("./components/TeacherDashboard"));
-const AtRiskStudents = lazy(() => import("./components/AtRiskStudents"));
-const Leaderboard = lazy(() => import("./components/Leaderboard"));
-const CollegeGuidance = lazy(() => import("./components/CollegeGuidance"));
-const CompanyLogin = lazy(() => import("./components/CompanyLogin"));
-const CompanyDashboard = lazy(() => import("./components/CompanyDashboard"));
-const InterviewRequest = lazy(() => import("./components/InterviewRequest"));
-const JobsPage = lazy(() => import("./components/JobsPage"));
-const ParentDashboard = lazy(() => import("./components/ParentDashboard"));
-const AchievementWallPage = lazy(() => import("./components/AchievementWallPage"));
-const HelplinePanel = lazy(() => import("./components/HelplinePanel"));
-const DistrictView = lazy(() => import("./components/DistrictView"));
+// =====================================================
+// PARENT
+// =====================================================
+
+const ParentLogin = lazy(() =>
+  import("./components/ParentLogin")
+);
+
+const ParentPortalLanding = lazy(() =>
+  import("./components/ParentPortalLanding")
+);
+
+const ParentDashboard = lazy(() =>
+  import("./components/ParentDashboard")
+);
+
+// =====================================================
+// COLLEGE
+// =====================================================
+
+import CollegePortalLanding from "./components/CollegePortalLanding";
+import CollegeLogin from "./components/CollegeLogin";
+import CollegeDashboard from "./components/CollegeDashboard";
+
+const AtRiskStudents = lazy(() =>
+  import("./components/AtRiskStudents")
+);
+
+const HelplinePanel = lazy(() =>
+  import("./components/HelplinePanel")
+);
+
+const DistrictView = lazy(() =>
+  import("./components/DistrictView")
+);
+
+const CollegeGuidance = lazy(() =>
+  import("./components/CollegeGuidance")
+);
+
+// =====================================================
+// COMPANY
+// =====================================================
+
+import CompanyPortalLanding from "./components/CompanyPortalLanding";
+
+const CompanyLogin = lazy(() =>
+  import("./components/CompanyLogin")
+);
+
+const CompanyDashboard = lazy(() =>
+  import("./components/CompanyDashboard")
+);
+
+const InterviewRequest = lazy(() =>
+  import("./components/InterviewRequest")
+);
+
+// =====================================================
+// ADMIN
+// =====================================================
+
+const AdminLogin = lazy(() =>
+  import("./components/AdminLogin")
+);
+
+const AdminDashboard = lazy(() =>
+  import("./components/AdminDashboard")
+);
 
 // Loading fallback
 function PageLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950">
       <div className="text-center">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-slate-400 text-xs font-semibold">Loading VidyaMarg...</p>
+
+        <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto mb-4" />
+
+        <p className="text-slate-500 text-sm">
+          Loading VidyaMarg...
+        </p>
+
       </div>
     </div>
   );
@@ -124,8 +185,43 @@ function App() {
             }
           />
 
-          {/* Catch-all fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route
+            path="/company/interview"
+            element={
+              <ProtectedRoute>
+                <InterviewRequest />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* =================================================
+              ADMIN
+          ================================================= */}
+
+          <Route
+            path="/admin/login"
+            element={<AdminLogin />}
+          />
+
+          <Route
+            path="/admin/dashboard"
+            element={<AdminDashboard />}
+          />
+
+          {/* =================================================
+              FALLBACK
+          ================================================= */}
+
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to="/"
+                replace
+              />
+            }
+          />
+
         </Routes>
       </Suspense>
     </Router>
