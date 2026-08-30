@@ -175,6 +175,18 @@ a {
   font-size: 0.9rem;
 }
 
+.vm-trust-row {
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+
+.vm-trust-row span {
+  flex-shrink: 0;
+}
+
 .vm-hero-visual {
   position: relative;
 }

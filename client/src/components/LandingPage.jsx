@@ -60,7 +60,7 @@ function LandingPage() {
               </button>
             </div>
 
-            <div className="vm-trust">
+            <div className="vm-trust vm-trust-row">
               <span>✓ Student portal</span>
               <span>✓ College portal</span>
               <span>✓ Company portal</span>
