@@ -294,6 +294,50 @@ a {
   min-width: 250px;
 }
 
+.vm-brief-info {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.vm-brief-card {
+  flex: 1 1 0;
+  min-width: 220px;
+  padding: 18px 18px 20px;
+  border-radius: 22px;
+  color: white;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--vm-shadow);
+}
+
+.vm-brief-icon {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 28px;
+}
+
+.vm-brief-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.vm-brief-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .vm-portal-card {
   position: relative;
   display: flex;

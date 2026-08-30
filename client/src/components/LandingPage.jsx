@@ -51,13 +51,6 @@ function LandingPage() {
               >
                 Start Your Journey →
               </button>
-
-              <button
-                className="vm-btn vm-btn-light"
-                onClick={() => navigate("/portal")}
-              >
-                View Portals
-              </button>
             </div>
 
             <div className="vm-trust vm-trust-row">
@@ -144,38 +137,39 @@ function LandingPage() {
           <div className="vm-section-title">
             <span>One ecosystem</span>
             <h2>Everything starts here.</h2>
-            <p>Choose the portal that matches your journey.</p>
           </div>
 
-          <div className="vm-portal-grid">
-            <div
-              className="vm-portal-card vm-student-card"
-              onClick={() => navigate("/portal")}
-            >
-              <div className="vm-portal-icon">🎓</div>
-              <h3>Student</h3>
-              <p>Register, track your progress and discover opportunities.</p>
-              <div className="vm-portal-arrow">→</div>
+          <div className="vm-brief-info">
+            <div className="vm-brief-card vm-student-card">
+              <div className="vm-brief-icon">🎓</div>
+              <div>
+                <h3>Student Portal</h3>
+                <p>Track performance, skills, and career growth through one connected dashboard.</p>
+              </div>
             </div>
 
-            <div
-              className="vm-portal-card vm-college-card"
-              onClick={() => navigate("/portal")}
-            >
-              <div className="vm-portal-icon">🏫</div>
-              <h3>College</h3>
-              <p>Manage students and improve learning outcomes.</p>
-              <div className="vm-portal-arrow">→</div>
+            <div className="vm-brief-card vm-college-card">
+              <div className="vm-brief-icon">🏫</div>
+              <div>
+                <h3>College Portal</h3>
+                <p>Monitor attendance, outcomes, and academic engagement with actionable insights.</p>
+              </div>
             </div>
 
-            <div
-              className="vm-portal-card vm-company-card"
-              onClick={() => navigate("/portal")}
-            >
-              <div className="vm-portal-icon">🏢</div>
-              <h3>Company</h3>
-              <p>Discover talent and connect with future professionals.</p>
-              <div className="vm-portal-arrow">→</div>
+            <div className="vm-brief-card vm-company-card">
+              <div className="vm-brief-icon">🏢</div>
+              <div>
+                <h3>Company Portal</h3>
+                <p>Discover talent, post jobs, and connect with future-ready candidates faster.</p>
+              </div>
+            </div>
+
+            <div className="vm-brief-card vm-parent-card">
+              <div className="vm-brief-icon">👨‍👩‍👧</div>
+              <div>
+                <h3>Parent Portal</h3>
+                <p>Stay informed about progress, support, fees, and important updates in real time.</p>
+              </div>
             </div>
           </div>
         </div>
