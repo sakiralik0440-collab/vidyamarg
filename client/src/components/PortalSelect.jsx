@@ -133,9 +133,6 @@ function PortalSelect() {
                   <button className="vm-btn vm-btn-primary vm-card-btn" onClick={() => navigate(portal.registerRoute)}>
                     Register
                   </button>
-                  <button className="vm-btn vm-btn-light vm-card-btn vm-open-btn" onClick={() => navigate(portal.route)}>
-                    Open Portal
-                  </button>
                 </div>
 
                 <div className="vm-portal-arrow">→</div>
