@@ -28,7 +28,7 @@ function ParentLogin({ initialMode = "login" }) {
     localStorage.setItem("vm_user", JSON.stringify({ ...userData, role: "parent" }));
     localStorage.setItem("parentToken", authToken);
     localStorage.setItem("parentInfo", JSON.stringify({ ...userData, role: "parent" }));
-    navigate("/parent");
+    navigate("/");
   };
 
   const handleLogin = (e) => {

@@ -101,7 +101,7 @@ function StudentRegistrationForm() {
     try {
       const data = await registerStudentAPI({ ...formData, contacts });
       localStorage.setItem("studentId", data.student._id);
-      navigate(`/profile/${data.student._id}`);
+      navigate("/");
     } catch (error) {
       setServerError(error.message);
     } finally {
