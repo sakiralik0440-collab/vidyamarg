@@ -18,7 +18,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["favicon.svg", "icons.svg", "vidyamarg-icon.svg"],
       manifest: {
         name: "NextStep — Gaon se College Tak",
         short_name: "NextStep",
@@ -31,9 +31,9 @@ export default defineConfig({
         scope: "/",
         start_url: "/",
         icons: [
-          { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
-          { src: "pwa-512x512.png", sizes: "512x512", type: "image/png" },
-          { src: "pwa-512x512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" },
+          { src: "favicon.svg", sizes: "192x192", type: "image/svg+xml" },
+          { src: "icons.svg", sizes: "512x512", type: "image/svg+xml" },
+          { src: "vidyamarg-icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" },
         ],
       },
       workbox: {
