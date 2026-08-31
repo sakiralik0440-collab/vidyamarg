@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../utils/config";
 
 function StudentLogin() {
   const navigate = useNavigate();
@@ -12,9 +13,7 @@ function StudentLogin() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(
-        `https://vidyamarg-backend.onrender.com/api/students/find-by-phone/${phone}`
-      );
+      const response = await fetch(`${API_BASE_URL}/students/find-by-phone/${phone}`);
       const data = await response.json();
       if (!response.ok || !data.student) {
         setError("No student found with this phone number");

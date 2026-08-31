@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useDebounce } from "../hooks/useDebounce";
+import { API_BASE_URL } from "../utils/config";
 import StudentCard from "./StudentCard";
 
 import {
@@ -48,7 +49,7 @@ function TeacherDashboard() {
       const [statsData, studentsData, interviewData] = await Promise.all([
         getStatsAPI(token),
         getFilteredStudentsAPI({}, token),
-        fetch(`https://vidyamarg-backend.onrender.com//api/interviews/stats`, {
+        fetch(`${API_BASE_URL}/interviews/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json()),
       ]);
@@ -100,13 +101,10 @@ function TeacherDashboard() {
 
   const handleRecalculateScores = async () => {
     try {
-      const response = await fetch(
-       "https://vidyamarg-backend.onrender.com/api/dropout/recalculate-scores",
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/dropout/recalculate-scores`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
       setDetectionMessage(
         `⚡ Scores recalculated — ${data.updated} students updated`

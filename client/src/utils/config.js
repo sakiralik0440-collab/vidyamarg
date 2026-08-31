@@ -1,7 +1,9 @@
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://vidyamarg-backend.onrender.com";
+const defaultApiUrl =
+  typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? ""
+    : "https://vidyamarg-production-50d6.up.railway.app";
 
-export const API_BASE_URL = `${API_URL}/api`;
+const API_URL = import.meta.env.VITE_API_URL || defaultApiUrl;
 
+export const API_BASE_URL = API_URL ? `${API_URL}/api` : "/api";
 export const COMPANY_API_URL = `${API_BASE_URL}/company`;

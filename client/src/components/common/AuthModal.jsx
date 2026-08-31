@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { API_BASE_URL } from "../../utils/config";
 
 const ROLES = [
   { id: "student", label: "Student", icon: "🎓", color: "blue", border: "border-blue-500", bg: "bg-blue-600" },
@@ -39,7 +40,7 @@ function AuthModal({ isOpen, onClose, initialRole = "student", onSuccess }) {
     setLoading(true);
     setError("");
 
-    const endpoint = isRegister ? "/api/auth/register" : "/api/auth/login";
+    const endpoint = isRegister ? `${API_BASE_URL}/auth/register` : `${API_BASE_URL}/auth/login`;
     const payload = isRegister ? { ...formData, role: selectedRole } : { email: formData.email, password: formData.password, role: selectedRole };
 
     try {

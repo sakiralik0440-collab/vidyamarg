@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { loginTeacherAPI } from "../api/studentApi";
+import { API_BASE_URL } from "../utils/config";
 import { useAuth } from "../context/AuthContext";
 
 function TeacherLogin({ initialMode = "login" }) {
@@ -49,7 +50,7 @@ function TeacherLogin({ initialMode = "login" }) {
     setError("");
     setLoading(true);
     try {
-      const response = await fetch("https://vidyamarg-backend.onrender.com/api/auth/register", {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerForm),
