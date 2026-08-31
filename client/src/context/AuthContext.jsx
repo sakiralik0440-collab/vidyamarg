@@ -28,18 +28,19 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData, authToken) => {
-    setUser(userData);
-    const userRole = userData.role || "student";
+    const normalizedUser = userData || { role: "student", name: "User", email: "" };
+    setUser(normalizedUser);
+    const userRole = normalizedUser.role || "student";
     setRole(userRole);
     setToken(authToken);
 
     localStorage.setItem("vm_token", authToken);
     localStorage.setItem("vm_role", userRole);
-    localStorage.setItem("vm_user", JSON.stringify(userData));
+    localStorage.setItem("vm_user", JSON.stringify(normalizedUser));
 
     // Backward compatibility for legacy code
     localStorage.setItem("teacherToken", authToken);
-    localStorage.setItem("teacherInfo", JSON.stringify(userData));
+    localStorage.setItem("teacherInfo", JSON.stringify(normalizedUser));
   };
 
   const logout = () => {

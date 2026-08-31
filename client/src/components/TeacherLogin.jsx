@@ -36,7 +36,9 @@ function TeacherLogin({ initialMode = "login" }) {
     setLoading(true);
     try {
       const data = await loginTeacherAPI(loginForm);
-      login(data.teacher, data.token);
+      const user = data.user || data.teacher || null;
+      if (!user) throw new Error("Teacher profile not found in login response");
+      login(user, data.token);
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -53,12 +55,14 @@ function TeacherLogin({ initialMode = "login" }) {
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerForm),
+        body: JSON.stringify({ ...registerForm, role: "college" }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Registration failed");
 
-      login(data.teacher, data.token);
+      const user = data.user || data.teacher || null;
+      if (!user) throw new Error("Teacher profile not found in registration response");
+      login(user, data.token);
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
