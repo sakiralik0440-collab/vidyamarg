@@ -1,7 +1,7 @@
 const defaultApiUrl =
   typeof window !== "undefined" && window.location.hostname === "localhost"
     ? ""
-    : "https://vidyamarg-production-50d6.up.railway.app";
+    : "https://vidyamarg-backend.onrender.com";
 
 const API_URL = import.meta.env.VITE_API_URL || defaultApiUrl;
 
