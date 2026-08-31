@@ -35,8 +35,10 @@ function CompanyLogin({ initialMode = "login" }) {
     setLoading(true);
     try {
       const data = await loginCompanyAPI(loginForm);
+      const company = data.company || data.user || null;
+      if (!company) throw new Error("Company profile not found in login response");
       localStorage.setItem("companyToken", data.token);
-      localStorage.setItem("companyInfo", JSON.stringify(data.company));
+      localStorage.setItem("companyInfo", JSON.stringify(company));
       navigate("/company/dashboard");
     } catch (err) {
       setError(err.message);
@@ -51,8 +53,10 @@ function CompanyLogin({ initialMode = "login" }) {
     setLoading(true);
     try {
       const data = await registerCompanyAPI(registerForm);
+      const company = data.company || data.user || null;
+      if (!company) throw new Error("Company profile not found in registration response");
       localStorage.setItem("companyToken", data.token);
-      localStorage.setItem("companyInfo", JSON.stringify(data.company));
+      localStorage.setItem("companyInfo", JSON.stringify(company));
       navigate("/company/dashboard");
     } catch (err) {
       setError(err.message);

@@ -17,7 +17,7 @@ import StudentRegistrationForm from "./components/StudentRegistrationForm";
 import StudentProfile from "./components/StudentProfile";
 import StudentLogin from "./components/StudentLogin";
 import CompanyLogin from "./components/CompanyLogin";
-import TeacherLogin from "./components/TeacherLogin";
+import CollegeLogin from "./components/CollegeLogin";
 import ParentLogin from "./components/ParentLogin";
 
 import StudentPortal from "./portals/student/StudentPortal";
@@ -101,8 +101,8 @@ function App() {
           <Route path="/parent/*" element={<ParentPortal />} />
 
           <Route path="/college" element={<CollegePortal />} />
-          <Route path="/college/login" element={<TeacherLogin initialMode="login" />} />
-          <Route path="/college/register" element={<TeacherLogin initialMode="register" />} />
+          <Route path="/college/login" element={<CollegeLogin initialMode="login" />} />
+          <Route path="/college/register" element={<CollegeLogin initialMode="register" />} />
           <Route path="/college/*" element={<CollegePortal />} />
 
           <Route path="/company" element={<CompanyPortal />} />

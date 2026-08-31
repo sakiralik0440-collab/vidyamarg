@@ -55,8 +55,10 @@ function AuthModal({ isOpen, onClose, initialRole = "student", onSuccess }) {
         throw new Error(data.message || "Authentication failed");
       }
 
-      login(data.user, data.token);
-      if (onSuccess) onSuccess(data.user);
+      const user = data.user || data.teacher || data.company || null;
+      if (!user) throw new Error("User profile not found in auth response");
+      login(user, data.token);
+      if (onSuccess) onSuccess(user);
       onClose();
     } catch (err) {
       setError(err.message);

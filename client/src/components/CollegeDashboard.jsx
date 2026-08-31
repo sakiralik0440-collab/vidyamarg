@@ -12,7 +12,7 @@ import {
   runDetectionAPI,
 } from "../api/studentApi";
 
-function TeacherDashboard() {
+function CollegeDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { teacher, token, logout } = useAuth();
@@ -440,4 +440,4 @@ function StatCard({ label, value, color }) {
   );
 }
 
-export default TeacherDashboard;
+export default CollegeDashboard;

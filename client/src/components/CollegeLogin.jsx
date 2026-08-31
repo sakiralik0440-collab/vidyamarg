@@ -5,7 +5,7 @@ import { loginTeacherAPI } from "../api/studentApi";
 import { API_BASE_URL } from "../utils/config";
 import { useAuth } from "../context/AuthContext";
 
-function TeacherLogin({ initialMode = "login" }) {
+function CollegeLogin({ initialMode = "login" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -286,4 +286,4 @@ function TeacherLogin({ initialMode = "login" }) {
   );
 }
 
-export default TeacherLogin;
+export default CollegeLogin;
