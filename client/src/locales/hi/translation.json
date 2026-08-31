@@ -87,7 +87,7 @@
     "successMessage": "प्रगति रिकॉर्ड सफलतापूर्वक सहेजा गया!"
   },
   "auth": {
-    "login": "शिक्षक लॉगिन",
+    "login": "कॉलेज लॉगिन",
     "email": "ईमेल पता",
     "password": "पासवर्ड",
     "loginButton": "लॉगिन",
@@ -96,7 +96,8 @@
     "invalidCredentials": "गलत ईमेल या पासवर्ड",
     "noAccount": "एक्सेस के लिए एडमिन से संपर्क करें",
     "welcomeBack": "वापस स्वागत है",
-    "teacherPortal": "शिक्षक पोर्टल"
+    "collegePortal": "कॉलेज पोर्टल",
+    "teacherPortal": "कॉलेज पोर्टल"
   },
   "college": {
     "title": "कॉलेज मार्गदर्शन",

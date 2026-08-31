@@ -83,10 +83,10 @@ function TeacherLogin({ initialMode = "login" }) {
             <div className="relative">
               <div className="text-5xl mb-3">👨‍🏫</div>
               <h1 className="text-white text-xl font-bold">
-                {t("auth.teacherPortal")}
+                {t("auth.collegePortal")}
               </h1>
               <p className="text-blue-100 text-xs mt-1">
-                {mode === "login" ? "Access your dashboard" : "Create your teacher account"}
+                {mode === "login" ? "Access your college dashboard" : "Create your college account"}
               </p>
             </div>
           </div>

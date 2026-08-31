@@ -87,7 +87,7 @@
     "successMessage": "Progress record saved!"
   },
   "auth": {
-    "login": "Teacher Login",
+    "login": "College Login",
     "email": "Email Address",
     "password": "Password",
     "loginButton": "Login",
@@ -96,7 +96,8 @@
     "invalidCredentials": "Invalid email or password",
     "noAccount": "Contact admin to get access",
     "welcomeBack": "Welcome back",
-    "teacherPortal": "Teacher Portal"
+    "collegePortal": "College Portal",
+    "teacherPortal": "College Portal"
   },
   "college": {
     "title": "College Guidance",

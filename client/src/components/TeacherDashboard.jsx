@@ -127,7 +127,7 @@ function TeacherDashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate("/teacher/login");
+    navigate("/college/login");
   };
 
   if (loading) {

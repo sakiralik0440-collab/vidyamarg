@@ -123,13 +123,13 @@ function StudentRegistrationForm() {
     <div className="min-h-screen bg-green-50 py-8 px-4">
       <div className="max-w-xl mx-auto">
 
-        {/* Teacher Login Link */}
+        {/* College Login Link */}
         <div className="flex justify-between mb-4">
           <button
-            onClick={() => navigate("/teacher/login")}
+            onClick={() => navigate("/college/login")}
             className="text-xs text-gray-400 hover:text-green-700 transition"
           >
-            👨‍🏫 Teacher Login
+            🏫 College Login
           </button>
           <button
             onClick={() => navigate("/company/login")}
