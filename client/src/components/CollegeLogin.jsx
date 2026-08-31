@@ -64,7 +64,7 @@ function CollegeLogin({ initialMode = "login" }) {
       const user = data.user || null;
       if (!user) throw new Error("College profile not found in registration response");
       login(user, data.token);
-      navigate("/");
+      navigate("/college/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {

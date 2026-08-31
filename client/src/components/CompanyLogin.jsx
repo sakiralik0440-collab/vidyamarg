@@ -57,7 +57,7 @@ function CompanyLogin({ initialMode = "login" }) {
       if (!company) throw new Error("Company profile not found in registration response");
       localStorage.setItem("companyToken", data.token);
       localStorage.setItem("companyInfo", JSON.stringify(company));
-      navigate("/");
+      navigate("/company/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
