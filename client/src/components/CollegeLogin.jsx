@@ -21,13 +21,14 @@ function CollegeLogin({ initialMode = "login" }) {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
   const [registerForm, setRegisterForm] = useState({
-    name: "",
+    collegeName: "",
     email: "",
     password: "",
-    village: "",
-    district: "",
-    state: "Madhya Pradesh",
     phone: "",
+    address: "",
+    district: "Indore",
+    state: "Madhya Pradesh",
+    website: "",
   });
 
   const handleLogin = async (e) => {
@@ -37,9 +38,9 @@ function CollegeLogin({ initialMode = "login" }) {
     try {
       const data = await loginTeacherAPI(loginForm);
       const user = data.user || data.teacher || null;
-      if (!user) throw new Error("Teacher profile not found in login response");
+      if (!user) throw new Error("College profile not found in login response");
       login(user, data.token);
-      navigate("/dashboard");
+      navigate("/college/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -60,10 +61,10 @@ function CollegeLogin({ initialMode = "login" }) {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Registration failed");
 
-      const user = data.user || data.teacher || null;
-      if (!user) throw new Error("Teacher profile not found in registration response");
+      const user = data.user || null;
+      if (!user) throw new Error("College profile not found in registration response");
       login(user, data.token);
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err.message);
     } finally {
