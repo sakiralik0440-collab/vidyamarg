@@ -42,7 +42,7 @@ function Navbar({ currentPortal = "student", onToggleSidebar }) {
   };
 
   return (
-    <header className={`sticky top-0 z-40 backdrop-blur-md border-b transition-colors duration-300 ${
+    <header className={`portal-navbar sticky top-0 z-40 backdrop-blur-md border-b transition-colors duration-300 ${
       isDark
         ? "bg-slate-900/90 border-slate-800"
         : "bg-white/90 border-slate-200 shadow-sm"

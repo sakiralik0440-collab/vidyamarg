@@ -8,7 +8,7 @@ function PortalLayout({ currentPortal = "student", activeSection, onSelectSectio
   const { isDark } = useTheme();
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
+    <div className={`${currentPortal}-portal portal-shell min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 ${
       isDark ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"
     }`}>
       {/* Top Navigation */}
@@ -29,8 +29,8 @@ function PortalLayout({ currentPortal = "student", activeSection, onSelectSectio
         />
 
         {/* Content Viewport */}
-        <main className="flex-1 lg:pl-72 flex flex-col min-w-0">
-          <div className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="portal-workspace flex-1 lg:pl-72 flex flex-col min-w-0">
+          <div className="portal-content flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
             {children}
           </div>
         </main>

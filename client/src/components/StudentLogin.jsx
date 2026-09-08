@@ -13,16 +13,17 @@ function StudentLogin() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(`${API_BASE_URL}/students/find-by-phone/${phone}`);
-      const data = await response.json();
+      const normalizedPhone = phone.trim().replace(/\s+/g, "");
+      const response = await fetch(`${API_BASE_URL}/students/find-by-phone/${encodeURIComponent(normalizedPhone)}`);
+      const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.student) {
-        setError("No student found with this phone number");
+        setError(data.message || "No student found with this phone number");
         return;
       }
       localStorage.setItem("studentId", data.student._id);
       navigate(`/profile/${data.student._id}`);
     } catch (err) {
-      setError("Something went wrong. Try again.");
+      setError(err.message || "Unable to reach the VidyaMarg server. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -69,8 +70,9 @@ function StudentLogin() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
-                  maxLength={10}
-                  placeholder="10-digit phone number"
+                  maxLength={15}
+                  inputMode="tel"
+                  placeholder="Registered phone number"
                   className="w-full border-2 border-gray-200 rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:border-green-500 transition"
                 />
               </div>

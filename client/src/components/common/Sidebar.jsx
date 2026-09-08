@@ -88,7 +88,7 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 w-72 border-r z-40 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 ${
+        className={`portal-sidebar fixed top-16 bottom-0 left-0 w-72 border-r z-40 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } ${
           isDark
@@ -96,12 +96,17 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
             : "bg-white border-slate-200 shadow-xl"
         }`}
       >
+        <button
+          onClick={onClose}
+          className="portal-sidebar-close lg:hidden absolute right-4 top-4 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+          aria-label="Close navigation menu"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
         {/* Portal Header */}
         <div className={`p-4 border-b ${ isDark ? "border-slate-800" : "border-slate-200" }`}>
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold uppercase tracking-wider ${ isDark ? "text-slate-400" : "text-slate-500" }`}>
-              Navigation Menu
-            </span>
+            <div><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Workspace</p><p className="mt-1 text-sm font-bold text-slate-100">{menuConfig.portalName}</p></div>
             <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${menuConfig.badgeColor}`}>
               {menuConfig.items.length} Modules
             </span>

@@ -522,6 +522,123 @@ a {
   }
 }
 
+/* Student workspace: a calm, consistent SaaS-style layer over the shared shell. */
+.student-portal {
+  --student-ink: #102a43;
+  --student-muted: #627d98;
+  --student-line: #d9e2ec;
+  --student-surface: #ffffff;
+  --student-accent: #1769aa;
+  background: #f4f7fb !important;
+  color: var(--student-ink);
+}
+
+.student-portal .portal-navbar {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: var(--student-line) !important;
+  box-shadow: 0 1px 8px rgba(16, 42, 67, 0.06);
+}
+
+.student-portal .portal-navbar .text-white,
+.student-portal .portal-navbar .text-slate-100,
+.student-portal .portal-navbar .text-slate-200 {
+  color: var(--student-ink) !important;
+}
+
+.student-portal .portal-navbar .text-slate-400,
+.student-portal .portal-navbar .text-slate-500 {
+  color: var(--student-muted) !important;
+}
+
+.student-portal .portal-sidebar {
+  background: #102a43 !important;
+  border-color: #183b56 !important;
+  box-shadow: 10px 0 28px rgba(16, 42, 67, 0.08);
+}
+
+.student-portal .portal-sidebar .text-slate-100,
+.student-portal .portal-sidebar .text-slate-200,
+.student-portal .portal-sidebar .text-slate-300 {
+  color: #f0f4f8 !important;
+}
+
+.student-portal .portal-sidebar .text-slate-400,
+.student-portal .portal-sidebar .text-slate-500 {
+  color: #9fb3c8 !important;
+}
+
+.student-portal .portal-sidebar .bg-blue-600\/20 {
+  background: #194e77 !important;
+  color: #d9f0ff !important;
+  border-left-color: #63b3ed !important;
+}
+
+.student-portal .portal-sidebar .hover\:bg-slate-800\/60:hover {
+  background: #183b56 !important;
+}
+
+.student-portal .portal-content {
+  max-width: 1440px;
+}
+
+.student-portal .portal-content .bg-slate-900 {
+  background: var(--student-surface) !important;
+  border-color: var(--student-line) !important;
+  box-shadow: 0 8px 22px rgba(16, 42, 67, 0.05);
+}
+
+.student-portal .portal-content .bg-slate-950\/60,
+.student-portal .portal-content .bg-slate-950\/70,
+.student-portal .portal-content .bg-slate-950\/50 {
+  background: #f8fafc !important;
+  border-color: #e6edf4 !important;
+}
+
+.student-portal .portal-content .text-white {
+  color: var(--student-ink) !important;
+}
+
+.student-portal .portal-content .text-slate-300,
+.student-portal .portal-content .text-slate-400 {
+  color: var(--student-muted) !important;
+}
+
+.student-portal .portal-content .text-slate-500 {
+  color: #829ab1 !important;
+}
+
+.student-portal .portal-content input,
+.student-portal .portal-content select {
+  background: #ffffff !important;
+  color: var(--student-ink) !important;
+  border-color: var(--student-line) !important;
+}
+
+.student-portal .portal-content input::placeholder {
+  color: #829ab1 !important;
+}
+
+.student-portal .portal-content .rounded-3xl,
+.student-portal .portal-content .rounded-2xl {
+  border-radius: 16px;
+}
+
+@media (max-width: 1023px) {
+  .student-portal .portal-content {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .student-portal .portal-content {
+    padding: 18px 14px;
+  }
+
+  .student-portal .portal-navbar .text-\[10px\] {
+    display: none;
+  }
+}
+
 @media (max-width: 1100px) {
   .vm-portal-grid {
     grid-template-columns: repeat(4, minmax(220px, 1fr));
