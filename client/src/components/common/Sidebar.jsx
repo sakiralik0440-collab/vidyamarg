@@ -11,21 +11,11 @@ const SIDEBAR_MENUS = {
     baseRoute: "/student",
     items: [
       { id: "dashboard", label: "Dashboard", icon: "📊" },
-      { id: "profile", label: "Profile Management", icon: "👤" },
       { id: "academics", label: "Academic Progress", icon: "📈" },
       { id: "attendance", label: "Attendance Tracker", icon: "📅" },
-      { id: "exams", label: "Exams & Marks", icon: "📝" },
-      { id: "skills", label: "Skills & Certifications", icon: "🎖️" },
-      { id: "achievements", label: "Achievements", icon: "🏆" },
       { id: "readiness", label: "Career Readiness Score", icon: "⚡" },
       { id: "jobs", label: "Recommended Jobs", icon: "💼" },
-      { id: "scholarships", label: "Scholarships & Schemes", icon: "💰" },
-      { id: "mentorship", label: "Mentorship", icon: "🤝" },
       { id: "applications", label: "My Applications", icon: "📑" },
-      { id: "interviews", label: "Interview Calls", icon: "📞" },
-      { id: "alerts", label: "Notices & Alerts", icon: "🔔" },
-      { id: "messages", label: "Messages", icon: "💬" },
-      { id: "support", label: "Support / Help", icon: "🆘" },
     ],
   },
   parent: {
@@ -36,19 +26,7 @@ const SIDEBAR_MENUS = {
     baseRoute: "/parent",
     items: [
       { id: "dashboard", label: "Dashboard (Child Overview)", icon: "👨‍👩‍👦" },
-      { id: "child-profile", label: "Child Profile", icon: "👤" },
-      { id: "academics", label: "Academic Performance", icon: "📊" },
-      { id: "attendance", label: "Attendance Overview", icon: "📅" },
-      { id: "exams", label: "Exam Results", icon: "📝" },
-      { id: "achievements", label: "Achievements", icon: "🏆" },
-      { id: "certificates", label: "Certificates", icon: "📜" },
-      { id: "scholarships", label: "Scholarships", icon: "💰" },
-      { id: "at-risk", label: "At-Risk Alerts", icon: "⚠️" },
-      { id: "notices", label: "Important Notices", icon: "📢" },
-      { id: "career", label: "Career Progress", icon: "🚀" },
-      { id: "messages", label: "Messages with College", icon: "💬" },
       { id: "fees", label: "Fee Status (View)", icon: "💳" },
-      { id: "support", label: "Support / Help", icon: "🆘" },
     ],
   },
   college: {
@@ -60,21 +38,6 @@ const SIDEBAR_MENUS = {
     items: [
       { id: "dashboard", label: "Dashboard", icon: "🏫" },
       { id: "students", label: "Student Management", icon: "👥" },
-      { id: "courses", label: "Course & Batch Mgmt", icon: "📚" },
-      { id: "attendance", label: "Attendance Management", icon: "📅" },
-      { id: "marks", label: "Marks & Exams Management", icon: "📝" },
-      { id: "reports", label: "Academic Reports", icon: "📊" },
-      { id: "at-risk", label: "At-Risk Students", icon: "⚠️" },
-      { id: "approvals", label: "Achievements Approval", icon: "✅" },
-      { id: "certificates", label: "Certificates Management", icon: "📜" },
-      { id: "schemes", label: "Scholarships & Schemes", icon: "💰" },
-      { id: "mentors", label: "Mentor Management", icon: "🤝" },
-      { id: "placements", label: "Company & Placement Mgmt", icon: "🏢" },
-      { id: "drives", label: "Job & Drive Management", icon: "💼" },
-      { id: "interviews", label: "Interview Management", icon: "📞" },
-      { id: "communication", label: "Communication (Broadcast)", icon: "📢" },
-      { id: "noticeboard", label: "Notice Board", icon: "📌" },
-      { id: "settings", label: "System Settings", icon: "⚙️" },
     ],
   },
   company: {
@@ -85,18 +48,17 @@ const SIDEBAR_MENUS = {
     baseRoute: "/company",
     items: [
       { id: "dashboard", label: "Dashboard", icon: "🏢" },
-      { id: "profile", label: "Company Profile", icon: "🏷️" },
-      { id: "post-job", label: "Post Job / Drive", icon: "➕" },
-      { id: "jobs", label: "Job Management", icon: "💼" },
-      { id: "candidates", label: "Search Candidates", icon: "🔍" },
-      { id: "shortlist", label: "Candidate Shortlist", icon: "⭐" },
-      { id: "applications", label: "Applications Received", icon: "📥" },
-      { id: "interviews", label: "Interview Management", icon: "📞" },
-      { id: "pipeline", label: "Select / Reject Candidates", icon: "🎯" },
-      { id: "offers", label: "Offer Management", icon: "📜" },
-      { id: "analytics", label: "Drive Analytics", icon: "📈" },
-      { id: "messages", label: "Messages", icon: "💬" },
-      { id: "notices", label: "Notices", icon: "📢" },
+    ],
+  },
+  admin: {
+    themeColor: "from-rose-600 to-red-700",
+    activeClass: "bg-rose-600/20 text-rose-400 border-l-4 border-rose-500 font-semibold",
+    badgeColor: "bg-rose-500/20 text-rose-300 border-rose-500/30",
+    portalName: "Admin Portal",
+    baseRoute: "/admin",
+    items: [
+      { id: "dashboard", label: "Dashboard", icon: "⚙️" },
+      { id: "users", label: "User Directory", icon: "👥" },
     ],
   },
 };
@@ -166,38 +128,6 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
             );
           })}
         </nav>
-
-        {/* Portal Switcher in Sidebar */}
-        <div className={`p-3 border-t ${ isDark ? "border-slate-800 bg-slate-950/60" : "border-slate-200 bg-slate-50" }`}>
-          <div className="flex items-center justify-between mb-2 px-1">
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${ isDark ? "text-slate-400" : "text-slate-500" }`}>
-              Open Other Portals
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-1.5 text-[11px]">
-            {Object.entries({
-              student: { name: "Student", icon: "🎓", route: "/student/dashboard", color: "hover:bg-blue-600/20 hover:text-blue-400" },
-              parent: { name: "Parent", icon: "👨‍👩‍👦", route: "/parent/dashboard", color: "hover:bg-purple-600/20 hover:text-purple-400" },
-              college: { name: "College", icon: "🏫", route: "/college/dashboard", color: "hover:bg-emerald-600/20 hover:text-emerald-400" },
-              company: { name: "Company", icon: "🏢", route: "/company/dashboard", color: "hover:bg-orange-600/20 hover:text-orange-400" },
-            })
-              .filter(([key]) => key !== currentPortal)
-              .map(([key, p]) => (
-                <Link
-                  key={key}
-                  to={p.route}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border transition-all ${p.color} ${
-                    isDark
-                      ? "bg-slate-900 border-slate-800 text-slate-300"
-                      : "bg-white border-slate-200 text-slate-600"
-                  }`}
-                >
-                  <span>{p.icon}</span>
-                  <span className="truncate">{p.name}</span>
-                </Link>
-              ))}
-          </div>
-        </div>
 
         {/* Sidebar Footer */}
         <div className={`p-3 border-t ${ isDark ? "border-slate-800 bg-slate-950/40" : "border-slate-200 bg-slate-50" }`}>

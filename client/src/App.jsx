@@ -24,6 +24,7 @@ import StudentPortal from "./portals/student/StudentPortal";
 import ParentPortal from "./portals/parent/ParentPortal";
 import CollegePortal from "./portals/college/CollegePortal";
 import CompanyPortal from "./portals/company/CompanyPortal";
+import AdminPortal from "./portals/admin/AdminPortal";
 
 import "./App.css";
 
@@ -110,6 +111,9 @@ function App() {
           <Route path="/company/register" element={<CompanyLogin initialMode="register" />} />
           <Route path="/company/interview" element={<ProtectedRoute><InterviewRequest /></ProtectedRoute>} />
           <Route path="/company/*" element={<CompanyPortal />} />
+
+          <Route path="/admin" element={<AdminPortal />} />
+          <Route path="/admin/*" element={<AdminPortal />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

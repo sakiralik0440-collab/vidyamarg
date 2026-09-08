@@ -9,21 +9,14 @@ const PORTAL_CONFIG = {
   parent: { title: "Parent Portal", icon: "👨‍👩‍👦", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", activeBg: "bg-purple-600 shadow-purple-500/20" },
   college: { title: "College Portal", icon: "🏫", color: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10", activeBg: "bg-emerald-600 shadow-emerald-500/20" },
   company: { title: "Company Portal", icon: "🏢", color: "text-orange-400", border: "border-orange-500/30", bg: "bg-orange-500/10", activeBg: "bg-orange-600 shadow-orange-500/20" },
+  admin: { title: "Admin Portal", icon: "⚙️", color: "text-rose-400", border: "border-rose-500/30", bg: "bg-rose-500/10", activeBg: "bg-rose-600 shadow-rose-500/20" },
 };
-
-const ALL_PORTALS = [
-  { id: "student", label: "Student", icon: "🎓", route: "/student/dashboard", color: "hover:bg-blue-600/30 hover:text-blue-300" },
-  { id: "parent", label: "Parent", icon: "👨‍👩‍👦", route: "/parent/dashboard", color: "hover:bg-purple-600/30 hover:text-purple-300" },
-  { id: "college", label: "College", icon: "🏫", route: "/college/dashboard", color: "hover:bg-emerald-600/30 hover:text-emerald-300" },
-  { id: "company", label: "Company", icon: "🏢", route: "/company/dashboard", color: "hover:bg-orange-600/30 hover:text-orange-300" },
-];
 
 function Navbar({ currentPortal = "student", onToggleSidebar }) {
   const { user, logout } = useAuth();
   const { isDark } = useTheme();
   const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [showMobilePortals, setShowMobilePortals] = useState(false);
 
   const portal = PORTAL_CONFIG[currentPortal] || PORTAL_CONFIG.student;
 
@@ -77,86 +70,10 @@ function Navbar({ currentPortal = "student", onToggleSidebar }) {
           </Link>
         </div>
 
-        {/* Center/Right Side: Dedicated Open Portals Buttons & Switcher */}
+        {/* Center/Right Side: Theme and account controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Desktop Particular Portals Show Buttons */}
-          <div className={`hidden lg:flex items-center gap-1 p-1 rounded-2xl border text-xs ${
-            isDark
-              ? "bg-slate-950/70 border-slate-800"
-              : "bg-slate-100 border-slate-200"
-          }`}>
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 ${
-              isDark ? "text-slate-400" : "text-slate-500"
-            }`}>
-              Open Portals:
-            </span>
-            {ALL_PORTALS.map((p) => {
-              const isActive = currentPortal === p.id;
-              const cfg = PORTAL_CONFIG[p.id];
-              return (
-                <Link
-                  key={p.id}
-                  to={p.route}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold transition-all ${
-                    isActive
-                      ? `${cfg.activeBg} text-white shadow-md`
-                      : `text-slate-400 ${p.color}`
-                  }`}
-                >
-                  <span>{p.icon}</span>
-                  <span>{p.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-
           {/* Theme Toggle Button */}
           <ThemeToggle />
-
-          {/* Mobile Portal Switcher Toggle */}
-          <div className="lg:hidden relative">
-            <button
-              onClick={() => setShowMobilePortals(!showMobilePortals)}
-              className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 ${
-                isDark
-                  ? "bg-slate-800 border-slate-700 text-slate-200"
-                  : "bg-slate-100 border-slate-200 text-slate-700"
-              }`}
-            >
-              <span>{portal.icon}</span>
-              <span className="capitalize">{currentPortal}</span>
-              <span>▾</span>
-            </button>
-
-            {showMobilePortals && (
-              <div className={`absolute right-0 mt-2 w-52 rounded-2xl shadow-2xl p-2 z-50 animate-fadeIn border ${
-                isDark
-                  ? "bg-slate-900 border-slate-800"
-                  : "bg-white border-slate-200"
-              }`}>
-                <p className={`text-[10px] font-bold uppercase px-3 py-1 mb-1 ${
-                  isDark ? "text-slate-400" : "text-slate-500"
-                }`}>Open Particular Portals</p>
-                {ALL_PORTALS.map((p) => (
-                  <Link
-                    key={p.id}
-                    to={p.route}
-                    onClick={() => setShowMobilePortals(false)}
-                    className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
-                      currentPortal === p.id
-                        ? "bg-indigo-600 text-white"
-                        : isDark
-                          ? "text-slate-300 hover:bg-slate-800"
-                          : "text-slate-700 hover:bg-slate-100"
-                    }`}
-                  >
-                    <span>{p.icon}</span>
-                    <span>Open {p.label} Portal</span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
 
           {/* User Profile / Login Button */}
           {user ? (
@@ -198,22 +115,6 @@ function Navbar({ currentPortal = "student", onToggleSidebar }) {
                     <span>🏠</span>
                     <span>Master Portal Hub</span>
                   </Link>
-                  <div className={`my-1 border-t pt-1 ${ isDark ? "border-slate-800/60" : "border-slate-100" }`}>
-                    <p className={`text-[9px] uppercase font-bold px-3 py-0.5 ${ isDark ? "text-slate-500" : "text-slate-400" }`}>Switch Portals</p>
-                    {ALL_PORTALS.map((p) => (
-                      <Link
-                        key={p.id}
-                        to={p.route}
-                        onClick={() => setShowProfileMenu(false)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] transition-colors ${
-                          isDark ? "text-slate-300 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-100"
-                        }`}
-                      >
-                        <span>{p.icon}</span>
-                        <span>Open {p.label} Portal</span>
-                      </Link>
-                    ))}
-                  </div>
                   <button
                     onClick={handleLogout}
                     className={`w-full text-left px-3 py-2 rounded-xl text-xs text-rose-400 hover:bg-rose-500/10 transition-colors font-medium mt-1 border-t ${

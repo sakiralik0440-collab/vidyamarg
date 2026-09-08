@@ -10,7 +10,6 @@ const portalData = [
     loginRoute: "/student/login",
     registerRoute: "/student/register",
     className: "vm-student-card",
-    features: ["CGPA", "Jobs", "Skills", "Certificates"],
     intro: "Track learning, discover opportunities, and build your future.",
   },
   {
@@ -21,7 +20,6 @@ const portalData = [
     loginRoute: "/college/login",
     registerRoute: "/college/register",
     className: "vm-college-card",
-    features: ["Students", "Attendance", "Reports", "Alerts"],
     intro: "Manage students, monitor progress, and improve outcomes.",
   },
   {
@@ -32,7 +30,6 @@ const portalData = [
     loginRoute: "/company/login",
     registerRoute: "/company/register",
     className: "vm-company-card",
-    features: ["Hiring", "Talent", "Jobs", "Interviews"],
     intro: "Find talent, post jobs, and connect with future professionals.",
   },
   {
@@ -43,7 +40,6 @@ const portalData = [
     loginRoute: "/parent/login",
     registerRoute: "/parent/register",
     className: "vm-parent-card",
-    features: ["Progress", "Alerts", "Fees", "Support"],
     intro: "Stay informed about your child’s growth and academic progress.",
   },
 ];
@@ -117,14 +113,6 @@ function PortalSelect() {
                 <div className="vm-portal-icon">{portal.icon}</div>
                 <h3>{portal.title}</h3>
                 <p>{portal.intro}</p>
-
-                <div className="vm-feature-list">
-                  {portal.features.map((feature) => (
-                    <button key={feature} className="vm-feature-btn" type="button">
-                      {feature}
-                    </button>
-                  ))}
-                </div>
 
                 <div className="vm-card-actions">
                   <button className="vm-btn vm-btn-light vm-card-btn" onClick={() => navigate(portal.loginRoute)}>

@@ -97,16 +97,16 @@ function CollegePortal() {
 
               <div className="flex gap-2 flex-wrap">
                 <button
-                  onClick={() => setActiveSection("attendance")}
+                  onClick={() => setActiveSection("students")}
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition-all"
                 >
-                  + Mark Attendance
+                  View Student Roster
                 </button>
                 <button
-                  onClick={() => setActiveSection("approvals")}
+                  onClick={() => setActiveSection("dashboard")}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl transition-all"
                 >
-                  Verify Proofs ({pendingAchievements.length})
+                  Review Proofs ({pendingAchievements.length})
                 </button>
               </div>
             </div>
@@ -132,7 +132,7 @@ function CollegePortal() {
                 {students.filter((s) => s.attendance < 75).length}
               </p>
               <button
-                onClick={() => setActiveSection("at-risk")}
+                onClick={() => setActiveSection("students")}
                 className="text-[11px] text-rose-400 hover:underline font-semibold mt-0.5 block"
               >
                 View & Alert Parents →
@@ -154,8 +154,8 @@ function CollegePortal() {
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
                   <span>⚠️</span> At-Risk Attendance Monitor (&lt; 75%)
                 </h2>
-                <button onClick={() => setActiveSection("at-risk")} className="text-xs text-emerald-400 hover:underline">
-                  Manage All →
+                <button onClick={() => setActiveSection("students")} className="text-xs text-emerald-400 hover:underline">
+                  View Roster →
                 </button>
               </div>
 

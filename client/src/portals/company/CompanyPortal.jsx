@@ -220,10 +220,10 @@ function CompanyPortal() {
                 <p className="text-xs text-slate-400">Review dossiers, readiness scores, and schedule interview rounds</p>
               </div>
               <button
-                onClick={() => setActiveSection("candidates")}
+                onClick={() => setActiveSection("dashboard")}
                 className="text-xs text-orange-400 hover:underline"
               >
-                Search Talent Pool →
+                View Pipeline →
               </button>
             </div>
 
