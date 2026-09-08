@@ -2,5 +2,11 @@
   "buildCommand": "cd client && npm run build",
   "installCommand": "cd client && npm install",
   "outputDirectory": "client/dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/((?!assets/|api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
