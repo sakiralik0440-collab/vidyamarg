@@ -21,7 +21,27 @@ const addCollege = async (req, res) => {
 // @access  Public
 const getAllColleges = async (req, res) => {
   try {
-    const colleges = await College.find().sort({ name: 1 });
+    const { search, district, state, stream } = req.query;
+    const filter = {};
+
+    if (search) {
+      const searchPattern = new RegExp(search.trim(), "i");
+      filter.$or = [
+        { name: searchPattern },
+        { code: searchPattern },
+        { district: searchPattern },
+        { state: searchPattern },
+        { streamsOffered: searchPattern },
+        { "departments.name": searchPattern },
+        { "departments.courses": searchPattern },
+      ];
+    }
+
+    if (district) filter.district = new RegExp(district, "i");
+    if (state) filter.state = new RegExp(state, "i");
+    if (stream) filter.streamsOffered = stream;
+
+    const colleges = await College.find(filter).sort({ name: 1 });
     res.status(200).json({
       success: true,
       count: colleges.length,

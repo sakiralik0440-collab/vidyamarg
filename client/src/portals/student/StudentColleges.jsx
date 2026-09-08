@@ -12,7 +12,12 @@ function StudentColleges() {
 
   useEffect(() => {
     let active = true;
-    getAllCollegesAPI()
+    setLoading(true);
+    setError("");
+    const timer = setTimeout(() => getAllCollegesAPI({
+      search: query.trim(),
+      district: district === "All districts" ? "" : district,
+    })
       .then((response) => {
         if (active) setColleges(response.colleges || []);
       })
@@ -21,40 +26,25 @@ function StudentColleges() {
       })
       .finally(() => {
         if (active) setLoading(false);
-      });
+      }), query.trim() ? 250 : 0);
     return () => {
       active = false;
+      clearTimeout(timer);
     };
-  }, []);
+  }, [district, query]);
 
   const districts = useMemo(
     () => ["All districts", ...new Set(colleges.map((college) => college.district).filter(Boolean))],
     [colleges]
   );
 
-  const filteredColleges = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    return colleges.filter((college) => {
-      const searchableText = [
-        college.name,
-        college.code,
-        college.district,
-        college.state,
-        ...(college.streamsOffered || []),
-        ...(college.departments || []).map((department) => department.name),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      return (
-        (!normalizedQuery || searchableText.includes(normalizedQuery)) &&
-        (district === "All districts" || college.district === district)
-      );
-    });
-  }, [colleges, district, query]);
+  const filteredColleges = colleges;
 
   const openDetails = async (college) => {
     setSelectedCollege(college);
+    const recent = JSON.parse(localStorage.getItem("vm_recent_colleges") || "[]");
+    const updatedRecent = [college, ...recent.filter((item) => item._id !== college._id)].slice(0, 4);
+    localStorage.setItem("vm_recent_colleges", JSON.stringify(updatedRecent));
     setDetailsLoading(true);
     try {
       const response = await getCollegeByIdAPI(college._id);

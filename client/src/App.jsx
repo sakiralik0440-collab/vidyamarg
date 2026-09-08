@@ -81,6 +81,7 @@ function App() {
           />
 
           <Route path="/student" element={<StudentPortal />} />
+          <Route path="/student/notifications" element={<StudentPortal initialSection="notifications" />} />
           <Route path="/student/login" element={<StudentLogin />} />
           <Route path="/student/register" element={<StudentRegistrationForm />} />
           <Route path="/student/profile/:id" element={<StudentProfile />} />

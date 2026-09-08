@@ -11,15 +11,22 @@ import StudentScholarships from "./StudentScholarships";
 import StudentProfileSection from "./StudentProfileSection";
 import StudentNotifications from "./StudentNotifications";
 
-function StudentPortal() {
+function StudentPortal({ initialSection = "dashboard" }) {
   const { user } = useAuth();
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [activeSection, setActiveSection] = useState(initialSection);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [applySuccess, setApplySuccess] = useState("");
   const [dashboardError, setDashboardError] = useState("");
   const [dashboardColleges, setDashboardColleges] = useState([]);
   const [dashboardScholarships, setDashboardScholarships] = useState([]);
+  const [recentlyViewedColleges, setRecentlyViewedColleges] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("vm_recent_colleges") || "[]");
+    } catch {
+      return [];
+    }
+  });
 
   // Initial Mock & Live Fallback Data
   const defaultStudent = data?.student || {
@@ -36,6 +43,35 @@ function StudentPortal() {
     skills: [],
   };
   const metrics = data?.metrics || {};
+  const profileFields = [
+    defaultStudent.name,
+    defaultStudent.email,
+    defaultStudent.phone,
+    defaultStudent.village,
+    defaultStudent.district,
+    defaultStudent.state,
+    defaultStudent.category,
+    defaultStudent.currentClass,
+    defaultStudent.stream,
+    defaultStudent.interestedField,
+    defaultStudent.course,
+    defaultStudent.branch,
+  ];
+  const profileCompletion = Math.round((profileFields.filter(Boolean).length / profileFields.length) * 100);
+
+  useEffect(() => {
+    setActiveSection(initialSection);
+  }, [initialSection]);
+
+  useEffect(() => {
+    if (activeSection === "dashboard") {
+      try {
+        setRecentlyViewedColleges(JSON.parse(localStorage.getItem("vm_recent_colleges") || "[]"));
+      } catch {
+        setRecentlyViewedColleges([]);
+      }
+    }
+  }, [activeSection]);
 
   const [jobs, setJobs] = useState([]);
 
@@ -103,6 +139,12 @@ function StudentPortal() {
         <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-400 text-sm flex items-center justify-between animate-fadeIn">
           <span>✅ {applySuccess}</span>
           <button onClick={() => setApplySuccess("")} className="text-emerald-400">✕</button>
+        </div>
+      )}
+      {loading && activeSection === "dashboard" && !data && (
+        <div className="mb-6 bg-slate-900 border border-slate-800 rounded-3xl p-5 flex items-center gap-3 text-sm text-slate-400">
+          <span className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          Loading your student dashboard...
         </div>
       )}
 
@@ -185,7 +227,15 @@ function StudentPortal() {
           </div>
 
           {/* Quick Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+              <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
+                <span>Profile completion</span>
+                <span className="text-lg">✓</span>
+              </div>
+              <p className="text-2xl font-black text-white">{profileCompletion}%</p>
+              <button onClick={() => setActiveSection("profile")} className="text-[11px] text-blue-400 font-medium mt-1 hover:underline">Complete profile</button>
+            </div>
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
               <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
                 <span>Cumulative CGPA</span>
@@ -244,6 +294,14 @@ function StudentPortal() {
               </div>
               {dashboardScholarships.length === 0 ? <p className="text-xs text-slate-500">No scholarship records available.</p> : <div className="space-y-2">{dashboardScholarships.slice(0, 3).map((scholarship) => <div key={scholarship._id} className="p-3 bg-slate-950/60 border border-slate-800 rounded-xl"><p className="text-xs font-bold text-white">{scholarship.name}</p><p className="text-[11px] text-emerald-400 mt-1">{scholarship.provider}{scholarship.deadline ? ` · Due ${new Date(scholarship.deadline).toLocaleDateString("en-IN")}` : ""}</p></div>)}</div>}
             </div>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div><h2 className="text-base font-bold text-white">Recently viewed colleges</h2><p className="text-xs text-slate-400 mt-1">Pick up where you left off.</p></div>
+              <button onClick={() => setActiveSection("colleges")} className="text-xs text-blue-400 hover:underline">Explore colleges</button>
+            </div>
+            {recentlyViewedColleges.length === 0 ? <p className="text-xs text-slate-500">Your viewed college profiles will appear here.</p> : <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">{recentlyViewedColleges.map((college) => <button key={college._id} onClick={() => setActiveSection("colleges")} className="text-left p-4 bg-slate-950/60 border border-slate-800 rounded-2xl hover:border-blue-500/40 transition-colors"><p className="text-sm font-bold text-white truncate">{college.name}</p><p className="text-xs text-slate-400 mt-1 truncate">{[college.district, college.state].filter(Boolean).join(", ")}</p></button>)}</div>}
           </div>
 
           {/* Two-Column Section: Recommended Jobs & Interview Schedule */}

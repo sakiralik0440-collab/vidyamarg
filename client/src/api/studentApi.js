@@ -210,9 +210,12 @@ export const sendCustomAlertAPI = async (alertData, token) => {
 };
 
 
-// Get all colleges
-export const getAllCollegesAPI = async () => {
-  const response = await fetch(`${BASE_URL}/colleges`);
+// Get colleges with optional server-side search and filters
+export const getAllCollegesAPI = async (filters = {}) => {
+  const params = new URLSearchParams(
+    Object.entries(filters).filter(([, value]) => value)
+  ).toString();
+  const response = await fetch(`${BASE_URL}/colleges${params ? `?${params}` : ""}`);
   const data = await response.json();
   if (!response.ok) throw new Error(data.message || "Failed to fetch colleges");
   return data;

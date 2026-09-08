@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
@@ -16,9 +16,25 @@ function Navbar({ currentPortal = "student", onToggleSidebar }) {
   const { user, logout } = useAuth();
   const { isDark } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const portal = PORTAL_CONFIG[currentPortal] || PORTAL_CONFIG.student;
+  const pageTitle = location.pathname.includes("/jobs")
+    ? "Job opportunities"
+    : location.pathname.includes("/achievements")
+      ? "Achievement wall"
+      : location.pathname.includes("/leaderboard")
+        ? "Leaderboard"
+        : location.pathname.includes("/college")
+          ? "College discovery"
+          : location.pathname.includes("/scholarship")
+            ? "Scholarships"
+            : location.pathname.includes("/profile")
+              ? "My profile"
+              : location.pathname.includes("/notifications")
+                ? "Notifications"
+                : "Dashboard";
 
   const handleLogout = () => {
     logout();
@@ -70,8 +86,22 @@ function Navbar({ currentPortal = "student", onToggleSidebar }) {
           </Link>
         </div>
 
+        <div className={`hidden md:block absolute left-1/2 -translate-x-1/2 text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+          {pageTitle}
+        </div>
+
         {/* Center/Right Side: Theme and account controls */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {currentPortal === "student" && (
+            <button
+              onClick={() => navigate("/student/notifications")}
+              className={`p-2 rounded-xl transition-colors ${isDark ? "text-slate-400 hover:text-white hover:bg-slate-800" : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"}`}
+              aria-label="Open notifications"
+              title="Notifications"
+            >
+              <span aria-hidden="true">🔔</span>
+            </button>
+          )}
           {/* Theme Toggle Button */}
           <ThemeToggle />
 
