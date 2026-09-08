@@ -84,14 +84,14 @@ function StudentProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-green-50 py-8 px-4">
-        <div className="max-w-2xl mx-auto space-y-4">
-          {[1, 2].map((i) => (
-            <div key={i} className="bg-white rounded-2xl shadow p-6 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-1/3 mb-3" />
-              <div className="h-4 bg-gray-100 rounded w-2/3" />
-            </div>
-          ))}
+      <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
+        <div className="mx-auto max-w-6xl space-y-6">
+          <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
+          <div className="grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
+            <div className="h-56 animate-pulse rounded-3xl bg-white shadow-sm" />
+            <div className="h-56 animate-pulse rounded-3xl bg-white shadow-sm" />
+          </div>
+          <div className="h-64 animate-pulse rounded-3xl bg-white shadow-sm" />
         </div>
       </div>
     );
@@ -99,140 +99,56 @@ function StudentProfile() {
 
   if (error || !student) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
-        <p className="text-red-600 text-lg">{error || t("profile.notFound")}</p>
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+        <div className="w-full max-w-md rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-rose-50 text-xl text-rose-600">!</div>
+          <h1 className="mt-4 text-lg font-extrabold text-slate-900">Unable to load profile</h1>
+          <p className="mt-2 text-sm leading-6 text-slate-500">{error || t("profile.notFound")}</p>
+          <button onClick={() => navigate("/")} className="mt-6 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-slate-700">Back to home</button>
+        </div>
       </div>
     );
   }
 
 
 
+  const score = Math.max(0, Math.min(100, Number(student.activityScore) || 0));
   return (
-    <div className="min-h-screen bg-green-50 py-6 px-4">
-      <div className="max-w-2xl mx-auto">
-
-        {/* Nav Row */}
-        <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-          <button
-            onClick={() => navigate("/")}
-            className="text-green-800 text-xs font-semibold hover:underline flex items-center gap-1"
-          >
-            ← {t("profile.backToHome")}
-          </button>
+    <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-900 sm:px-6 lg:py-8">
+      <div className="mx-auto max-w-6xl space-y-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <button onClick={() => navigate("/")} className="self-start text-sm font-bold text-slate-600 transition hover:text-teal-700">← {t("profile.backToHome")}</button>
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => navigate("/student/dashboard")}
-              className="text-xs bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-1.5 rounded-lg shadow-sm transition"
-            >
-              🎓 Open Student Portal
-            </button>
-            <button
-              onClick={() => navigate(`/parent/${id}`)}
-              className="text-xs bg-purple-100 text-purple-800 hover:bg-purple-200 font-semibold px-3 py-1.5 rounded-lg transition"
-            >
-              👨‍👩‍👦 Parent View
-            </button>
-            <button
-              onClick={() => {
-                localStorage.removeItem("studentId");
-                navigate("/register");
-              }}
-              className="text-xs text-gray-500 hover:text-gray-700 underline px-1"
-            >
-              Switch Student
-            </button>
+            <button onClick={() => navigate("/student/dashboard")} className="rounded-xl bg-teal-700 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-teal-800">🎓 Open Student Portal</button>
+            <button onClick={() => navigate(`/parent/${id}`)} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-sm transition hover:border-purple-300 hover:text-purple-700">👨‍👩‍👦 Parent View</button>
+            <button onClick={() => { localStorage.removeItem("studentId"); navigate("/register"); }} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-600 transition hover:border-slate-400 hover:text-slate-900">Switch Student</button>
           </div>
         </div>
 
-        {!isOnline && (
-          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2 mb-4 text-sm text-red-600">
-            📵 Offline — showing cached data
-          </div>
-        )}
+        {!isOnline && <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">📵 Offline mode: showing your latest cached profile data.</div>}
 
-        {/* Student Header Card */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-4">
-          <div className="bg-gradient-to-r from-green-700 to-green-600 px-6 py-5">
-            <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-white text-xl font-bold">{student.name}</h1>
-                <p className="text-green-100 text-sm mt-0.5">
-                  {student.village}, {student.district} · {student.currentClass}
-                </p>
+        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <div className="bg-slate-900 px-6 py-8 text-white md:px-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-4">
+                <div className="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-teal-600 text-3xl font-extrabold shadow-lg shadow-teal-950/30">{student.name?.charAt(0)?.toUpperCase() || "S"}</div>
+                <div className="min-w-0"><p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">Student profile</p><h1 className="mt-1 truncate text-2xl font-extrabold md:text-3xl">{student.name}</h1><p className="mt-2 truncate text-sm text-slate-300">{[student.village, student.district, student.currentClass].filter(Boolean).join(" · ")}</p></div>
               </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(student.status)}`}>
-                {getStatusLabel(student.status)}
-              </span>
+              <span className={`self-start rounded-full px-3 py-1.5 text-xs font-bold ${getStatusColor(student.status)}`}>{getStatusLabel(student.status)}</span>
             </div>
+            <div className="mt-8 max-w-xl"><div className="flex items-center justify-between text-xs font-semibold text-slate-300"><span>Activity score</span><span className="text-white">{score}/100</span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700"><div className="h-full rounded-full bg-teal-400 transition-all" style={{ width: `${score}%` }} /></div></div>
           </div>
+        </section>
 
-          {/* Score bar */}
-          <div className="px-6 py-4">
-            <div className="flex items-center gap-3">
-              <div className="flex-1 bg-gray-100 rounded-full h-2.5">
-                <div
-                  className="bg-green-600 h-2.5 rounded-full transition-all"
-                  style={{ width: `${student.activityScore}%` }}
-                />
-              </div>
-              <span className="text-green-800 font-bold text-sm">
-                {student.activityScore}/100
-              </span>
-            </div>
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-6">
+            <InfoSection title="Personal information" fields={[["Gender", student.gender], ["Category", student.category], ["Date of birth", formatDate(student.dateOfBirth)], ["Interested field", student.interestedField]]} />
+            <InfoSection title="Academic information" fields={[["Current class", student.currentClass], ["Stream", student.stream], ["Branch", student.branch], ["Semester", student.semester], ["Roll number", student.rollNo]]} />
+            <InfoSection title="Location" fields={[["Village", student.village], ["District", student.district], ["State", student.state]]} />
           </div>
-        </div>
-
-        {/* Basic Info — always visible */}
-        <div className="bg-white rounded-2xl shadow-lg p-5">
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <InfoRow label="Category" value={student.category} />
-            <InfoRow label="Stream" value={student.stream} />
-            <InfoRow label="Gender" value={student.gender || "—"} />
-            <InfoRow label="Interested In" value={student.interestedField || "—"} />
-          </div>
-
-          {student.familyContacts?.length > 0 && (
-            <div className="mt-4 pt-4 border-t">
-              <p className="text-xs text-gray-400 uppercase mb-2">Family Contacts</p>
-              <div className="space-y-2">
-                {student.familyContacts.map((c, i) => (
-                  <div key={i} className="flex justify-between text-sm">
-                    <span className="text-gray-600">
-                      {c.name} ({c.relation})
-                    </span>
-                    <span className="text-gray-800">{c.phoneNumber}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Feature Grid — the main navigation */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 mb-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase mb-3">
-            What do you need?
-          </p>
-          <div className="grid grid-cols-3 gap-3">
-            {FEATURES
-              .filter((feature) => !feature.teacherOnly || token)
-              .map((feature) => (
-                <button
-                  key={feature.id}
-                  onClick={() => navigate(`/profile/${id}/${feature.id}`)}
-                  className={`relative flex flex-col items-center justify-center gap-1.5 py-4 rounded-xl transition ${feature.color} hover:opacity-80 hover:scale-[1.03] active:scale-95`}
-                >
-                  {feature.teacherOnly && (
-                    <span className="absolute top-1.5 right-1.5 text-[9px] bg-gray-800 text-white px-1.5 py-0.5 rounded-full">
-                      Teacher
-                    </span>
-                  )}
-                  <span className="text-2xl">{feature.icon}</span>
-                  <span className="text-xs font-medium text-center leading-tight px-1">
-                    {feature.label}
-                  </span>
-                </button>
-              ))}
+          <div className="space-y-6">
+            <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title="Family contacts" subtitle="Trusted contacts connected to this student record." />{student.familyContacts?.length ? <div className="space-y-3">{student.familyContacts.map((contact, index) => <div key={contact._id || index} className="rounded-2xl border border-slate-100 bg-slate-50 p-4"><p className="font-bold text-slate-900">{contact.name}</p><div className="mt-1 flex flex-wrap justify-between gap-2 text-xs text-slate-500"><span>{contact.relation}</span><span className="font-semibold text-slate-700">{contact.phoneNumber}</span></div></div>)}</div> : <EmptyText text="No family contacts have been added." />}</section>
+            <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title="Connected services" subtitle="Open a feature to continue your journey." /><div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{FEATURES.filter((feature) => !feature.teacherOnly || token).map((feature) => <button key={feature.id} onClick={() => navigate(`/profile/${id}/${feature.id}`)} className="group flex min-h-24 flex-col items-start justify-between rounded-2xl border border-slate-200 bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md"><span className="text-xl">{feature.icon}</span><span className="text-xs font-bold leading-4 text-slate-700 group-hover:text-teal-700">{feature.label}</span>{feature.teacherOnly && <span className="text-[9px] font-bold uppercase text-slate-400">Teacher access</span>}</button>)}</div></section>
           </div>
         </div>
       </div>
@@ -240,13 +156,23 @@ function StudentProfile() {
   );
 }
 
-function InfoRow({ label, value }) {
-  return (
-    <div>
-      <p className="text-xs text-gray-400 uppercase tracking-wide">{label}</p>
-      <p className="text-gray-800 font-medium mt-0.5">{value}</p>
-    </div>
-  );
+function InfoSection({ title, fields }) {
+  const visibleFields = fields.filter(([, value]) => value !== undefined && value !== null && value !== "");
+  return <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title={title} />{visibleFields.length ? <div className="grid gap-5 sm:grid-cols-2">{visibleFields.map(([label, value]) => <div key={label}><p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 text-sm font-semibold text-slate-800">{value}</p></div>)}</div> : <EmptyText text="No information has been provided." />}</section>;
+}
+
+function SectionHeading({ title, subtitle }) {
+  return <div className="mb-5"><h2 className="text-base font-extrabold text-slate-900">{title}</h2>{subtitle && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}</div>;
+}
+
+function EmptyText({ text }) {
+  return <p className="rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">{text}</p>;
+}
+
+function formatDate(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN");
 }
 
 export default StudentProfile;
