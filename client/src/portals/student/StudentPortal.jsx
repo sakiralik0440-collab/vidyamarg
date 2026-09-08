@@ -171,41 +171,61 @@ function StudentPortal() {
                   {defaultStudent.course} • {defaultStudent.branch} (Semester {defaultStudent.semester})
                 </p>
                 <p className="text-xs text-slate-400 mt-0.5">{defaultStudent.college}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span className="text-xs text-emerald-400 font-semibold">Profile verified by college</span>
+                </div>
               </div>
 
-              {/* Career Readiness Meter */}
-              <div className="bg-slate-950/70 border border-blue-500/30 rounded-2xl p-4 flex items-center gap-4 min-w-[220px]">
-                <div className="relative w-16 h-16 flex items-center justify-center">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                    <path
-                      className="text-slate-800"
-                      strokeWidth="3.5"
-                      stroke="currentColor"
-                      fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                    <path
-                      className="text-blue-500"
-                      strokeDasharray={`${defaultStudent.readinessScore}, 100`}
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                      stroke="currentColor"
-                      fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                  </svg>
-                  <span className="absolute font-extrabold text-white text-sm">
-                    {defaultStudent.readinessScore}%
-                  </span>
+              <div className="flex flex-col sm:flex-row items-stretch gap-3">
+                {/* Career Readiness Meter */}
+                <div className="bg-slate-950/70 border border-blue-500/30 rounded-2xl p-4 flex items-center gap-4 min-w-[220px]">
+                  <div className="relative w-16 h-16 flex items-center justify-center">
+                    <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                      <path
+                        className="text-slate-800"
+                        strokeWidth="3.5"
+                        stroke="currentColor"
+                        fill="none"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                      <path
+                        className="text-blue-500"
+                        strokeDasharray={`${defaultStudent.readinessScore}, 100`}
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="none"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                    </svg>
+                    <span className="absolute font-extrabold text-white text-sm">
+                      {defaultStudent.readinessScore}%
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase text-slate-400">Career Readiness</p>
+                    <p className="text-xs font-semibold text-emerald-400">High Employability</p>
+                    <button
+                      onClick={() => setActiveSection("readiness")}
+                      className="text-[11px] text-blue-400 hover:underline mt-0.5 block"
+                    >
+                      View Breakdown →
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[11px] font-bold uppercase text-slate-400">Career Readiness</p>
-                  <p className="text-xs font-semibold text-emerald-400">High Employability</p>
+                <div className="flex sm:flex-col gap-2">
                   <button
-                    onClick={() => setActiveSection("readiness")}
-                    className="text-[11px] text-blue-400 hover:underline mt-0.5 block"
+                    onClick={() => setActiveSection("jobs")}
+                    className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20 transition-all"
                   >
-                    View Breakdown →
+                    Browse Jobs
+                  </button>
+                  <button
+                    onClick={() => setActiveSection("applications")}
+                    className="flex-1 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl transition-all"
+                  >
+                    My Applications
                   </button>
                 </div>
               </div>
