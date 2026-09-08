@@ -9,6 +9,8 @@ function StudentPortal() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [applySuccess, setApplySuccess] = useState("");
+  const [cohortQuery, setCohortQuery] = useState("");
+  const [cohortStatus, setCohortStatus] = useState("All");
 
   // Initial Mock & Live Fallback Data
   const defaultStudent = {
@@ -130,6 +132,14 @@ function StudentPortal() {
     setTimeout(() => setApplySuccess(""), 4000);
   };
 
+  const filteredCohort = demoStudents.filter((student) => {
+    const query = cohortQuery.trim().toLowerCase();
+    const matchesQuery = !query || [student.name, student.rollNo, student.branch]
+      .some((value) => value.toLowerCase().includes(query));
+    const matchesStatus = cohortStatus === "All" || student.status === cohortStatus;
+    return matchesQuery && matchesStatus;
+  });
+
   return (
     <PortalLayout
       currentPortal="student"
@@ -241,21 +251,109 @@ function StudentPortal() {
             </div>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-base font-bold text-white">Your Class Cohort</h2>
-                <p className="text-xs text-slate-400">20 students connected through VidyaMarg</p>
-              </div>
-              <span className="text-xs font-bold text-blue-400">{demoStudents.length} students</span>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2">
-              {demoStudents.map((student) => (
-                <div key={student.id} className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
-                  <p className="text-xs font-semibold text-white truncate">{student.name}</p>
-                  <p className="text-[10px] text-slate-500 mt-1">{student.branch} · {student.cgpa} CGPA</p>
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
+            <div className="p-6 border-b border-slate-800">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-bold text-white">Class Directory</h2>
+                    <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                      {demoStudents.length} students
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-1">Find classmates and compare academic progress.</p>
                 </div>
-              ))}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <label className="relative">
+                    <span className="sr-only">Search students</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">⌕</span>
+                    <input
+                      value={cohortQuery}
+                      onChange={(event) => setCohortQuery(event.target.value)}
+                      placeholder="Search name, roll no. or branch"
+                      className="w-full sm:w-64 bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500"
+                    />
+                  </label>
+                  <select
+                    value={cohortStatus}
+                    onChange={(event) => setCohortStatus(event.target.value)}
+                    className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="All">All statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Placed">Placed</option>
+                    <option value="At Risk">At risk</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 mt-5 max-w-md">
+                <div className="rounded-xl bg-slate-950/70 px-3 py-2">
+                  <p className="text-[10px] text-slate-500">Showing</p>
+                  <p className="text-sm font-bold text-white">{filteredCohort.length}</p>
+                </div>
+                <div className="rounded-xl bg-emerald-500/5 border border-emerald-500/10 px-3 py-2">
+                  <p className="text-[10px] text-slate-500">Placed</p>
+                  <p className="text-sm font-bold text-emerald-400">{demoStudents.filter((student) => student.status === "Placed").length}</p>
+                </div>
+                <div className="rounded-xl bg-rose-500/5 border border-rose-500/10 px-3 py-2">
+                  <p className="text-[10px] text-slate-500">At risk</p>
+                  <p className="text-sm font-bold text-rose-400">{demoStudents.filter((student) => student.status === "At Risk").length}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px] text-left text-xs">
+                <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wide text-slate-500">
+                  <tr>
+                    <th className="px-6 py-3 font-semibold">Student</th>
+                    <th className="px-4 py-3 font-semibold">Roll number</th>
+                    <th className="px-4 py-3 font-semibold">Branch</th>
+                    <th className="px-4 py-3 font-semibold">Semester</th>
+                    <th className="px-4 py-3 font-semibold">Attendance</th>
+                    <th className="px-4 py-3 font-semibold">CGPA</th>
+                    <th className="px-6 py-3 font-semibold">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800">
+                  {filteredCohort.map((student) => (
+                    <tr key={student.id} className="hover:bg-slate-800/40 transition-colors">
+                      <td className="px-6 py-3.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center font-bold">
+                            {student.name.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-white">{student.name}</p>
+                            <p className="text-[10px] text-slate-500">{student.course}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-slate-400">{student.rollNo}</td>
+                      <td className="px-4 py-3.5 text-slate-300">{student.branch}</td>
+                      <td className="px-4 py-3.5 text-slate-400">Sem {student.sem}</td>
+                      <td className={`px-4 py-3.5 font-semibold ${student.attendance < 75 ? "text-rose-400" : "text-emerald-400"}`}>
+                        {student.attendance}%
+                      </td>
+                      <td className="px-4 py-3.5 font-semibold text-white">{student.cgpa}</td>
+                      <td className="px-6 py-3.5">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                          student.status === "At Risk"
+                            ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                            : student.status === "Placed"
+                              ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        }`}>
+                          {student.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {filteredCohort.length === 0 && (
+                <p className="p-8 text-center text-xs text-slate-500">No students match your search.</p>
+              )}
             </div>
           </div>
 
