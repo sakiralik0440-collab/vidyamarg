@@ -17,6 +17,9 @@ const SIDEBAR_MENUS = {
       { id: "attendance", label: "Attendance Tracker", icon: "📅" },
       { id: "readiness", label: "Career Readiness Score", icon: "⚡" },
       { id: "jobs", label: "Recommended Jobs", icon: "💼" },
+      { id: "jobs-page", label: "All Job Opportunities", icon: "🔎", route: "/student/jobs" },
+      { id: "achievements-page", label: "Achievement Wall", icon: "🏆", route: "/student/achievements" },
+      { id: "leaderboard-page", label: "Leaderboard", icon: "📊", route: "/student/leaderboard" },
       { id: "applications", label: "My Applications", icon: "📑" },
       { id: "profile", label: "My Profile", icon: "👤" },
       { id: "notifications", label: "Notifications", icon: "🔔" },
@@ -71,6 +74,7 @@ const SIDEBAR_MENUS = {
 function Sidebar({ currentPortal = "student", activeSection, onSelectSection, isOpen, onClose }) {
   const menuConfig = SIDEBAR_MENUS[currentPortal] || SIDEBAR_MENUS.student;
   const { isDark } = useTheme();
+  const location = useLocation();
 
   return (
     <>
@@ -107,21 +111,37 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
         {/* Scrollable Navigation List */}
         <nav className="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar">
           {menuConfig.items.map((item) => {
-            const isActive = activeSection === item.id;
+            const isActive = item.route
+              ? location.pathname === item.route
+              : activeSection === item.id;
+            const itemClassName = `w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left text-xs transition-all ${
+              isActive
+                ? menuConfig.activeClass
+                : isDark
+                  ? "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+            }`;
+
             return (
+              item.route ? (
+                <Link
+                  key={item.id}
+                  to={item.route}
+                  onClick={onClose}
+                  className={itemClassName}
+                >
+                  <span className="text-base">{item.icon}</span>
+                  <span className="truncate flex-1">{item.label}</span>
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+                </Link>
+              ) : (
               <button
                 key={item.id}
                 onClick={() => {
                   onSelectSection(item.id);
                   if (onClose) onClose();
                 }}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left text-xs transition-all ${
-                  isActive
-                    ? menuConfig.activeClass
-                    : isDark
-                      ? "text-slate-300 hover:text-white hover:bg-slate-800/60"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                }`}
+                className={itemClassName}
               >
                 <span className="text-base">{item.icon}</span>
                 <span className="truncate flex-1">{item.label}</span>
@@ -129,6 +149,7 @@ function Sidebar({ currentPortal = "student", activeSection, onSelectSection, is
                   <span className="w-1.5 h-1.5 rounded-full bg-current" />
                 )}
               </button>
+              )
             );
           })}
         </nav>
