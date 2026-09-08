@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
-import demoStudents from "../../data/demoStudents";
+import {
+  applyForJobAPI,
+  getAllCollegesAPI,
+  getAllScholarshipsAPI,
+} from "../../api/studentApi";
+import StudentColleges from "./StudentColleges";
+import StudentScholarships from "./StudentScholarships";
+import StudentProfileSection from "./StudentProfileSection";
+import StudentNotifications from "./StudentNotifications";
 
 function StudentPortal() {
   const { user } = useAuth();
@@ -9,103 +17,33 @@ function StudentPortal() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [applySuccess, setApplySuccess] = useState("");
-  const [cohortQuery, setCohortQuery] = useState("");
-  const [cohortStatus, setCohortStatus] = useState("All");
+  const [dashboardError, setDashboardError] = useState("");
+  const [dashboardColleges, setDashboardColleges] = useState([]);
+  const [dashboardScholarships, setDashboardScholarships] = useState([]);
 
   // Initial Mock & Live Fallback Data
-  const defaultStudent = {
-    name: user?.name || "Sakir Ali",
-    rollNo: "VM-2024-CS042",
-    course: "B.Tech",
-    branch: "Computer Science & Engineering",
-    semester: 6,
-    college: "Institute of Engineering & Technology, DAVV",
-    cgpa: 8.4,
-    attendanceRate: 88,
-    readinessScore: 82,
-    skills: ["React.js", "Node.js", "Python", "MongoDB", "Data Structures", "Tailwind CSS"],
+  const defaultStudent = data?.student || {
+    name: user?.name || "Student",
+    email: user?.email,
+    rollNo: "Not provided",
+    course: "Student profile",
+    branch: "",
+    semester: "",
+    college: "",
+    cgpa: 0,
+    attendanceRate: 0,
+    readinessScore: 0,
+    skills: [],
   };
+  const metrics = data?.metrics || {};
 
-  const [jobs, setJobs] = useState([
-    {
-      id: "j1",
-      title: "Associate Software Engineer",
-      company: "Infosys Technologies",
-      location: "Indore, MP (Hybrid)",
-      ctc: "₹6.5 - 8.0 LPA",
-      type: "Campus Drive",
-      deadline: "2026-09-15",
-      skills: ["React.js", "Node.js", "SQL"],
-      status: "Active",
-      minCgpa: 7.5,
-    },
-    {
-      id: "j2",
-      title: "Frontend Developer Intern",
-      company: "Tata Consultancy Services",
-      location: "Bhopal, MP",
-      ctc: "₹25,000 / month",
-      type: "Internship",
-      deadline: "2026-09-20",
-      skills: ["JavaScript", "React", "CSS"],
-      status: "Active",
-      minCgpa: 7.0,
-    },
-    {
-      id: "j3",
-      title: "Cloud & DevOps Trainee",
-      company: "Wipro Digital",
-      location: "Pune / Remote",
-      ctc: "₹7.2 LPA",
-      type: "Full-time",
-      deadline: "2026-09-30",
-      skills: ["Linux", "Docker", "AWS"],
-      status: "Active",
-      minCgpa: 7.0,
-    },
-  ]);
+  const [jobs, setJobs] = useState([]);
 
-  const [applications, setApplications] = useState([
-    {
-      id: "app1",
-      jobTitle: "Associate Software Engineer",
-      company: "Infosys Technologies",
-      status: "Interview Scheduled",
-      appliedAt: "2026-08-20",
-      round: "Round 2: Technical Interview",
-      interviewDate: "2026-08-30 at 11:30 AM",
-      meetingLink: "https://meet.google.com/abc-defg-hij",
-    },
-    {
-      id: "app2",
-      jobTitle: "Junior Full Stack Developer",
-      company: "Persistent Systems",
-      status: "Shortlisted",
-      appliedAt: "2026-08-15",
-    },
-  ]);
+  const [applications, setApplications] = useState([]);
 
-  const [achievements, setAchievements] = useState([
-    {
-      id: "ach1",
-      title: "1st Prize - State Level Smart MP Hackathon 2026",
-      category: "Hackathon",
-      date: "2026-07-14",
-      status: "Approved",
-      verifiedBy: "Prof. S. Sharma (HOD CSE)",
-    },
-    {
-      id: "ach2",
-      title: "AWS Certified Cloud Practitioner",
-      category: "Certification",
-      date: "2026-06-10",
-      status: "Approved",
-      verifiedBy: "Dr. Verma",
-    },
-  ]);
+  const [achievements, setAchievements] = useState([]);
 
   useEffect(() => {
-    // Fetch live dashboard if available
     fetch("/api/student/dashboard", {
       headers: { Authorization: `Bearer ${localStorage.getItem("vm_token")}` },
     })
@@ -113,32 +51,46 @@ function StudentPortal() {
       .then((res) => {
         if (res && res.success) {
           setData(res.dashboard);
+          setJobs(res.dashboard.recommendedJobs || []);
+          setApplications((res.dashboard.applications || []).map((application) => ({
+            id: application._id,
+            jobTitle: application.jobId?.title || "Job application",
+            company: application.companyId?.companyName || "Company",
+            status: application.status,
+            appliedAt: application.appliedAt ? new Date(application.appliedAt).toLocaleDateString("en-IN") : "Recent",
+          })));
+          setAchievements(res.dashboard.achievements || []);
+        } else {
+          setDashboardError("Sign in with a student account to load your live dashboard.");
         }
       })
-      .catch(() => {})
+      .catch(() => setDashboardError("We could not load your dashboard right now."))
       .finally(() => setLoading(false));
   }, []);
 
-  const handleApply = (job) => {
-    const newApp = {
-      id: `app_${Date.now()}`,
-      jobTitle: job.title,
-      company: job.company,
-      status: "Applied",
-      appliedAt: new Date().toISOString().split("T")[0],
-    };
-    setApplications([newApp, ...applications]);
-    setApplySuccess(`Applied successfully for ${job.title} at ${job.company}!`);
+  useEffect(() => {
+    Promise.allSettled([getAllCollegesAPI(), getAllScholarshipsAPI()]).then(([collegeResult, scholarshipResult]) => {
+      if (collegeResult.status === "fulfilled") setDashboardColleges(collegeResult.value.colleges || []);
+      if (scholarshipResult.status === "fulfilled") setDashboardScholarships(scholarshipResult.value.scholarships || []);
+    });
+  }, []);
+
+  const handleApply = async (job) => {
+    try {
+      const response = await applyForJobAPI(job._id || job.id, localStorage.getItem("vm_token"));
+      setApplications((current) => [{
+        id: response.application?._id || `app_${Date.now()}`,
+        jobTitle: job.title,
+        company: job.companyId?.companyName || job.company || "Company",
+        status: "Applied",
+        appliedAt: new Date().toLocaleDateString("en-IN"),
+      }, ...current]);
+      setApplySuccess(response.message || `Application submitted for ${job.title}.`);
+    } catch (error) {
+      setApplySuccess(error.message || "Unable to submit application.");
+    }
     setTimeout(() => setApplySuccess(""), 4000);
   };
-
-  const filteredCohort = demoStudents.filter((student) => {
-    const query = cohortQuery.trim().toLowerCase();
-    const matchesQuery = !query || [student.name, student.rollNo, student.branch]
-      .some((value) => value.toLowerCase().includes(query));
-    const matchesStatus = cohortStatus === "All" || student.status === cohortStatus;
-    return matchesQuery && matchesStatus;
-  });
 
   return (
     <PortalLayout
@@ -191,7 +143,7 @@ function StudentPortal() {
                       />
                       <path
                         className="text-blue-500"
-                        strokeDasharray={`${defaultStudent.readinessScore}, 100`}
+                        strokeDasharray={`${metrics.readinessScore || defaultStudent.readinessScore}, 100`}
                         strokeWidth="3.5"
                         strokeLinecap="round"
                         stroke="currentColor"
@@ -200,7 +152,7 @@ function StudentPortal() {
                       />
                     </svg>
                     <span className="absolute font-extrabold text-white text-sm">
-                      {defaultStudent.readinessScore}%
+                      {metrics.readinessScore || defaultStudent.readinessScore}%
                     </span>
                   </div>
                   <div>
@@ -239,7 +191,7 @@ function StudentPortal() {
                 <span>Cumulative CGPA</span>
                 <span className="text-lg">📈</span>
               </div>
-              <p className="text-2xl font-black text-white">{defaultStudent.cgpa} <span className="text-xs text-slate-400 font-normal">/ 10</span></p>
+              <p className="text-2xl font-black text-white">{metrics.cgpa || defaultStudent.cgpa} <span className="text-xs text-slate-400 font-normal">/ 10</span></p>
               <p className="text-[11px] text-emerald-400 font-medium mt-1">Top 5% in Batch</p>
             </div>
 
@@ -248,7 +200,7 @@ function StudentPortal() {
                 <span>Attendance Rate</span>
                 <span className="text-lg">📅</span>
               </div>
-              <p className="text-2xl font-black text-white">{defaultStudent.attendanceRate}%</p>
+              <p className="text-2xl font-black text-white">{metrics.attendanceRate || defaultStudent.attendanceRate}%</p>
               <p className="text-[11px] text-emerald-400 font-medium mt-1">Healthy (Above 75%)</p>
             </div>
 
@@ -271,109 +223,26 @@ function StudentPortal() {
             </div>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
-            <div className="p-6 border-b border-slate-800">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base font-bold text-white">Class Directory</h2>
-                    <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                      {demoStudents.length} students
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">Find classmates and compare academic progress.</p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <label className="relative">
-                    <span className="sr-only">Search students</span>
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">⌕</span>
-                    <input
-                      value={cohortQuery}
-                      onChange={(event) => setCohortQuery(event.target.value)}
-                      placeholder="Search name, roll no. or branch"
-                      className="w-full sm:w-64 bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500"
-                    />
-                  </label>
-                  <select
-                    value={cohortStatus}
-                    onChange={(event) => setCohortStatus(event.target.value)}
-                    className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
-                  >
-                    <option value="All">All statuses</option>
-                    <option value="Active">Active</option>
-                    <option value="Placed">Placed</option>
-                    <option value="At Risk">At risk</option>
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 mt-5 max-w-md">
-                <div className="rounded-xl bg-slate-950/70 px-3 py-2">
-                  <p className="text-[10px] text-slate-500">Showing</p>
-                  <p className="text-sm font-bold text-white">{filteredCohort.length}</p>
-                </div>
-                <div className="rounded-xl bg-emerald-500/5 border border-emerald-500/10 px-3 py-2">
-                  <p className="text-[10px] text-slate-500">Placed</p>
-                  <p className="text-sm font-bold text-emerald-400">{demoStudents.filter((student) => student.status === "Placed").length}</p>
-                </div>
-                <div className="rounded-xl bg-rose-500/5 border border-rose-500/10 px-3 py-2">
-                  <p className="text-[10px] text-slate-500">At risk</p>
-                  <p className="text-sm font-bold text-rose-400">{demoStudents.filter((student) => student.status === "At Risk").length}</p>
-                </div>
-              </div>
+          {dashboardError && (
+            <div className="p-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 text-sm text-amber-300">
+              {dashboardError}
             </div>
+          )}
 
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[720px] text-left text-xs">
-                <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wide text-slate-500">
-                  <tr>
-                    <th className="px-6 py-3 font-semibold">Student</th>
-                    <th className="px-4 py-3 font-semibold">Roll number</th>
-                    <th className="px-4 py-3 font-semibold">Branch</th>
-                    <th className="px-4 py-3 font-semibold">Semester</th>
-                    <th className="px-4 py-3 font-semibold">Attendance</th>
-                    <th className="px-4 py-3 font-semibold">CGPA</th>
-                    <th className="px-6 py-3 font-semibold">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800">
-                  {filteredCohort.map((student) => (
-                    <tr key={student.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="px-6 py-3.5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center font-bold">
-                            {student.name.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="font-semibold text-white">{student.name}</p>
-                            <p className="text-[10px] text-slate-500">{student.course}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3.5 text-slate-400">{student.rollNo}</td>
-                      <td className="px-4 py-3.5 text-slate-300">{student.branch}</td>
-                      <td className="px-4 py-3.5 text-slate-400">Sem {student.sem}</td>
-                      <td className={`px-4 py-3.5 font-semibold ${student.attendance < 75 ? "text-rose-400" : "text-emerald-400"}`}>
-                        {student.attendance}%
-                      </td>
-                      <td className="px-4 py-3.5 font-semibold text-white">{student.cgpa}</td>
-                      <td className="px-6 py-3.5">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                          student.status === "At Risk"
-                            ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                            : student.status === "Placed"
-                              ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
-                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                        }`}>
-                          {student.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {filteredCohort.length === 0 && (
-                <p className="p-8 text-center text-xs text-slate-500">No students match your search.</p>
-              )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <div><h2 className="text-base font-bold text-white">Recommended Colleges</h2><p className="text-xs text-slate-400 mt-1">Live records from the college directory.</p></div>
+                <button onClick={() => setActiveSection("colleges")} className="text-xs text-blue-400 hover:underline">Browse all</button>
+              </div>
+              {dashboardColleges.length === 0 ? <p className="text-xs text-slate-500">No college records available.</p> : <div className="space-y-2">{dashboardColleges.slice(0, 3).map((college) => <div key={college._id} className="p-3 bg-slate-950/60 border border-slate-800 rounded-xl"><p className="text-xs font-bold text-white">{college.name}</p><p className="text-[11px] text-slate-400 mt-1">{[college.district, college.state].filter(Boolean).join(", ")}</p></div>)}</div>}
+            </div>
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <div><h2 className="text-base font-bold text-white">Scholarship Opportunities</h2><p className="text-xs text-slate-400 mt-1">Active records available for review.</p></div>
+                <button onClick={() => setActiveSection("scholarships")} className="text-xs text-emerald-400 hover:underline">View all</button>
+              </div>
+              {dashboardScholarships.length === 0 ? <p className="text-xs text-slate-500">No scholarship records available.</p> : <div className="space-y-2">{dashboardScholarships.slice(0, 3).map((scholarship) => <div key={scholarship._id} className="p-3 bg-slate-950/60 border border-slate-800 rounded-xl"><p className="text-xs font-bold text-white">{scholarship.name}</p><p className="text-[11px] text-emerald-400 mt-1">{scholarship.provider}{scholarship.deadline ? ` · Due ${new Date(scholarship.deadline).toLocaleDateString("en-IN")}` : ""}</p></div>)}</div>}
             </div>
           </div>
 
@@ -399,21 +268,21 @@ function StudentPortal() {
               <div className="space-y-3">
                 {jobs.slice(0, 3).map((job) => (
                   <div
-                    key={job.id}
+                    key={job._id || job.id}
                     className="p-4 bg-slate-950/60 border border-slate-800 hover:border-blue-500/40 rounded-2xl transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                   >
                     <div>
                       <div className="flex items-center gap-2">
                         <h3 className="text-sm font-bold text-white">{job.title}</h3>
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold">
-                          {job.type}
+                          {job.jobType || job.type || "Opportunity"}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-0.5">{job.company} • {job.location}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{job.companyId?.companyName || job.company || "Company"} • {job.location || "Location not listed"}</p>
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
-                        <span className="text-xs font-semibold text-emerald-400">{job.ctc}</span>
+                        <span className="text-xs font-semibold text-emerald-400">{job.ctc || "Compensation not listed"}</span>
                         <span className="text-slate-600">•</span>
-                        {job.skills.map((s) => (
+                        {(job.skillsRequired || job.skills || []).map((s) => (
                           <span key={s} className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md">
                             {s}
                           </span>
@@ -463,21 +332,25 @@ function StudentPortal() {
                 <h2 className="text-sm font-bold text-white flex items-center gap-2 mb-3">
                   <span>📢</span> College Notice Board
                 </h2>
-                <div className="space-y-2 text-xs">
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                    <p className="font-semibold text-white">Campus Placement Drive 2026</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">Registration closes Sept 15 for Infosys & TCS.</p>
-                  </div>
-                  <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                    <p className="font-semibold text-white">Mid-Term Exam Schedule Released</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">Check department notice board for exam dates.</p>
-                  </div>
-                </div>
+                {(data?.alerts || []).length === 0 ? <p className="text-xs text-slate-500">No new notifications.</p> : <div className="space-y-2 text-xs">{data.alerts.slice(0, 3).map((alert, index) => <div key={alert._id || alert.id || index} className="p-3 bg-slate-950/60 rounded-xl border border-slate-800"><p className="font-semibold text-white">{alert.title || "Notification"}</p><p className="text-[11px] text-slate-400 mt-0.5">{alert.message || "No additional details."}</p></div>)}</div>}
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {activeSection === "colleges" && <StudentColleges />}
+
+      {activeSection === "scholarships" && <StudentScholarships student={defaultStudent} />}
+
+      {activeSection === "profile" && (
+        <StudentProfileSection
+          student={defaultStudent}
+          onBackToDashboard={() => setActiveSection("dashboard")}
+        />
+      )}
+
+      {activeSection === "notifications" && <StudentNotifications alerts={data?.alerts || []} />}
 
       {/* 2. ACADEMIC PROGRESS */}
       {activeSection === "academics" && (
@@ -492,27 +365,13 @@ function StudentPortal() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { sem: "Sem 1", gpa: "8.2", status: "Passed (Distinction)", credits: 24 },
-              { sem: "Sem 2", gpa: "8.5", status: "Passed (Distinction)", credits: 24 },
-              { sem: "Sem 3", gpa: "8.1", status: "Passed (Distinction)", credits: 26 },
-              { sem: "Sem 4", gpa: "8.6", status: "Passed (Distinction)", credits: 26 },
-              { sem: "Sem 5", gpa: "8.7", status: "Passed (Distinction)", credits: 24 },
-              { sem: "Sem 6 (Current)", gpa: "8.4 (Ongoing)", status: "Active", credits: 22 },
-            ].map((s) => (
-              <div key={s.sem} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs font-bold text-slate-300">{s.sem}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                    {s.status}
-                  </span>
-                </div>
-                <p className="text-2xl font-extrabold text-white">{s.gpa}</p>
-                <p className="text-[11px] text-slate-400 mt-1">Total Credits: {s.credits}</p>
-              </div>
-            ))}
-          </div>
+          {data?.recentExams?.length ? <div className="grid grid-cols-1 md:grid-cols-3 gap-4">{data.recentExams.map((exam) => (
+            <div key={exam._id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+              <div className="flex justify-between items-center mb-2"><span className="text-xs font-bold text-slate-300">{exam.subject}</span><span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">{exam.grade || "Recorded"}</span></div>
+              <p className="text-2xl font-extrabold text-white">{exam.marksObtained} <span className="text-xs text-slate-500">/ {exam.totalMarks}</span></p>
+              <p className="text-[11px] text-slate-400 mt-1">{exam.examType || "Exam"} · Semester {exam.semester}</p>
+            </div>
+          ))}</div> : <EmptyPanel message="No exam results are available in your student record yet." />}
         </div>
       )}
 
@@ -520,28 +379,22 @@ function StudentPortal() {
       {activeSection === "attendance" && (
         <div className="space-y-6 animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <h2 className="text-lg font-bold text-white mb-1">Attendance Record (88% Overall)</h2>
+            <h2 className="text-lg font-bold text-white mb-1">Attendance Record ({metrics.attendanceRate || defaultStudent.attendanceRate}% Overall)</h2>
             <p className="text-xs text-slate-400 mb-6">Subject-wise daily attendance records and alert status</p>
 
             <div className="space-y-3">
-              {[
-                { subject: "Data Structures & Algorithms", total: 42, present: 39, pct: 92 },
-                { subject: "Database Management Systems", total: 40, present: 36, pct: 90 },
-                { subject: "Computer Networks", total: 38, present: 32, pct: 84 },
-                { subject: "Software Engineering", total: 36, present: 31, pct: 86 },
-                { subject: "Machine Learning Elective", total: 32, present: 28, pct: 87 },
-              ].map((sub) => (
+              {data?.recentAttendance?.length ? data.recentAttendance.map((sub) => (
                 <div key={sub.subject} className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl">
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs font-bold text-white">{sub.subject}</span>
-                    <span className="text-xs font-extrabold text-emerald-400">{sub.pct}%</span>
+                    <span className={`text-xs font-extrabold ${sub.status === "Present" ? "text-emerald-400" : "text-rose-400"}`}>{sub.status}</span>
                   </div>
                   <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-2">
-                    <div className="bg-blue-500 h-full rounded-full" style={{ width: `${sub.pct}%` }} />
+                    <div className={`h-full rounded-full ${sub.status === "Present" ? "bg-blue-500 w-full" : "bg-rose-500 w-1/3"}`} />
                   </div>
-                  <p className="text-[10px] text-slate-400 mt-1.5">{sub.present} present out of {sub.total} classes</p>
+                  <p className="text-[10px] text-slate-400 mt-1.5">{sub.date ? new Date(sub.date).toLocaleDateString("en-IN") : "Recent attendance record"}</p>
                 </div>
-              ))}
+              )) : <EmptyPanel message="No attendance records are available in your student record yet." />}
             </div>
           </div>
         </div>
@@ -557,26 +410,10 @@ function StudentPortal() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <p className="text-xs text-slate-400">Academic Score (Max 30)</p>
-                <p className="text-xl font-bold text-white mt-1">26 / 30 pts</p>
-                <p className="text-[11px] text-emerald-400 mt-1">Based on 8.4 CGPA</p>
-              </div>
-              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <p className="text-xs text-slate-400">Attendance Health (Max 20)</p>
-                <p className="text-xl font-bold text-white mt-1">18 / 20 pts</p>
-                <p className="text-[11px] text-emerald-400 mt-1">Based on 88% Attendance</p>
-              </div>
-              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <p className="text-xs text-slate-400">Technical Skills & Badges (Max 25)</p>
-                <p className="text-xl font-bold text-white mt-1">21 / 25 pts</p>
-                <p className="text-[11px] text-blue-400 mt-1">6 Verified Skills</p>
-              </div>
-              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <p className="text-xs text-slate-400">Achievements & Hackathons (Max 25)</p>
-                <p className="text-xl font-bold text-white mt-1">17 / 25 pts</p>
-                <p className="text-[11px] text-purple-400 mt-1">2 Endorsed Accolades</p>
-              </div>
+              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl"><p className="text-xs text-slate-400">Academic CGPA</p><p className="text-xl font-bold text-white mt-1">{metrics.cgpa || defaultStudent.cgpa} / 10</p><p className="text-[11px] text-emerald-400 mt-1">From your student record</p></div>
+              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl"><p className="text-xs text-slate-400">Attendance health</p><p className="text-xl font-bold text-white mt-1">{metrics.attendanceRate || defaultStudent.attendanceRate}%</p><p className="text-[11px] text-emerald-400 mt-1">From recent attendance records</p></div>
+              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl"><p className="text-xs text-slate-400">Skills</p><p className="text-xl font-bold text-white mt-1">{defaultStudent.skills?.length || 0}</p><p className="text-[11px] text-blue-400 mt-1">Skills in your profile</p></div>
+              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl"><p className="text-xs text-slate-400">Verified achievements</p><p className="text-xl font-bold text-white mt-1">{metrics.approvedAchievements || achievements.length}</p><p className="text-[11px] text-purple-400 mt-1">From your connected records</p></div>
             </div>
           </div>
         </div>
@@ -589,20 +426,20 @@ function StudentPortal() {
           <div className="space-y-3">
             {jobs.map((job) => (
               <div
-                key={job.id}
+                key={job._id || job.id}
                 className="p-5 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg"
               >
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-bold text-white">{job.title}</h3>
                     <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold">
-                      {job.type}
+                      {job.jobType || job.type || "Opportunity"}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 mt-1">🏢 {job.company} • 📍 {job.location}</p>
-                  <p className="text-xs text-emerald-400 font-semibold mt-1">💰 {job.ctc} • ⏳ Deadline: {job.deadline}</p>
+                  <p className="text-xs text-slate-300 mt-1">🏢 {job.companyId?.companyName || job.company || "Company"} • 📍 {job.location || "Location not listed"}</p>
+                  <p className="text-xs text-emerald-400 font-semibold mt-1">💰 {job.ctc || "Compensation not listed"} • ⏳ Deadline: {job.deadline ? new Date(job.deadline).toLocaleDateString("en-IN") : "Not listed"}</p>
                   <div className="flex gap-1.5 mt-2.5 flex-wrap">
-                    {job.skills.map((s) => (
+                    {(job.skillsRequired || job.skills || []).map((s) => (
                       <span key={s} className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md">
                         {s}
                       </span>
@@ -643,7 +480,7 @@ function StudentPortal() {
       )}
 
       {/* Generic Placeholder for other sub-modules */}
-      {!["dashboard", "academics", "attendance", "readiness", "jobs", "applications"].includes(activeSection) && (
+      {!["dashboard", "colleges", "scholarships", "profile", "notifications", "academics", "attendance", "readiness", "jobs", "applications"].includes(activeSection) && (
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center animate-fadeIn">
           <div className="text-4xl mb-3">🎓</div>
           <h2 className="text-xl font-bold text-white capitalize">{activeSection.replace("-", " ")}</h2>
@@ -654,6 +491,10 @@ function StudentPortal() {
       )}
     </PortalLayout>
   );
+}
+
+function EmptyPanel({ message }) {
+  return <div className="bg-slate-950/50 border border-slate-800 rounded-2xl p-8 text-center text-xs text-slate-500">{message}</div>;
 }
 
 export default StudentPortal;

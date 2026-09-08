@@ -1,0 +1,8 @@
+function StudentNotifications({ alerts = [] }) {
+  return <section className="space-y-6 animate-fadeIn">
+    <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Stay informed</p><h1 className="text-2xl font-extrabold text-white mt-1">Notifications</h1><p className="text-sm text-slate-400 mt-1">Recent alerts from your college and VidyaMarg.</p></div>
+    {alerts.length === 0 ? <div className="bg-slate-900 border border-slate-800 rounded-3xl p-10 text-center"><div className="text-3xl">o</div><h2 className="text-base font-bold text-white mt-3">You are all caught up</h2><p className="text-xs text-slate-400 mt-1">New notifications will appear here.</p></div> : <div className="space-y-3">{alerts.map((alert, index) => <article key={alert._id || alert.id || index} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg"><div className="flex items-start gap-3"><span className={`w-2.5 h-2.5 rounded-full mt-1.5 ${alert.type === "success" ? "bg-emerald-400" : alert.type === "warning" ? "bg-amber-400" : "bg-blue-400"}`} /><div className="flex-1"><div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1"><h2 className="text-sm font-bold text-white">{alert.title || "Notification"}</h2><time className="text-[10px] text-slate-500">{alert.createdAt ? new Date(alert.createdAt).toLocaleString("en-IN") : "Recent"}</time></div><p className="text-xs text-slate-300 mt-2">{alert.message || "No additional details."}</p>{alert.link && <a href={alert.link} className="inline-block text-xs text-blue-400 hover:underline mt-2">Open related page</a>}</div></div></article>)}</div>}
+  </section>;
+}
+
+export default StudentNotifications;

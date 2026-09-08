@@ -218,6 +218,25 @@ export const getAllCollegesAPI = async () => {
   return data;
 };
 
+// Get one college with its complete public profile
+export const getCollegeByIdAPI = async (collegeId) => {
+  const response = await fetch(`${BASE_URL}/colleges/${collegeId}`);
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to fetch college");
+  return data;
+};
+
+// Apply to a live job from the student portal
+export const applyForJobAPI = async (jobId, token) => {
+  const response = await fetch(`${BASE_URL}/student/jobs/${jobId}/apply`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Unable to submit application");
+  return data;
+};
+
 // Match colleges for a student
 export const matchCollegesAPI = async (criteria) => {
   const response = await fetch(`${BASE_URL}/colleges/match`, {

@@ -11,11 +11,15 @@ const SIDEBAR_MENUS = {
     baseRoute: "/student",
     items: [
       { id: "dashboard", label: "Dashboard", icon: "📊" },
+      { id: "colleges", label: "Find Colleges", icon: "🏫" },
+      { id: "scholarships", label: "Scholarships", icon: "💰" },
       { id: "academics", label: "Academic Progress", icon: "📈" },
       { id: "attendance", label: "Attendance Tracker", icon: "📅" },
       { id: "readiness", label: "Career Readiness Score", icon: "⚡" },
       { id: "jobs", label: "Recommended Jobs", icon: "💼" },
       { id: "applications", label: "My Applications", icon: "📑" },
+      { id: "profile", label: "My Profile", icon: "👤" },
+      { id: "notifications", label: "Notifications", icon: "🔔" },
     ],
   },
   parent: {
