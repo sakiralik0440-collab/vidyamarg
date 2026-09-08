@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
+import demoStudents from "../../data/demoStudents";
 
 function ParentPortal() {
   const { user } = useAuth();
@@ -11,17 +12,14 @@ function ParentPortal() {
   const [linkForm, setLinkForm] = useState({ rollNo: "", studentName: "", relationship: "Father" });
   const [linkSuccess, setLinkSuccess] = useState("");
 
+  const [selectedChildId, setSelectedChildId] = useState(demoStudents[0].id);
+  const selectedStudent = demoStudents.find((student) => student.id === selectedChildId) || demoStudents[0];
   const defaultChild = {
-    name: "Sakir Ali",
-    rollNo: "VM-2024-CS042",
-    course: "B.Tech (Computer Science & Engineering)",
-    semester: "Semester 6",
-    college: "Institute of Engineering & Technology, DAVV",
-    attendanceRate: 72, // Warning condition (< 75%)
-    cgpa: 8.2,
-    activityScore: 78,
+    ...selectedStudent,
+    course: `${selectedStudent.course} (${selectedStudent.branch})`,
     mentorName: "Prof. S. Sharma",
     mentorContact: "+91 98765 43210",
+    activityScore: selectedStudent.readinessScore,
   };
 
   const [feeStatus, setFeeStatus] = useState({
@@ -111,6 +109,24 @@ function ParentPortal() {
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold text-white">Linked Children</p>
+              <p className="text-[11px] text-slate-400">Choose a student to view their latest progress.</p>
+            </div>
+            <select
+              value={selectedChildId}
+              onChange={(event) => setSelectedChildId(event.target.value)}
+              className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white min-w-56"
+            >
+              {demoStudents.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name} · {student.branch} · CGPA {student.cgpa}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* At-Risk Warning Box if attendance < 75% */}

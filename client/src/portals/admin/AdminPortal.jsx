@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
+import demoStudents from "../../data/demoStudents";
 
 function AdminPortal() {
   const { user } = useAuth();
@@ -26,10 +27,16 @@ function AdminPortal() {
   ]);
 
   const [users, setUsers] = useState([
-    { id: "u1", name: "Sakir Ali", email: "sakir@example.com", role: "student", status: "active" },
-    { id: "u2", name: "IET DAVV Indore", email: "admin@ietdavv.edu.in", role: "college", status: "active" },
-    { id: "u3", name: "Infosys Campus HR", email: "campus@infosys.com", role: "company", status: "active" },
-    { id: "u4", name: "Ramesh Ali (Parent)", email: "parent.ramesh@example.com", role: "parent", status: "active" },
+    ...demoStudents.map((student) => ({
+      id: `u-${student.id}`,
+      name: student.name,
+      email: `${student.name.toLowerCase().replaceAll(" ", ".")}@student.vidyamarg.in`,
+      role: "student",
+      status: "active",
+    })),
+    { id: "u21", name: "IET DAVV Indore", email: "admin@ietdavv.edu.in", role: "college", status: "active" },
+    { id: "u22", name: "Infosys Campus HR", email: "campus@infosys.com", role: "company", status: "active" },
+    { id: "u23", name: "Ramesh Ali (Parent)", email: "parent.ramesh@example.com", role: "parent", status: "active" },
   ]);
 
   useEffect(() => {

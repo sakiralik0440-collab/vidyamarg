@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
+import demoStudents from "../../data/demoStudents";
 
 function StudentPortal() {
   const { user } = useAuth();
@@ -237,6 +238,24 @@ function StudentPortal() {
               </div>
               <p className="text-2xl font-black text-white">{achievements.length}</p>
               <p className="text-[11px] text-purple-400 font-medium mt-1">College Endorsed</p>
+            </div>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-base font-bold text-white">Your Class Cohort</h2>
+                <p className="text-xs text-slate-400">20 students connected through VidyaMarg</p>
+              </div>
+              <span className="text-xs font-bold text-blue-400">{demoStudents.length} students</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2">
+              {demoStudents.map((student) => (
+                <div key={student.id} className="bg-slate-950/70 border border-slate-800 rounded-xl p-3">
+                  <p className="text-xs font-semibold text-white truncate">{student.name}</p>
+                  <p className="text-[10px] text-slate-500 mt-1">{student.branch} · {student.cgpa} CGPA</p>
+                </div>
+              ))}
             </div>
           </div>
 

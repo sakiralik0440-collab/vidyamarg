@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
+import demoStudents from "../../data/demoStudents";
 
 function CollegePortal() {
   const { user } = useAuth();
@@ -8,13 +9,7 @@ function CollegePortal() {
   const [loading, setLoading] = useState(true);
   const [actionSuccess, setActionSuccess] = useState("");
 
-  const [students, setStudents] = useState([
-    { id: "s1", name: "Sakir Ali", rollNo: "0103CS211045", branch: "CSE", sem: 6, attendance: 72, cgpa: 8.2, status: "At Risk" },
-    { id: "s2", name: "Pooja Sharma", rollNo: "0103CS211046", branch: "CSE", sem: 6, attendance: 92, cgpa: 8.9, status: "Active" },
-    { id: "s3", name: "Rahul Verma", rollNo: "0103EC211012", branch: "ECE", sem: 4, attendance: 65, cgpa: 5.8, status: "At Risk" },
-    { id: "s4", name: "Ananya Patel", rollNo: "0103IT211008", branch: "IT", sem: 6, attendance: 89, cgpa: 9.1, status: "Placed" },
-    { id: "s5", name: "Vikas Meena", rollNo: "0103ME211030", branch: "ME", sem: 4, attendance: 81, cgpa: 7.4, status: "Active" },
-  ]);
+  const [students, setStudents] = useState(demoStudents);
 
   const [pendingAchievements, setPendingAchievements] = useState([
     {
@@ -41,8 +36,8 @@ function CollegePortal() {
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((res) => {
-        if (res && res.success && res.dashboard.students) {
-          setStudents(res.dashboard.students);
+        if (res && res.success && res.dashboard.recentStudents?.length >= 20) {
+          setStudents(res.dashboard.recentStudents);
         }
       })
       .catch(() => {})

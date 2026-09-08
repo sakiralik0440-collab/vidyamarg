@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PortalLayout from "../../components/common/PortalLayout";
 import { useAuth } from "../../context/AuthContext";
+import demoStudents from "../../data/demoStudents";
 
 function CompanyPortal() {
   const { user } = useAuth();
@@ -51,41 +52,19 @@ function CompanyPortal() {
     },
   ]);
 
-  const [applicants, setApplicants] = useState([
-    {
-      id: "app1",
-      name: "Sakir Ali",
-      rollNo: "0103CS211045",
-      course: "B.Tech CSE (DAVV)",
-      cgpa: 8.4,
-      readinessScore: 82,
-      skills: ["React.js", "Node.js", "MongoDB", "Python"],
-      appliedJob: "Associate Software Engineer",
-      status: "Shortlisted",
-    },
-    {
-      id: "app2",
-      name: "Pooja Sharma",
-      rollNo: "0103CS211046",
-      course: "B.Tech CSE (DAVV)",
-      cgpa: 8.9,
-      readinessScore: 90,
-      skills: ["AWS", "Docker", "Java", "React"],
-      appliedJob: "Associate Software Engineer",
-      status: "Interview Scheduled",
-    },
-    {
-      id: "app3",
-      name: "Rahul Verma",
-      rollNo: "0103EC211012",
-      course: "B.Tech ECE (DAVV)",
-      cgpa: 7.8,
-      readinessScore: 74,
-      skills: ["Embedded C", "Python", "IoT"],
-      appliedJob: "Associate Software Engineer",
-      status: "Applied",
-    },
-  ]);
+  const [applicants, setApplicants] = useState(
+    demoStudents.map((student, index) => ({
+      id: `app${index + 1}`,
+      name: student.name,
+      rollNo: student.rollNo,
+      course: `${student.course} ${student.branch} (DAVV)`,
+      cgpa: student.cgpa,
+      readinessScore: student.readinessScore,
+      skills: student.skills,
+      appliedJob: index % 3 === 0 ? "Associate Software Engineer" : "Frontend Developer Intern",
+      status: ["Shortlisted", "Interview Scheduled", "Applied", "Selected"][index % 4],
+    }))
+  );
 
   useEffect(() => {
     fetch("/api/company-portal/dashboard", {
