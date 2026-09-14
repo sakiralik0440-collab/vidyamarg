@@ -1,178 +1,540 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../context/AuthContext";
-import { useOfflineDetection } from "../hooks/useOfflineDetection";
 import { getStudentByIdAPI } from "../api/studentApi";
 import { saveToCache, getFromCache } from "../utils/localCache";
+import { useOfflineDetection } from "../hooks/useOfflineDetection";
 
-
-// Each feature: id, label, icon, and which component renders it
 const FEATURES = [
-  { id: "alerts", label: "Family Alerts", icon: "📱", color: "bg-red-100 text-red-700", teacherOnly: true },
-  { id: "progress", label: "Progress", icon: "📊", color: "bg-green-100 text-green-800" },
-  { id: "score", label: "Activity Score", icon: "⚡", color: "bg-purple-100 text-purple-700" },
-  { id: "college", label: "Colleges", icon: "🎓", color: "bg-blue-100 text-blue-700" },
-  { id: "scholarship", label: "Scholarships", icon: "💰", color: "bg-green-100 text-green-700" },
-  { id: "schemes", label: "Govt Schemes", icon: "🏛️", color: "bg-red-100 text-red-700" },
-  { id: "skills", label: "Skill Courses", icon: "🔧", color: "bg-indigo-100 text-indigo-700" },
-  { id: "mentor", label: "Find Mentor", icon: "🤝", color: "bg-teal-100 text-teal-700" },
-  { id: "jobs", label: "Job Opportunities", icon: "💼", color: "bg-blue-100 text-blue-700" },
-  { id: "interviews", label: "Interviews", icon: "📞", color: "bg-cyan-100 text-cyan-700" },
-  { id: "certificates", label: "Certificates", icon: "🏅", color: "bg-yellow-100 text-yellow-700" },
-  { id: "fees", label: "Fee Tracker", icon: "💵", color: "bg-emerald-100 text-emerald-700" },
-  { id: "achievements", label: "Achievements", icon: "🏆", color: "bg-amber-100 text-amber-700" },
-  { id: "exams", label: "Exam Dates", icon: "📅", color: "bg-violet-100 text-violet-700" },
-  { id: "helpline", label: "Need Help?", icon: "🔒", color: "bg-pink-100 text-pink-700" },
+  {
+    id: "progress",
+    label: "My Progress",
+    description: "Track your academic progress",
+    icon: "📊",
+    iconBg: "bg-emerald-50",
+  },
+  {
+    id: "college",
+    label: "Explore Colleges",
+    description: "Find colleges for your future",
+    icon: "🎓",
+    iconBg: "bg-blue-50",
+  },
+  {
+    id: "scholarship",
+    label: "Scholarships",
+    description: "Discover financial support",
+    icon: "💰",
+    iconBg: "bg-yellow-50",
+  },
+  {
+    id: "schemes",
+    label: "Government Schemes",
+    description: "Useful government programs",
+    icon: "🏛️",
+    iconBg: "bg-red-50",
+  },
+  {
+    id: "skills",
+    label: "Skill Courses",
+    description: "Build skills for your career",
+    icon: "🔧",
+    iconBg: "bg-indigo-50",
+  },
+  {
+    id: "mentor",
+    label: "Find a Mentor",
+    description: "Get guidance from mentors",
+    icon: "🤝",
+    iconBg: "bg-teal-50",
+  },
+  {
+    id: "jobs",
+    label: "Job Opportunities",
+    description: "Explore career opportunities",
+    icon: "💼",
+    iconBg: "bg-sky-50",
+  },
+  {
+    id: "interviews",
+    label: "Interviews",
+    description: "Manage your interviews",
+    icon: "📞",
+    iconBg: "bg-cyan-50",
+  },
+  {
+    id: "certificates",
+    label: "Certificates",
+    description: "View your certificates",
+    icon: "🏅",
+    iconBg: "bg-orange-50",
+  },
+  {
+    id: "fees",
+    label: "Fee Tracker",
+    description: "Keep track of your fees",
+    icon: "💳",
+    iconBg: "bg-emerald-50",
+  },
+  {
+    id: "achievements",
+    label: "Achievements",
+    description: "View your achievements",
+    icon: "🏆",
+    iconBg: "bg-amber-50",
+  },
+  {
+    id: "exams",
+    label: "Exam Dates",
+    description: "Check upcoming exams",
+    icon: "📅",
+    iconBg: "bg-violet-50",
+  },
 ];
 
 function StudentProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { token } = useAuth();
   const { isOnline } = useOfflineDetection();
 
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
   useEffect(() => {
     const fetchStudent = async () => {
-      const cachedStudent = getFromCache(`student_${id}`);
+      const cacheKey = `student_${id}`;
+      const cachedStudent = getFromCache(cacheKey);
+
       if (cachedStudent && !navigator.onLine) {
         setStudent(cachedStudent);
         setLoading(false);
         return;
       }
+
       try {
         const data = await getStudentByIdAPI(id);
+
         setStudent(data.student);
-        saveToCache(`student_${id}`, data.student);
+        saveToCache(cacheKey, data.student);
       } catch (err) {
-        if (cachedStudent) setStudent(cachedStudent);
-        else setError(err.message);
+        if (cachedStudent) {
+          setStudent(cachedStudent);
+        } else {
+          setError(err.message || "Unable to load student profile.");
+        }
       } finally {
         setLoading(false);
       }
     };
+
     fetchStudent();
   }, [id]);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "Active": return "bg-green-100 text-green-800";
-      case "At Risk": return "bg-yellow-100 text-yellow-800";
-      case "Dropout": return "bg-red-100 text-red-800";
-      case "Placed": return "bg-blue-100 text-blue-800";
-      case "Graduated": return "bg-purple-100 text-purple-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "Active":
+        return "bg-emerald-50 text-emerald-700 border-emerald-100";
+
+      case "At Risk":
+        return "bg-amber-50 text-amber-700 border-amber-100";
+
+      case "Dropout":
+        return "bg-red-50 text-red-700 border-red-100";
+
+      case "Placed":
+        return "bg-blue-50 text-blue-700 border-blue-100";
+
+      case "Graduated":
+        return "bg-purple-50 text-purple-700 border-purple-100";
+
+      default:
+        return "bg-slate-50 text-slate-600 border-slate-100";
     }
   };
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case "Active": return t("profile.active");
-      case "At Risk": return t("profile.atRisk");
-      case "Dropout": return t("profile.dropout");
-      case "Placed": return t("profile.placed");
-      case "Graduated": return t("profile.graduated");
-      default: return status;
+      case "Active":
+        return t("profile.active");
+
+      case "At Risk":
+        return t("profile.atRisk");
+
+      case "Dropout":
+        return t("profile.dropout");
+
+      case "Placed":
+        return t("profile.placed");
+
+      case "Graduated":
+        return t("profile.graduated");
+
+      default:
+        return status || "Active";
     }
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
-        <div className="mx-auto max-w-6xl space-y-6">
-          <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
-          <div className="grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
-            <div className="h-56 animate-pulse rounded-3xl bg-white shadow-sm" />
-            <div className="h-56 animate-pulse rounded-3xl bg-white shadow-sm" />
-          </div>
-          <div className="h-64 animate-pulse rounded-3xl bg-white shadow-sm" />
-        </div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (error || !student) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-md rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-sm">
-          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-rose-50 text-xl text-rose-600">!</div>
-          <h1 className="mt-4 text-lg font-extrabold text-slate-900">Unable to load profile</h1>
-          <p className="mt-2 text-sm leading-6 text-slate-500">{error || t("profile.notFound")}</p>
-          <button onClick={() => navigate("/")} className="mt-6 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-slate-700">Back to home</button>
+      <div className="min-h-screen bg-slate-50 px-4 py-10">
+        <div className="mx-auto flex min-h-[70vh] max-w-md items-center justify-center">
+          <div className="w-full rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-xl text-red-600">
+              !
+            </div>
+
+            <h1 className="mt-5 text-xl font-extrabold text-slate-900">
+              Profile unavailable
+            </h1>
+
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              {error || t("profile.notFound")}
+            </p>
+
+            <button
+              onClick={() => navigate("/student/dashboard")}
+              className="mt-6 rounded-xl bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+            >
+              Go to Dashboard
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
+  const score = Math.max(
+    0,
+    Math.min(100, Number(student.activityScore) || 0)
+  );
 
+  const initials =
+    student.name
+      ?.split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "ST";
 
-  const score = Math.max(0, Math.min(100, Number(student.activityScore) || 0));
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-900 sm:px-6 lg:py-8">
+    <div className="min-h-screen bg-[#f8fafc] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto max-w-6xl space-y-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <button onClick={() => navigate("/")} className="self-start text-sm font-bold text-slate-600 transition hover:text-teal-700">← {t("profile.backToHome")}</button>
-          <div className="flex flex-wrap gap-2">
-            <button onClick={() => navigate("/student/dashboard")} className="rounded-xl bg-teal-700 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-teal-800">🎓 Open Student Portal</button>
-            <button onClick={() => navigate(`/parent/${id}`)} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-sm transition hover:border-purple-300 hover:text-purple-700">👨‍👩‍👦 Parent View</button>
-            <button onClick={() => { localStorage.removeItem("studentId"); navigate("/register"); }} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-600 transition hover:border-slate-400 hover:text-slate-900">Switch Student</button>
-          </div>
+
+        {/* Header */}
+        <div>
+          <p className="text-sm font-semibold text-teal-600">
+            Student Portal
+          </p>
+
+          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+            My Profile
+          </h1>
+
+          <p className="mt-1 text-sm text-slate-500">
+            View and manage your student information.
+          </p>
         </div>
 
-        {!isOnline && <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">📵 Offline mode: showing your latest cached profile data.</div>}
+        {/* Offline notice */}
+        {!isOnline && (
+          <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+            <span>📵</span>
+            <span>Offline mode — showing your latest saved profile.</span>
+          </div>
+        )}
 
-        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="bg-slate-900 px-6 py-8 text-white md:px-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-4">
-                <div className="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-teal-600 text-3xl font-extrabold shadow-lg shadow-teal-950/30">{student.name?.charAt(0)?.toUpperCase() || "S"}</div>
-                <div className="min-w-0"><p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">Student profile</p><h1 className="mt-1 truncate text-2xl font-extrabold md:text-3xl">{student.name}</h1><p className="mt-2 truncate text-sm text-slate-300">{[student.village, student.district, student.currentClass].filter(Boolean).join(" · ")}</p></div>
+        {/* Profile Hero */}
+        <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
+          <div className="relative overflow-hidden bg-slate-900 px-6 py-7 sm:px-8 sm:py-9">
+
+            <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-teal-500/10 blur-2xl" />
+            <div className="absolute -bottom-24 left-1/3 h-56 w-56 rounded-full bg-blue-500/10 blur-2xl" />
+
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+
+              <div className="flex items-center gap-4 sm:gap-5">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-teal-600 text-2xl font-extrabold text-white shadow-xl shadow-black/20 sm:h-24 sm:w-24 sm:text-3xl">
+                  {initials}
+                </div>
+
+                <div className="min-w-0">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">
+                    Welcome back
+                  </p>
+
+                  <h2 className="mt-1 truncate text-2xl font-extrabold text-white sm:text-3xl">
+                    {student.name || "Student"}
+                  </h2>
+
+                  <p className="mt-2 text-sm text-slate-300">
+                    {[
+                      student.currentClass,
+                      student.stream,
+                      student.district,
+                    ]
+                      .filter(
+                        (value) =>
+                          value &&
+                          value !== "Not Applicable" &&
+                          value !== "N/A"
+                      )
+                      .join(" • ")}
+                  </p>
+                </div>
               </div>
-              <span className={`self-start rounded-full px-3 py-1.5 text-xs font-bold ${getStatusColor(student.status)}`}>{getStatusLabel(student.status)}</span>
+
+              <span
+                className={`self-start rounded-full border px-4 py-2 text-xs font-bold ${getStatusColor(
+                  student.status
+                )}`}
+              >
+                ● {getStatusLabel(student.status)}
+              </span>
             </div>
-            <div className="mt-8 max-w-xl"><div className="flex items-center justify-between text-xs font-semibold text-slate-300"><span>Activity score</span><span className="text-white">{score}/100</span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700"><div className="h-full rounded-full bg-teal-400 transition-all" style={{ width: `${score}%` }} /></div></div>
+          </div>
+
+          {/* Score */}
+          <div className="border-t border-slate-100 px-6 py-6 sm:px-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Activity Score
+                </p>
+
+                <p className="mt-1 text-sm font-semibold text-slate-700">
+                  Your overall engagement
+                </p>
+              </div>
+
+              <div className="text-right">
+                <span className="text-2xl font-extrabold text-slate-900">
+                  {score}
+                </span>
+
+                <span className="text-sm font-semibold text-slate-400">
+                  /100
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-100">
+              <div
+                className="h-full rounded-full bg-teal-500 transition-all duration-700"
+                style={{ width: `${score}%` }}
+              />
+            </div>
           </div>
         </section>
 
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-6">
-            <InfoSection title="Personal information" fields={[["Gender", student.gender], ["Category", student.category], ["Date of birth", formatDate(student.dateOfBirth)], ["Interested field", student.interestedField]]} />
-            <InfoSection title="Academic information" fields={[["Current class", student.currentClass], ["Stream", student.stream], ["Branch", student.branch], ["Semester", student.semester], ["Roll number", student.rollNo]]} />
-            <InfoSection title="Location" fields={[["Village", student.village], ["District", student.district], ["State", student.state]]} />
-          </div>
-          <div className="space-y-6">
-            <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title="Family contacts" subtitle="Trusted contacts connected to this student record." />{student.familyContacts?.length ? <div className="space-y-3">{student.familyContacts.map((contact, index) => <div key={contact._id || index} className="rounded-2xl border border-slate-100 bg-slate-50 p-4"><p className="font-bold text-slate-900">{contact.name}</p><div className="mt-1 flex flex-wrap justify-between gap-2 text-xs text-slate-500"><span>{contact.relation}</span><span className="font-semibold text-slate-700">{contact.phoneNumber}</span></div></div>)}</div> : <EmptyText text="No family contacts have been added." />}</section>
-            <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title="Connected services" subtitle="Open a feature to continue your journey." /><div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{FEATURES.filter((feature) => !feature.teacherOnly || token).map((feature) => <button key={feature.id} onClick={() => navigate(`/profile/${id}/${feature.id}`)} className="group flex min-h-24 flex-col items-start justify-between rounded-2xl border border-slate-200 bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md"><span className="text-xl">{feature.icon}</span><span className="text-xs font-bold leading-4 text-slate-700 group-hover:text-teal-700">{feature.label}</span>{feature.teacherOnly && <span className="text-[9px] font-bold uppercase text-slate-400">Teacher access</span>}</button>)}</div></section>
-          </div>
+        {/* Main Information */}
+        <div className="grid gap-6 lg:grid-cols-2">
+
+          <InfoCard
+            title="Personal Information"
+            icon="👤"
+            fields={[
+              ["Gender", student.gender],
+              ["Category", student.category],
+              ["Date of Birth", formatDate(student.dateOfBirth)],
+              ["Interested Field", student.interestedField],
+            ]}
+          />
+
+          <InfoCard
+            title="Academic Information"
+            icon="🎓"
+            fields={[
+              ["Current Class", student.currentClass],
+              ["Stream", student.stream],
+              ["Branch", student.branch],
+              ["Semester", student.semester],
+            ]}
+          />
+
+          <InfoCard
+            title="Location"
+            icon="📍"
+            fields={[
+              ["Village", student.village],
+              ["District", student.district],
+              ["State", student.state],
+            ]}
+          />
+
+          <InfoCard
+            title="Family"
+            icon="👨‍👩‍👦"
+            fields={[
+              [
+                "Family Contacts",
+                student.familyContacts?.length
+                  ? `${student.familyContacts.length} contact${
+                      student.familyContacts.length > 1 ? "s" : ""
+                    } connected`
+                  : "No contacts added",
+              ],
+            ]}
+          />
         </div>
+
+        {/* Student Services */}
+        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+
+          <div className="mb-6">
+            <p className="text-xs font-bold uppercase tracking-wider text-teal-600">
+              Student Services
+            </p>
+
+            <h2 className="mt-1 text-xl font-extrabold text-slate-900">
+              Explore Your Opportunities
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Everything you need for your education and career journey.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((feature) => (
+              <button
+                key={feature.id}
+                onClick={() =>
+                  navigate(`/profile/${id}/${feature.id}`)
+                }
+                className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-md"
+              >
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-xl ${feature.iconBg}`}
+                >
+                  {feature.icon}
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-extrabold text-slate-800 transition group-hover:text-teal-700">
+                    {feature.label}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-5 text-slate-400">
+                    {feature.description}
+                  </p>
+                </div>
+
+                <span className="text-slate-300 transition group-hover:translate-x-1 group-hover:text-teal-600">
+                  →
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
       </div>
     </div>
   );
 }
 
-function InfoSection({ title, fields }) {
-  const visibleFields = fields.filter(([, value]) => value !== undefined && value !== null && value !== "");
-  return <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><SectionHeading title={title} />{visibleFields.length ? <div className="grid gap-5 sm:grid-cols-2">{visibleFields.map(([label, value]) => <div key={label}><p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 text-sm font-semibold text-slate-800">{value}</p></div>)}</div> : <EmptyText text="No information has been provided." />}</section>;
+/* -----------------------------
+   Information Card
+----------------------------- */
+
+function InfoCard({ title, icon, fields }) {
+  const visibleFields = fields.filter(
+    ([, value]) =>
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      value !== "Not Applicable"
+  );
+
+  return (
+    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-lg">
+          {icon}
+        </div>
+
+        <div>
+          <h2 className="text-base font-extrabold text-slate-900">
+            {title}
+          </h2>
+
+          <p className="text-xs text-slate-400">
+            Student details
+          </p>
+        </div>
+      </div>
+
+      {visibleFields.length ? (
+        <div className="grid gap-5 sm:grid-cols-2">
+          {visibleFields.map(([label, value]) => (
+            <div key={label}>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                {label}
+              </p>
+
+              <p className="mt-1 text-sm font-semibold text-slate-800">
+                {value}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">
+          No information available.
+        </p>
+      )}
+    </section>
+  );
 }
 
-function SectionHeading({ title, subtitle }) {
-  return <div className="mb-5"><h2 className="text-base font-extrabold text-slate-900">{title}</h2>{subtitle && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}</div>;
+/* -----------------------------
+   Loading Skeleton
+----------------------------- */
+
+function ProfileSkeleton() {
+  return (
+    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl space-y-6">
+
+        <div className="space-y-2">
+          <div className="h-4 w-28 animate-pulse rounded bg-slate-200" />
+          <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
+          <div className="h-4 w-72 animate-pulse rounded bg-slate-200" />
+        </div>
+
+        <div className="h-64 animate-pulse rounded-[28px] bg-white shadow-sm" />
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="h-48 animate-pulse rounded-[28px] bg-white" />
+          <div className="h-48 animate-pulse rounded-[28px] bg-white" />
+          <div className="h-40 animate-pulse rounded-[28px] bg-white" />
+          <div className="h-40 animate-pulse rounded-[28px] bg-white" />
+        </div>
+
+        <div className="h-96 animate-pulse rounded-[28px] bg-white" />
+      </div>
+    </div>
+  );
 }
 
-function EmptyText({ text }) {
-  return <p className="rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">{text}</p>;
-}
+/* -----------------------------
+   Date Formatter
+----------------------------- */
 
 function formatDate(value) {
   if (!value) return null;
+
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN");
+
+  return Number.isNaN(date.getTime())
+    ? value
+    : date.toLocaleDateString("en-IN");
 }
 
 export default StudentProfile;
