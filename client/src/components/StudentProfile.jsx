@@ -4,93 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getStudentByIdAPI } from "../api/studentApi";
 import { saveToCache, getFromCache } from "../utils/localCache";
 import { useOfflineDetection } from "../hooks/useOfflineDetection";
-
-const FEATURES = [
-  {
-    id: "progress",
-    label: "My Progress",
-    description: "Track your academic progress",
-    icon: "📊",
-    iconBg: "bg-emerald-50",
-  },
-  {
-    id: "college",
-    label: "Explore Colleges",
-    description: "Find colleges for your future",
-    icon: "🎓",
-    iconBg: "bg-blue-50",
-  },
-  {
-    id: "scholarship",
-    label: "Scholarships",
-    description: "Discover financial support",
-    icon: "💰",
-    iconBg: "bg-yellow-50",
-  },
-  {
-    id: "schemes",
-    label: "Government Schemes",
-    description: "Useful government programs",
-    icon: "🏛️",
-    iconBg: "bg-red-50",
-  },
-  {
-    id: "skills",
-    label: "Skill Courses",
-    description: "Build skills for your career",
-    icon: "🔧",
-    iconBg: "bg-indigo-50",
-  },
-  {
-    id: "mentor",
-    label: "Find a Mentor",
-    description: "Get guidance from mentors",
-    icon: "🤝",
-    iconBg: "bg-teal-50",
-  },
-  {
-    id: "jobs",
-    label: "Job Opportunities",
-    description: "Explore career opportunities",
-    icon: "💼",
-    iconBg: "bg-sky-50",
-  },
-  {
-    id: "interviews",
-    label: "Interviews",
-    description: "Manage your interviews",
-    icon: "📞",
-    iconBg: "bg-cyan-50",
-  },
-  {
-    id: "certificates",
-    label: "Certificates",
-    description: "View your certificates",
-    icon: "🏅",
-    iconBg: "bg-orange-50",
-  },
-  {
-    id: "fees",
-    label: "Fee Tracker",
-    description: "Keep track of your fees",
-    icon: "💳",
-    iconBg: "bg-emerald-50",
-  },
-  {
-    id: "achievements",
-    label: "Achievements",
-    description: "View your achievements",
-    icon: "🏆",
-    iconBg: "bg-amber-50",
-  },
-  {
-    id: "exams",
-    label: "Exam Dates",
-    description: "Check upcoming exams",
-    icon: "📅",
-    iconBg: "bg-violet-50",
-  },
-];
+import StudentServices from "./StudentServices";
 
 function StudentProfile() {
   const { id } = useParams();
@@ -241,11 +155,13 @@ function StudentProfile() {
           </p>
         </div>
 
-        {/* Offline notice */}
+        {/* Offline Notice */}
         {!isOnline && (
           <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
             <span>📵</span>
-            <span>Offline mode — showing your latest saved profile.</span>
+            <span>
+              Offline mode — showing your latest saved profile.
+            </span>
           </div>
         )}
 
@@ -254,16 +170,19 @@ function StudentProfile() {
           <div className="relative overflow-hidden bg-slate-900 px-6 py-7 sm:px-8 sm:py-9">
 
             <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-teal-500/10 blur-2xl" />
+
             <div className="absolute -bottom-24 left-1/3 h-56 w-56 rounded-full bg-blue-500/10 blur-2xl" />
 
             <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
 
               <div className="flex items-center gap-4 sm:gap-5">
+
                 <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-teal-600 text-2xl font-extrabold text-white shadow-xl shadow-black/20 sm:h-24 sm:w-24 sm:text-3xl">
                   {initials}
                 </div>
 
                 <div className="min-w-0">
+
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-300">
                     Welcome back
                   </p>
@@ -286,6 +205,7 @@ function StudentProfile() {
                       )
                       .join(" • ")}
                   </p>
+
                 </div>
               </div>
 
@@ -296,12 +216,15 @@ function StudentProfile() {
               >
                 ● {getStatusLabel(student.status)}
               </span>
+
             </div>
           </div>
 
-          {/* Score */}
+          {/* Activity Score */}
           <div className="border-t border-slate-100 px-6 py-6 sm:px-8">
+
             <div className="flex items-center justify-between">
+
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Activity Score
@@ -321,6 +244,7 @@ function StudentProfile() {
                   /100
                 </span>
               </div>
+
             </div>
 
             <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-100">
@@ -329,6 +253,7 @@ function StudentProfile() {
                 style={{ width: `${score}%` }}
               />
             </div>
+
           </div>
         </section>
 
@@ -374,73 +299,29 @@ function StudentProfile() {
               [
                 "Family Contacts",
                 student.familyContacts?.length
-                  ? `${student.familyContacts.length} contact${
-                      student.familyContacts.length > 1 ? "s" : ""
-                    } connected`
+                  ? `${student.familyContacts.length} contact${student.familyContacts.length > 1 ? "s" : ""
+                  } connected`
                   : "No contacts added",
               ],
             ]}
           />
+
         </div>
 
-        {/* Student Services */}
-        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        {/* =====================================================
+            NEW STUDENT SERVICES
+        ===================================================== */}
 
-          <div className="mb-6">
-            <p className="text-xs font-bold uppercase tracking-wider text-teal-600">
-              Student Services
-            </p>
-
-            <h2 className="mt-1 text-xl font-extrabold text-slate-900">
-              Explore Your Opportunities
-            </h2>
-
-            <p className="mt-1 text-sm text-slate-500">
-              Everything you need for your education and career journey.
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <button
-                key={feature.id}
-                onClick={() =>
-                  navigate(`/profile/${id}/${feature.id}`)
-                }
-                className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-md"
-              >
-                <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-xl ${feature.iconBg}`}
-                >
-                  {feature.icon}
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-extrabold text-slate-800 transition group-hover:text-teal-700">
-                    {feature.label}
-                  </h3>
-
-                  <p className="mt-1 text-xs leading-5 text-slate-400">
-                    {feature.description}
-                  </p>
-                </div>
-
-                <span className="text-slate-300 transition group-hover:translate-x-1 group-hover:text-teal-600">
-                  →
-                </span>
-              </button>
-            ))}
-          </div>
-        </section>
+        <StudentServices studentId={id} />
 
       </div>
     </div>
   );
 }
 
-/* -----------------------------
-   Information Card
------------------------------ */
+/* =========================================================
+   INFORMATION CARD
+========================================================= */
 
 function InfoCard({ title, icon, fields }) {
   const visibleFields = fields.filter(
@@ -455,6 +336,7 @@ function InfoCard({ title, icon, fields }) {
     <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
 
       <div className="mb-6 flex items-center gap-3">
+
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-lg">
           {icon}
         </div>
@@ -468,12 +350,15 @@ function InfoCard({ title, icon, fields }) {
             Student details
           </p>
         </div>
+
       </div>
 
       {visibleFields.length ? (
         <div className="grid gap-5 sm:grid-cols-2">
+
           {visibleFields.map(([label, value]) => (
             <div key={label}>
+
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                 {label}
               </p>
@@ -481,25 +366,29 @@ function InfoCard({ title, icon, fields }) {
               <p className="mt-1 text-sm font-semibold text-slate-800">
                 {value}
               </p>
+
             </div>
           ))}
+
         </div>
       ) : (
         <p className="rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">
           No information available.
         </p>
       )}
+
     </section>
   );
 }
 
-/* -----------------------------
-   Loading Skeleton
------------------------------ */
+/* =========================================================
+   LOADING SKELETON
+========================================================= */
 
 function ProfileSkeleton() {
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+
       <div className="mx-auto max-w-6xl space-y-6">
 
         <div className="space-y-2">
@@ -511,21 +400,28 @@ function ProfileSkeleton() {
         <div className="h-64 animate-pulse rounded-[28px] bg-white shadow-sm" />
 
         <div className="grid gap-6 lg:grid-cols-2">
+
           <div className="h-48 animate-pulse rounded-[28px] bg-white" />
+
           <div className="h-48 animate-pulse rounded-[28px] bg-white" />
+
           <div className="h-40 animate-pulse rounded-[28px] bg-white" />
+
           <div className="h-40 animate-pulse rounded-[28px] bg-white" />
+
         </div>
 
         <div className="h-96 animate-pulse rounded-[28px] bg-white" />
+
       </div>
+
     </div>
   );
 }
 
-/* -----------------------------
-   Date Formatter
------------------------------ */
+/* =========================================================
+   DATE FORMATTER
+========================================================= */
 
 function formatDate(value) {
   if (!value) return null;
