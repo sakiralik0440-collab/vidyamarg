@@ -1,0 +1,363 @@
+export const SERVICE_DATA = [
+    {
+        id: "progress",
+        title: "My Progress",
+        description: "Track your academic performance and progress.",
+        icon: "📊",
+        iconBg: "bg-emerald-50",
+        data: [
+            {
+                id: 1,
+                title: "Data Structures",
+                subtitle: "Computer Science",
+                progress: 82,
+                status: "In Progress",
+            },
+            {
+                id: 2,
+                title: "Web Development",
+                subtitle: "MERN Stack",
+                progress: 91,
+                status: "In Progress",
+            },
+            {
+                id: 3,
+                title: "Database Management",
+                subtitle: "DBMS",
+                progress: 76,
+                status: "In Progress",
+            },
+        ],
+    },
+
+    {
+        id: "college",
+        title: "Explore Colleges",
+        description: "Find colleges, courses and admission opportunities.",
+        icon: "🎓",
+        iconBg: "bg-blue-50",
+        data: [
+            {
+                id: 1,
+                title: "Government Engineering College",
+                subtitle: "B.Tech Computer Science",
+                location: "Rajasthan",
+                amount: "₹45,000/year",
+                status: "Open",
+            },
+            {
+                id: 2,
+                title: "Chartered Institute of Technology",
+                subtitle: "B.Tech CSE",
+                location: "Abu Road",
+                amount: "₹70,000/year",
+                status: "Open",
+            },
+            {
+                id: 3,
+                title: "Institute of Technology",
+                subtitle: "B.Tech Information Technology",
+                location: "Gujarat",
+                amount: "₹65,000/year",
+                status: "Open",
+            },
+        ],
+    },
+
+    {
+        id: "scholarship",
+        title: "Scholarships",
+        description: "Discover scholarships and financial support.",
+        icon: "💰",
+        iconBg: "bg-yellow-50",
+        data: [
+            {
+                id: 1,
+                title: "National Scholarship Scheme",
+                subtitle: "Higher Education Support",
+                amount: "₹50,000",
+                date: "30 Nov 2026",
+                status: "Eligible",
+                description:
+                    "Financial support for eligible students pursuing higher education.",
+            },
+            {
+                id: 2,
+                title: "State Merit Scholarship",
+                subtitle: "Merit Based",
+                amount: "₹25,000",
+                date: "15 Dec 2026",
+                status: "Open",
+            },
+            {
+                id: 3,
+                title: "Technical Education Scholarship",
+                subtitle: "Engineering Students",
+                amount: "₹30,000",
+                date: "20 Dec 2026",
+                status: "Open",
+            },
+        ],
+    },
+
+    {
+        id: "schemes",
+        title: "Government Schemes",
+        description: "Explore useful government programs.",
+        icon: "🏛️",
+        iconBg: "bg-red-50",
+        data: [
+            {
+                id: 1,
+                title: "Digital Education Support",
+                subtitle: "Education",
+                location: "India",
+                status: "Open",
+                description:
+                    "Support programs for students to access digital learning resources.",
+            },
+            {
+                id: 2,
+                title: "Skill Development Program",
+                subtitle: "Skill Development",
+                location: "India",
+                status: "Open",
+            },
+            {
+                id: 3,
+                title: "Student Financial Assistance",
+                subtitle: "Financial Support",
+                location: "Rajasthan",
+                status: "Open",
+            },
+        ],
+    },
+
+    {
+        id: "skills",
+        title: "Skill Courses",
+        description: "Build practical skills for your career.",
+        icon: "🔧",
+        iconBg: "bg-indigo-50",
+        data: [
+            {
+                id: 1,
+                title: "MERN Stack Development",
+                subtitle: "React + Node.js + MongoDB",
+                duration: "12 Weeks",
+                status: "Open",
+            },
+            {
+                id: 2,
+                title: "Data Analytics with Python",
+                subtitle: "Python + Pandas + SQL",
+                duration: "10 Weeks",
+                status: "Open",
+            },
+            {
+                id: 3,
+                title: "Cloud Computing",
+                subtitle: "AWS Fundamentals",
+                duration: "8 Weeks",
+                status: "Open",
+            },
+        ],
+    },
+
+    {
+        id: "mentor",
+        title: "Find a Mentor",
+        description: "Connect with mentors for career guidance.",
+        icon: "🤝",
+        iconBg: "bg-teal-50",
+        data: [
+            {
+                id: 1,
+                title: "Rahul Sharma",
+                subtitle: "Senior Software Developer",
+                location: "Bengaluru",
+                status: "Available",
+            },
+            {
+                id: 2,
+                title: "Priya Patel",
+                subtitle: "Data Analyst",
+                location: "Ahmedabad",
+                status: "Available",
+            },
+            {
+                id: 3,
+                title: "Amit Singh",
+                subtitle: "Career Mentor",
+                location: "Jaipur",
+                status: "Available",
+            },
+        ],
+    },
+
+    {
+        id: "jobs",
+        title: "Job Opportunities",
+        description: "Explore internships and job opportunities.",
+        icon: "💼",
+        iconBg: "bg-sky-50",
+        data: [
+            {
+                id: 1,
+                title: "MERN Stack Developer",
+                subtitle: "Junior Developer",
+                location: "Ahmedabad",
+                amount: "₹25,000 - ₹40,000",
+                status: "Open",
+            },
+            {
+                id: 2,
+                title: "React Developer Intern",
+                subtitle: "Frontend Development",
+                location: "Remote",
+                amount: "₹12,000 - ₹20,000",
+                status: "Open",
+            },
+            {
+                id: 3,
+                title: "Software Developer",
+                subtitle: "Full Stack Development",
+                location: "Jaipur",
+                amount: "₹4 - ₹6 LPA",
+                status: "Open",
+            },
+        ],
+    },
+
+    {
+        id: "interviews",
+        title: "Interviews",
+        description: "Manage upcoming interviews and applications.",
+        icon: "📞",
+        iconBg: "bg-cyan-50",
+        data: [
+            {
+                id: 1,
+                title: "MERN Developer Interview",
+                subtitle: "Technical Round",
+                date: "10 Oct 2026",
+                location: "Online",
+                status: "Upcoming",
+            },
+            {
+                id: 2,
+                title: "Frontend Developer Interview",
+                subtitle: "HR Round",
+                date: "15 Oct 2026",
+                location: "Online",
+                status: "Upcoming",
+            },
+        ],
+    },
+
+    {
+        id: "certificates",
+        title: "Certificates",
+        description: "View your completed certificates.",
+        icon: "🏅",
+        iconBg: "bg-orange-50",
+        data: [
+            {
+                id: 1,
+                title: "Full Stack Development",
+                subtitle: "MERN Stack",
+                date: "March 2026",
+                status: "Completed",
+            },
+            {
+                id: 2,
+                title: "Python for Data Analytics",
+                subtitle: "Data Analytics",
+                date: "January 2026",
+                status: "Completed",
+            },
+        ],
+    },
+
+    {
+        id: "fees",
+        title: "Fee Tracker",
+        description: "Track paid and pending academic fees.",
+        icon: "💳",
+        iconBg: "bg-emerald-50",
+        data: [
+            {
+                id: 1,
+                title: "Semester 7 Tuition Fee",
+                amount: "₹35,000",
+                date: "30 Sep 2026",
+                status: "Pending",
+            },
+            {
+                id: 2,
+                title: "Examination Fee",
+                amount: "₹2,500",
+                date: "10 Oct 2026",
+                status: "Paid",
+            },
+        ],
+    },
+
+    {
+        id: "achievements",
+        title: "Achievements",
+        description: "Showcase your academic achievements.",
+        icon: "🏆",
+        iconBg: "bg-amber-50",
+        data: [
+            {
+                id: 1,
+                title: "Hackathon Participant",
+                subtitle: "National Level Hackathon",
+                date: "2026",
+                status: "Completed",
+            },
+            {
+                id: 2,
+                title: "Web Development Project",
+                subtitle: "Full Stack Project",
+                date: "2026",
+                status: "Completed",
+            },
+        ],
+    },
+
+    {
+        id: "exams",
+        title: "Exam Dates",
+        description: "Check your upcoming examination schedule.",
+        icon: "📅",
+        iconBg: "bg-violet-50",
+        data: [
+            {
+                id: 1,
+                title: "Web Technologies",
+                subtitle: "Semester 7",
+                date: "05 Nov 2026",
+                location: "College Campus",
+                status: "Upcoming",
+            },
+            {
+                id: 2,
+                title: "Machine Learning",
+                subtitle: "Semester 7",
+                date: "08 Nov 2026",
+                location: "College Campus",
+                status: "Upcoming",
+            },
+            {
+                id: 3,
+                title: "Compiler Design",
+                subtitle: "Semester 7",
+                date: "12 Nov 2026",
+                location: "College Campus",
+                status: "Upcoming",
+            },
+        ],
+    },
+];
